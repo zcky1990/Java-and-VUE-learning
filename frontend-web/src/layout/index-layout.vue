@@ -34,6 +34,9 @@ export default {
     "nav-bar": NavbarComponents,
     "list-article": listArticleComponents,
     "search-article": SearchArticleComponents
+  },
+  ready(){
+    console.log("asdasdas")
   }
 };
 </script>

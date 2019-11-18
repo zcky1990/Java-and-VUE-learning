@@ -77,7 +77,6 @@ import Link from "@ckeditor/ckeditor5-link/src/link";
 import List from "@ckeditor/ckeditor5-list/src/list";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
-
 import CodeBlock from "@/lib/ckeditor5-code/src/codeblock";
 
 import Alert from "@/components/widget/alert";
