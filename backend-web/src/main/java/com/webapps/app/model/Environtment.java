@@ -1,14 +1,12 @@
 package com.webapps.app.model;
 
-import com.webapps.app.constants.Constant;
+import org.springframework.beans.factory.annotation.Value;
 
 public class Environtment {
+	
+	@Value("${jwt.environtment}")
 	private String environtment;
 	
-	public Environtment() {
-		environtment = Constant.PRODUCTION_ENV;
-	}
-
 	public String getEnvirontment() {
 		return environtment;
 	}
