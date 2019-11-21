@@ -1,4 +1,4 @@
-# vue-js-app
+# frontend
 
 ## Project setup
 ```
@@ -24,11 +24,6 @@ npm run test
 ```
 npm run lint
 ```
-
-##fix error
-Error: Cannot find module 'node-sass' vue
-npm install --save-dev node-sass
-
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

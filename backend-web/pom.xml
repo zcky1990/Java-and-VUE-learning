@@ -8,8 +8,8 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>BadebelajarLearningManagentSystem</groupId>
-		<artifactId>spring-boot-vuejs-lms</artifactId>
+		<groupId>BadebelajarLMS</groupId>
+		<artifactId>spring-boot-vuejs</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -107,7 +107,7 @@
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/target/dist</directory>
+									<directory>${project.parent.basedir}/frontend-web/target/dist</directory>
 									<includes>
 										<include>static/</include>
 										<include>index.html</include>
@@ -129,7 +129,7 @@
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/target/dist</directory>
+									<directory>${project.parent.basedir}/frontend-web/target/dist</directory>
 									<includes>
 										<include>index.html</include>
 										<include>favicon.ico</include>
