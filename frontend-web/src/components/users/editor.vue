@@ -18,7 +18,7 @@ import Link from "@ckeditor/ckeditor5-link/src/link";
 import List from "@ckeditor/ckeditor5-list/src/list";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
-// import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
+import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
 import CodeBlock from "@/lib/ckeditor5-code/src/codeblock";
 import Image from "@ckeditor/ckeditor5-image/src/image";
 import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
@@ -85,13 +85,13 @@ export default {
             List,
             Paragraph,
             Alignment,
-            // BlockQuote,
-            CodeBlock,
             Image,
             ImageCaption,
             ImageStyle,
             ImageUpload,
-            ImageToolbar
+            ImageToolbar,
+            BlockQuote,
+            CodeBlock,
           ],
           toolbar: {
             items: [
@@ -102,7 +102,7 @@ export default {
               "link",
               "bulletedList",
               "numberedList",
-              // "blockQuote",
+              "blockQuote",
               "pre",
               "imageUpload",
               "imageStyle:full",
