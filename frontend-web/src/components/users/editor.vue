@@ -1,14 +1,13 @@
 <template>
-  <v-container d-flex fluid grid-list-xs>
-    <ckeditor
-      :editor="configEditor.editor"
-      v-model="data.article_content"
-      :config="configEditor.editorConfig"
-    ></ckeditor>
-  </v-container>
+    <div class="editor">
+      <ckeditor
+        :editor="configEditor.editor"
+        v-model="data.article_content"
+        :config="configEditor.editorConfig"
+      ></ckeditor>
+    </div>
 </template>
 <script>
-
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat";
@@ -92,7 +91,7 @@ export default {
             ImageCaption,
             ImageStyle,
             ImageUpload,
-            ImageToolbar,
+            ImageToolbar
           ],
           toolbar: {
             items: [
@@ -122,9 +121,7 @@ export default {
 };
 </script>
 <style>
-.reference-title {
-  padding-top: 1em;
-  font-size: 1.5em;
-  font-weight: 600;
+.editor {
+    background: gainsboro;
 }
 </style>
