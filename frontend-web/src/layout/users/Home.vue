@@ -1,5 +1,6 @@
 <template>
   <div v-if="!username">
+    <editor></editor>
     You can't chat without a name. What's your name?
     <br />
     <input type="text" placeholder="Name" v-on:keyup.enter="updateUsername" />
@@ -31,10 +32,14 @@
 
 <script>
 // @ is an alias to /src
-import fire from "../fire";
+import fire from "../../fire";
+import Editor from "../../components/users/editor"
 
 export default {
   name: "home",
+  components: {
+    editor: Editor
+  },
   data() {
     return {
       username: "",
