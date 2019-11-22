@@ -1,31 +1,31 @@
 <template>
-  <v-container d-flex fluid grid-list-xs >
-        <ckeditor
-          :editor="configEditor.editor"
-          v-model="data.article_content"
-          :config="configEditor.editorConfig"
-        ></ckeditor>
+  <v-container d-flex fluid grid-list-xs>
+    <ckeditor
+      :editor="configEditor.editor"
+      v-model="data.article_content"
+      :config="configEditor.editorConfig"
+    ></ckeditor>
   </v-container>
 </template>
 <script>
+import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
+import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
+import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat";
+import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
+import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
+import Heading from "@ckeditor/ckeditor5-heading/src/heading";
+import Link from "@ckeditor/ckeditor5-link/src/link";
+import List from "@ckeditor/ckeditor5-list/src/list";
+import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
+import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
+import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
+// import CodeBlock from "@/lib/ckeditor5-code/src/codeblock";
 
-import ClassicEditorBase from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-import EssentialsPlugin from '@ckeditor/ckeditor5-essentials/src/essentials';
-import AutoformatPlugin from '@ckeditor/ckeditor5-autoformat/src/autoformat';
-import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import HeadingPlugin from '@ckeditor/ckeditor5-heading/src/heading';
-import LinkPlugin from '@ckeditor/ckeditor5-link/src/link';
-import ListPlugin from '@ckeditor/ckeditor5-list/src/list';
-import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-
-// import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
 // import Image from "@ckeditor/ckeditor5-image/src/image";
 // import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
 // import ImageStyle from "@ckeditor/ckeditor5-image/src/imagestyle";
 // import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
 // import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
-// import CodeBlock from "@/lib/ckeditor5-code/src/codeblock";
 
 import { Util } from "../util";
 import { AXIOS } from "../http-common";
@@ -69,43 +69,30 @@ function MyCustomUploadAdapterPlugin(editor) {
 
 export default {
   name: "editor-component",
-  props: {
-    addUrl: {
-      type: String,
-      default: ""
-    },
-    updateUrl: {
-      type: String,
-      default: ""
-    },
-    article: {
-      type: Object
-    }
-  },
   data() {
     return {
-      data:{},
+      data: {},
       configEditor: {
         editor: ClassicEditor,
         editorConfig: {
-          extraPlugins: [MyCustomUploadAdapterPlugin],
+          // extraPlugins: [MyCustomUploadAdapterPlugin],
           plugins: [
             Essentials,
+            Autoformat,
             Bold,
             Italic,
-            BlockQuote,
             Heading,
-            Image,
-            ImageCaption,
-            ImageStyle,
-            ImageUpload,
-            ImageToolbar,
             Link,
             List,
             Paragraph,
             Alignment,
-            Image,
-            CodeBlock
+            BlockQuote,
+            // CodeBlock,
+            // Image,
+            // ImageCaption,
+            // ImageStyle,
+            // ImageUpload,
+            // ImageToolbar,
           ],
           toolbar: {
             items: [
@@ -121,27 +108,22 @@ export default {
               "numberedList",
               "|",
               "blockQuote",
-              "pre",
-              "|",
-              "imageUpload",
-              "imageStyle:full",
-              "imageStyle:side"
+              // "pre",
+              // "|",
+              // "imageUpload",
+              // "imageStyle:full",
+              // "imageStyle:side"
             ]
           }
         }
       }
     };
   },
-  components: {
-  },
-  methods: {
-  },
-  created() {
-  },
-  watch: {
-  },
-  computed: {
-  }
+  components: {},
+  methods: {},
+  created() {},
+  watch: {},
+  computed: {}
 };
 </script>
 <style>
