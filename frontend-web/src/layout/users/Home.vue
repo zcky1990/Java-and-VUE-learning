@@ -1,39 +1,40 @@
 <template>
-  <div v-if="!username">
-    <editor></editor>
-    You can't chat without a name. What's your name?
-    <br />
-    <input type="text" placeholder="Name" v-on:keyup.enter="updateUsername" />
-  </div>
-  <div v-else>
-    <div>
-      From : {{username}}
-      <br />Message:
+  <v-container>
+    <div v-if="!username">
+      <editor></editor>You can't chat without a name. What's your name?
       <br />
-      <textarea
-        name
-        id
-        cols="30"
-        rows="10"
-        placeholder="New Message"
-        v-on:keyup.enter="sendMessage"
-      ></textarea>
+      <input type="text" placeholder="Name" v-on:keyup.enter="updateUsername" />
     </div>
-    <hr />
-    <div class="messages">
-      <h3>Messages</h3>
-      <div class="message" v-for="message in messages" v-bind:key="message.text">
-        <strong>{{message.username}}</strong>
-        <p>{{message.text}}</p>
+    <div v-else>
+      <div>
+        From : {{username}}
+        <br />Message:
+        <br />
+        <textarea
+          name
+          id
+          cols="30"
+          rows="10"
+          placeholder="New Message"
+          v-on:keyup.enter="sendMessage"
+        ></textarea>
+      </div>
+      <hr />
+      <div class="messages">
+        <h3>Messages</h3>
+        <div class="message" v-for="message in messages" v-bind:key="message.text">
+          <strong>{{message.username}}</strong>
+          <p>{{message.text}}</p>
+        </div>
       </div>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import fire from "../../fire";
-import Editor from "../../components/users/editor"
+import Editor from "../../components/users/editor";
 
 export default {
   name: "home",
@@ -68,7 +69,7 @@ export default {
       e.preventDefault();
       var self = this;
       if (e.target.value) {
-          alert(self.username +" "+self.user_id);
+        alert(self.username + " " + self.user_id);
         const message = {
           username: self.username,
           text: e.target.value

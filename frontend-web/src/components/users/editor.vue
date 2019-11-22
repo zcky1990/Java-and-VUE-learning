@@ -8,6 +8,7 @@
   </v-container>
 </template>
 <script>
+
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat";
@@ -18,14 +19,13 @@ import Link from "@ckeditor/ckeditor5-link/src/link";
 import List from "@ckeditor/ckeditor5-list/src/list";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
-import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
-// import CodeBlock from "@/lib/ckeditor5-code/src/codeblock";
-
-// import Image from "@ckeditor/ckeditor5-image/src/image";
-// import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
-// import ImageStyle from "@ckeditor/ckeditor5-image/src/imagestyle";
-// import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
-// import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
+// import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
+import CodeBlock from "@/lib/ckeditor5-code/src/codeblock";
+import Image from "@ckeditor/ckeditor5-image/src/image";
+import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
+import ImageStyle from "@ckeditor/ckeditor5-image/src/imagestyle";
+import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
+import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
 
 import { Util } from "../util";
 import { AXIOS } from "../http-common";
@@ -75,7 +75,7 @@ export default {
       configEditor: {
         editor: ClassicEditor,
         editorConfig: {
-          // extraPlugins: [MyCustomUploadAdapterPlugin],
+          extraPlugins: [MyCustomUploadAdapterPlugin],
           plugins: [
             Essentials,
             Autoformat,
@@ -86,33 +86,28 @@ export default {
             List,
             Paragraph,
             Alignment,
-            BlockQuote,
-            // CodeBlock,
-            // Image,
-            // ImageCaption,
-            // ImageStyle,
-            // ImageUpload,
-            // ImageToolbar,
+            // BlockQuote,
+            CodeBlock,
+            Image,
+            ImageCaption,
+            ImageStyle,
+            ImageUpload,
+            ImageToolbar,
           ],
           toolbar: {
             items: [
               "heading",
               "alignment",
-              "|",
               "bold",
               "italic",
-              "|",
               "link",
-              "|",
               "bulletedList",
               "numberedList",
-              "|",
-              "blockQuote",
-              // "pre",
-              // "|",
-              // "imageUpload",
-              // "imageStyle:full",
-              // "imageStyle:side"
+              // "blockQuote",
+              "pre",
+              "imageUpload",
+              "imageStyle:full",
+              "imageStyle:side"
             ]
           }
         }
