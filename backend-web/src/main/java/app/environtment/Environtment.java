@@ -1,14 +1,11 @@
 package app.environtment;
 
-import app.constants.Constant;
+import org.springframework.beans.factory.annotation.Value;
 
 public class Environtment {
+	@Value("${build.env}")
 	private String environtment;
 	
-	public Environtment() {
-		environtment = Constant.DEV_ENV;
-	}
-
 	public String getEnvirontment() {
 		return environtment;
 	}

@@ -2,7 +2,6 @@ package app.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,14 +30,11 @@ import app.constants.Constant;
 import app.model.request.UsersFacebookRequest;
 import app.model.request.UsersGoogleRequest;
 import app.model.request.UsersRequest;
-import app.mongo.model.FollowAuthors;
 import app.mongo.model.Roles;
 import app.mongo.model.Users;
-import app.repository.FollowAuthorsRepository;
 import app.repository.RolesRepository;
 import app.repository.UsersRepository;
 import app.security.JwtTokenUtil;
-import app.serializer.UserFollowSerializer;
 import app.serializer.UsersAdminSerializer;
 import app.serializer.UsersSerializer;
 import app.serializer.UsersWithPasswordSerializer;
@@ -54,9 +50,6 @@ public class UsersController extends BaseController{
 	
 	@Autowired
 	private RolesRepository rolesRepository;
-	
-	@Autowired
-	private FollowAuthorsRepository followRepository;
 	
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -301,37 +294,7 @@ public class UsersController extends BaseController{
 		}
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/users/get_follewed_author", method = RequestMethod.GET)
-	public ResponseEntity<String> getFollewedAuthor(@RequestParam(value="page", required=true) String page, HttpServletRequest request){
-		JsonObject response;
-		try {
-			String auth = request.getHeader("x-uid");
-			Pageable pageableRequest = PageRequest.of(Integer.parseInt(page), 10, Sort.by("_id").ascending());
-			List<FollowAuthors> listAuthors = followRepository.findByUserId(new ObjectId(auth), pageableRequest);
-			response = getSuccessResponse();
-			response.add(Constant.RESPONSE, toJSONArrayWithSerializer(FollowAuthors.class, new UserFollowSerializer(), listAuthors) );
-		} catch(Exception e) {
-			response = getFailedResponse();
-			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
-		}
-		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
-	}
-	@RequestMapping(value = "/users/unfollow/authors/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> userUnFollowAuthors(@PathVariable String id, HttpServletRequest request){
-		JsonObject response;
-		try {
-			FollowAuthors fAuthors = followRepository.findById(id).get();
-			followRepository.delete(fAuthors);
-			response = getSuccessResponse();
-			response.addProperty(Constant.RESPONSE, Constant.DELETE_UNFOLLOW_AUHTORS_MESSAGE);
-		} catch(Exception e) {
-			response = getFailedResponse();
-			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
-		}
-		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
-	}
-	
+		
 	/* user-admin END POINT 
 	 * 
 	 */
