@@ -1,7 +1,7 @@
 package app.constants;
 
 public class Constant {
-	public static String ADMIN_ACCOUNT_USERNAME = "maribelajarbersama";
+	public static String ADMIN_ACCOUNT_USERNAME = "admin";
 	public static String ADMIN_ACCOUNT_PASSWORD = "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6";
 	public static String PRODUCTION_ENV = "prod";
 	public static String DEV_ENV = "dev";

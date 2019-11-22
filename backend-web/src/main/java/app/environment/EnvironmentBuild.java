@@ -1,12 +1,15 @@
-package app.environtment;
+package app.environment;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-public class Environtment {
-	@Value("${build.env}")
+@Component
+public class EnvironmentBuild {
+	@Value("${build.env}")	
 	private String environtment;
 	
 	public String getEnvirontment() {
 		return environtment;
 	}
+
 }

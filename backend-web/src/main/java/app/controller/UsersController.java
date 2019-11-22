@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.JsonObject;
 
 import app.constants.Constant;
+import app.environment.EnvironmentBuild;
 import app.model.request.UsersFacebookRequest;
 import app.model.request.UsersGoogleRequest;
 import app.model.request.UsersRequest;
@@ -44,7 +45,7 @@ import app.util.TimeUtility;
 @RestController
 @RequestMapping("/api")
 public class UsersController extends BaseController{
-
+	
 	@Autowired
 	private UsersRepository repository;
 	
@@ -56,6 +57,9 @@ public class UsersController extends BaseController{
 	
 	@Autowired
     private AsyncService service;
+	
+	@Autowired
+	private EnvironmentBuild env;
 	
 	public UserDetails getUserDetails(Users user) {
 		return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
@@ -73,7 +77,7 @@ public class UsersController extends BaseController{
 				user.setRoles(role);
 				user.setStatus(true);
 				repository.save(user);
-				service.sendSuccessSignUpMailService(user);
+				service.sendSuccessSignUpMailService(user, env.getEnvirontment());
 				response = getSuccessResponse();
 				response.add(Constant.RESPONSE, toJSONObjectWithSerializer(Users.class, new UsersSerializer(), user));
 			} catch(Exception e) {

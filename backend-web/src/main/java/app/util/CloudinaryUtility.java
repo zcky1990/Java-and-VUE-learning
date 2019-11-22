@@ -16,16 +16,16 @@ import app.config.CloudinaryConfig;
 import app.config.CloudinaryEnv;
 import app.config.CloudinaryModelJson;
 import app.constants.Constant;
-import app.environtment.Environtment;
 
 public class CloudinaryUtility {
 	private Util util = new Util();
-	private Environtment env = new Environtment();
+	private String env;
 	private Gson gson = new Gson();
 	private CloudinaryConfig config;
 	private Cloudinary cloudinary;
 	
-	public CloudinaryUtility() {
+	public CloudinaryUtility(String env) {
+		this.env = env;
 		this.getCloudinaryConfig();
 		this.setProperties();
 	}
@@ -36,7 +36,7 @@ public class CloudinaryUtility {
 		ArrayList<CloudinaryEnv> environtmentConfig = cloudConfig.getArrayConfig();
 		for(int i = 0; i < environtmentConfig.size(); i++) {
 			CloudinaryEnv cloudinaryEnv = environtmentConfig.get(i);
-			if(cloudinaryEnv.getEnv().equals(env.getEnvirontment())) {
+			if(cloudinaryEnv.getEnv().equals(env)) {
 				config = cloudinaryEnv.getConfig();
 				break;
 			}
@@ -108,7 +108,7 @@ public class CloudinaryUtility {
 	public JsonObject uploadImage(MultipartFile file, String folder) {
 		JsonObject response = new JsonObject();
 		Map options;
-		if(env.getEnvirontment().endsWith(Constant.DEV_ENV)) {
+		if(env.endsWith(Constant.DEV_ENV)) {
 			options = ObjectUtils.asMap("folder", folder + "dev");
 		}else {
 			options = ObjectUtils.asMap("folder", folder);
