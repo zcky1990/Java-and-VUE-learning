@@ -11,7 +11,6 @@
             <div v-html="misi"></div>
             </div>
           </div>
-      </div>
     </v-container>
   </section>
 </template>
@@ -25,7 +24,7 @@ export default {
     return {
       url:"/visi-misi/get_visi_misi",
       visi: "",
-      misi:""
+      misi: ""
     };
   },
   created() {
