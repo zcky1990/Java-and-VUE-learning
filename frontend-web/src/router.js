@@ -1,20 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/pages/index'
-import Login from '@/pages/login'
-import User from '@/pages/user'
-import UserValidation from '@/pages/user-validation'
-import UserSignUp from '@/pages/user-sign-up'
-import Article from '@/pages/article'
-import Search from '@/pages/search'
+import Index from '@/pages/users/index'
+import Article from '@/pages/users/article'
+import Pendaftaran from '@/pages/users/pendaftaran'
+import Kontak from '@/pages/users/kontak'
+import VisiMisi from '@/pages/users/visi-misi'
+import Sejarah from '@/pages/users/sejarah'
 
+import LoginAdmin from '@/pages/admin/login'
+import AdminSejarah from '@/pages/admin/sejarah-admin'
 import Admin from '@/pages/admin/admin'
 import Category from '@/pages/admin/category'
 import AccessLevel from '@/pages/admin/access-list'
 import Roles from '@/pages/admin/roles'
 import UsersAdmin from '@/pages/admin/users'
-
-import DetailProfile from '@/pages/detail-profile'
 
 Vue.use(Router)
 export default new Router({
@@ -26,44 +25,44 @@ export default new Router({
       component: Index
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/kontak',
+      name: 'Kontak',
+      component: Kontak
     },
     {
-      path: '/user',
-      name: 'User Profile',
-      component: User
+      path: '/pendaftaran',
+      name: 'Pendaftaran',
+      component: Pendaftaran
     },
     {
-      path: '/article/:slug',
-      name: 'Article',
+      path: '/visi-misi',
+      name: 'VisiMisi',
+      component: VisiMisi
+    },
+    {
+      path: '/sejarah',
+      name: 'Sejarah',
+      component: Sejarah
+    },
+    {
+      path: '/news/:slug',
+      name: 'News',
       component: Article
     },
     {
-      path: '/detail/:id',
-      name: 'Detail',
-      component: DetailProfile
-    },
-    {
-      path: '/user/validation/:id',
-      name: 'Validate user Sign up',
-      component : UserValidation
-    },
-    {
-      path: '/sign_up/',
-      name: 'New User Page',
-      component : UserSignUp
-    },
-    {
-      path: '/search/:query',
-      name: 'Search Article Page',
-      component : Search
+      path: '/admin/login',
+      name: 'AdminLogin',
+      component: LoginAdmin
     },
     {
       path: '/admin',
       name: 'Admin',
       component: Admin
+    },
+    {
+      path: '/admin/sejarah',
+      name: 'AdminSejarah',
+      component: AdminSejarah
     },
     {
       path: '/admin/category',

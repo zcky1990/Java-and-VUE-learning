@@ -10,7 +10,7 @@
 import SignUpForm from "@/components/widget/user-sign-up-form";
 
 export default {
-  name: "sign-up-page-layout",
+  name: "pendaftaran-page-layout",
   components: {
     "sign-up-form": SignUpForm
   }

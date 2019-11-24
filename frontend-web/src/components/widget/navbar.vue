@@ -10,27 +10,10 @@
           </div>
           <div class="btn-container">
             <div class="button-login rounded">
-              <router-link class="link-login nav-draw-links button-login" to="/login">
-                <v-avatar>
-                  <v-icon color="#00d1b2">account_circle</v-icon>
-                </v-avatar>Login
+              <router-link class="link-login nav-draw-links button-login" to="/pendaftaran">
+                Pendaftaran
               </router-link>
             </div>
-          </div>
-        </div>
-
-        <div class="user-item" v-if="isLogged">
-          <div class="image-user">
-            <router-link class="link-login nav-draw-links button-login image-border" to="/user">
-              <v-avatar size="70">
-                <img v-if="isUserImageExits" :src="usersData.image_url" alt />
-                <v-icon v-else size="70" color="#00d1b2">account_circle</v-icon>
-              </v-avatar>
-            </router-link>
-          </div>
-          <div class="user-title">
-            <div class="name">{{fullName}}</div>
-            <div class="email">{{usersData.email}}</div>
           </div>
         </div>
       </div>
@@ -46,18 +29,6 @@
           </v-list-tile-content>
         </router-link>
       </v-list-tile>
-
-      <div class="user-controller" v-if="isLogged">
-        <div class="user-container">
-          <v-container>
-            <div class="user-avatar-container" @click="logout">
-              <div class="logout-drawer">
-                <div class="logout-btn logout">Logout</div>
-              </div>
-            </div>
-          </v-container>
-        </div>
-      </div>
     </v-navigation-drawer>
 
     <div class="toolbar">
@@ -71,55 +42,18 @@
           <div class="sub-title">Knowledge archive</div>
         </div>
         <div v-if="isMobile">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" color="#00d1b2" class="burger-menu"></v-toolbar-side-icon>
+          <v-toolbar-side-icon @click.stop="drawer = !drawer" color="#DC143C" class="burger-menu"></v-toolbar-side-icon>
         </div>
         <div v-if="!isMobile">
           <div class="icon-container">
-            <div v-if="!isLogged" class="login-container">
+            <div class="login-container">
               <div class="user-avatar-container">
                 <v-chip class="button-login">
-                  <router-link class="link-login button-login" to="/login">
-                    <v-avatar>
-                      <v-icon>account_circle</v-icon>
-                    </v-avatar>Login
+                  <router-link class="link-login button-login" to="/pendaftaran">
+                    Pendaftaran
                   </router-link>
                 </v-chip>
               </div>
-            </div>
-            <div v-if="isLogged">
-              <v-menu v-model="users" :close-on-content-click="false" :nudge-width="300" offset-x>
-                <template v-slot:activator="{ on }">
-                  <div class="user-avatar-container">
-                    <v-chip class="button-login" v-on="on">
-                      <v-avatar class="image-container">
-                        <img v-if="isUserImageExits" :src="usersData.image_url" alt />
-                        <v-icon v-else>account_circle</v-icon>
-                      </v-avatar>
-                      {{fullName}}
-                    </v-chip>
-                  </div>
-                </template>
-                <v-card>
-                  <v-container>
-                    <div class="pop-up-menu-title">User Menu</div>
-                    <v-list-tile>
-                      <router-link class="pop-up-link" to="/user">
-                        <v-list-tile-action>
-                          <v-icon>account_circle</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                          <v-list-tile-title>User Setting</v-list-tile-title>
-                        </v-list-tile-content>
-                      </router-link>
-                    </v-list-tile>
-                    <div class="user-avatar-container" @click="logout">
-                      <div class="logout-drawer">
-                        <div class="logout-btn logout">Logout</div>
-                      </div>
-                    </div>
-                  </v-container>
-                </v-card>
-              </v-menu>
             </div>
           </div>
         </div>
@@ -129,21 +63,62 @@
         <div class="container toolbar-link">
           <div class="links">
             <div class="menu-btn-link" v-for="item in items" :key="item.text">
+              <div v-if="isLinksMenu(item.type)">
               <router-link class="nav-draw-links" v-bind:to="item.url">
                 <div class="link">{{ item.title }}</div>
               </router-link>
+              </div>
+              <div v-else>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on }">
+                    <div class="nav-draw-links" v-on="on">
+                      {{item.title}}
+                    </div>
+                  </template>
+                  <v-list>
+                    <v-list-item
+                      v-for="(list, index) in item.listUrl"
+                      :key="index"
+                    >
+                      <v-list-item-title>
+                          <div class="sub-link" @click="goToPage(list.url)" >{{list.name}}</div>
+                      </v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
+      <!--fixed navbar -->
       <div v-if="!isMobile && isHeaderFixedShow" class="link-container fixed-menu">
         <div class="container toolbar-link">
           <div class="links">
-            <div class="menu-btn-link" v-for="item in items" :key="item.text">
-              <router-link class="nav-draw-links" v-bind:to="item.url">
-                <div class="link">{{ item.title }}</div>
-              </router-link>
+            <div class="menu-btn-link">
+               <div v-if="!isLinksMenu(item.type)">
+                <router-link class="nav-draw-links" v-bind:to="item.url">
+                  <div class="link">{{ item.title }}</div>
+                </router-link>
+              </div>
+               <div v-else>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on }">
+                    <div class="nav-draw-links" v-on="on">
+                      {{item.title}}
+                    </div>
+                  </template>
+                  <v-list>
+                    <v-list-item
+                      v-for="(list, index) in item.listUrl" :key="index"
+                    >
+                      <v-list-item-title>
+                          <div class="sub-link" @click="goToPage(list.url)" >{{list.name}}</div>
+                      </v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </div>
             </div>
           </div>
         </div>
@@ -161,8 +136,13 @@ export default {
     return {
       drawer: false,
       isMobile: false,
-      items: [{ title: "Home", url: { name: "Index" } }],
-      items2: [{ picture: 28, text: "Joseph" }, { picture: 38, text: "Apple" }],
+      items: [
+      { title: "Beranda", type:"links", url: { name: "Index" }},
+      { title: "Tentang", type:"sub-links", listUrl: [ 
+        { name: "Visi & Misi" , url:"/visi-misi"},
+        { name: "Sejarah" , url:"/sejarah"} 
+        ] },
+      { title: "Kontak", type:"links", url: { name: "Kontak" }}],
       icon: {
         type: String,
         default: "$vuetify.icons.cancel"
@@ -207,22 +187,22 @@ export default {
     window.removeEventListener("scroll", this.handleFixedNavBar);
   },
   computed: {
-    fullName() {
-      if (this.usersData.display_name != undefined) {
-        return this.usersData.display_name;
-      } else {
-        return this.usersData.firstname + " " + this.usersData.lastname;
-      }
-    },
-    isUserImageExits() {
-      if (this.usersData.image_url != undefined) {
-        return true;
-      } else {
-        return false;
-      }
+    isLinks(itemtype) {
+      return this.isLinksMenu(itemtype)
     }
   },
   methods: {
+    isLinksMenu(itemtype){
+       console.log(itemtype)
+      if (itemtype != "links") {
+              return false
+            } else {
+              return true
+      }
+    },
+    goToPage(url){
+      this.$router.push(url);
+    },
     goToHome(){
       if(this.$router.currentRoute.name != 'Index'){
         this.$router.push("/");
@@ -253,22 +233,13 @@ export default {
         this.isMobile = false;
       }
     },
-    closePopUpMenu() {
-      this.menu = false;
-      this.users = false;
-    },
     setMessage(message, type) {
       let data = {};
       data.message = message;
       data.type = type;
       EventBus.$emit("SNACKBAR_TRIGGERED", data);
     },
-    logout() {
-      this.$session.destroy();
-      this.closePopUpMenu();
-      this.isLogged = false;
-      this.$router.push("/");
-    }
+
   }
 };
 </script>
@@ -298,12 +269,11 @@ export default {
 }
 .sub-title {
   font-size: 0.9rem;
-  text-transform: uppercase;
   line-height: 1;
 }
 .link-container {
-  border-bottom: 1px solid #00d1b2;
-  background: #00d1b2;
+  border-bottom: 1px solid #DC143C;
+  background: #DC143C;
 }
 .links {
   display: flex;
@@ -312,9 +282,18 @@ export default {
   max-width: 200px;
   justify-content: space-between;
 }
+.menu-btn-link {
+    margin-right: 10px;
+}
+.sub-link {
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
 .nav-draw-links {
   /*color: #00d1b2 !important; */
-  text-transform: uppercase;
   font-size: 1rem;
   letter-spacing: 0.2rem;
   line-height: 1;
@@ -324,18 +303,18 @@ export default {
   color: #fff;
 }
 .nav-toolbar {
-  color: #00d1b2 !important;
+  color: #DC143C !important;
 }
 .green-color {
-  color: #00d1b2 !important;
+  color: #DC143C !important;
 }
 .login-container {
-  border: 1px solid #00d1b2;
+  border: 1px solid #DC143C;
   border-radius: 5px;
 }
 .button-login {
   background: white;
-  color: #00d1b2;
+  color: #DC143C;
 }
 .pop-up-menu-title {
   font-size: 1.2rem;
@@ -368,18 +347,18 @@ export default {
 /** drawer css **/
 .user-detail-controller {
   padding: 10px;
-  background: #00d1b2;
+  background: #DC143C;
   min-height: 200px;
 }
 .btn-drawer-login {
-  border: 1px solid #00d1b2;
+  border: 1px solid #DC143C;
   width: fit-content;
   align-items: center;
   text-align: center;
   margin: 0 auto;
 }
 .image-container{
-  border: 1px solid #00d1b2;
+  border: 1px solid #DC143C;
 }
 .image-user {
   margin: 0 auto;
@@ -419,17 +398,6 @@ export default {
   justify-content: center;
   text-align: center;
   margin: 0 auto;
-}
-.logout-btn {
-  padding: 5px;
-  color: #00d1b2;
-  border: 1px solid #00d1b2;
-  border-radius: 15px;
-  text-align: center;
-}
-div.logout:hover {
-  color: white;
-  background-color: #00d1b2;
 }
 .burger-menu {
   color: white;

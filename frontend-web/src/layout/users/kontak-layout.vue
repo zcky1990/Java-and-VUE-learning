@@ -4,37 +4,22 @@
       <nav-bar></nav-bar>
     </section>
     <section class="content-section">
-      <v-content>
-        <v-container fill-height>
-          <v-layout class="index-content">
-            <v-flex class="main-content">
-              <list-article></list-article>
-            </v-flex>
-            <v-flex class="right-content">
-              <v-container>
-                <v-layout>
-                  <search-article></search-article>
-                </v-layout>
-              </v-container>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-content>
+      <v-container>
+        <contact-us></contact-us>
+      </v-container>
     </section>
   </div>
 </template>
     <script>
 import NavbarComponents from "@/components/widget/navbar";
-import listArticleComponents from "@/components/widget/list-article";
-import SearchArticleComponents from "@/components/widget/search-article";
+import ContactComponents from "@/components/widget/kontak-components";
 
 export default {
-  name: "index-page-layout",
+  name: "kontak-page-layout",
   components: {
     "nav-bar": NavbarComponents,
-    "list-article": listArticleComponents,
-    "search-article": SearchArticleComponents
-  }
+    "contact-us": ContactComponents
+    },
 };
 </script>
 

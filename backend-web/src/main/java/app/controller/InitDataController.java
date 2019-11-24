@@ -20,7 +20,6 @@ import app.repository.RolesRepository;
 import app.repository.UsersRepository;
 
 @RestController
-@RequestMapping("/api")
 public class InitDataController extends BaseController {
 	
 	@Autowired

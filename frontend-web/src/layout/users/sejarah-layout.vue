@@ -10,7 +10,6 @@
             <v-flex class="left-content"></v-flex>
             <v-flex class="main-content-container">
               <article-content v-bind:content="article"></article-content>
-              <article-comment v-bind:article-id="article.id"></article-comment>
             </v-flex>
             <v-flex class="right-content"></v-flex>
           </v-layout>
@@ -22,38 +21,29 @@
 
 <script>
 import Navbar from "@/components/widget/navbar";
-import ArticleComponents from "@/components/widget/article";
-import Comment from "@/components/widget/comment";
+import SejarahComponents from "@/components/widget/sejarah";
 
-import { EventBus } from "../EventBus.js";
+import { EventBus } from "../../EventBus.js";
 
 export default {
   name: "article-page-layout",
   data() {
     return {
-      getArticleUrl: "/article/get_article/",
+      getArticleUrl: "/sejarah/get_sejarah_article/",
       article: {},
-      slug: "",
-      isUserLoggin: false
     };
   },
   components: {
     "user-nav-menu": Navbar,
-    "article-content": ArticleComponents,
-    "article-comment": Comment
+    "article-content": SejarahComponents,
   },
   methods: {
     getArticleService: function() {
       let self = this;
-      this.isUserLoggin = this.isLoggin(this.$session);
       let headers = {};
-      if (this.isUserLoggin) {
-        headers = this.getHeaders(this.$session);
-      } else {
-        headers = this.getDefaultHeaders(this.getMeta("token"));
-      }
+      headers = this.getDefaultHeaders(this.getMeta("token"));
       this.get(
-        this.getArticleUrl + this.slug,
+        this.getArticleUrl,
         headers,
         function(response) {
           let responseData = response.data.response;
@@ -72,7 +62,6 @@ export default {
     }
   },
   created() {
-    this.slug = this.$route.params.slug;
     this.getArticleService();
   }
 };

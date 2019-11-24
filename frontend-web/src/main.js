@@ -10,6 +10,15 @@ import  Util from "./util";
 import FBSignInButton from 'vue-facebook-signin-button'
 import GSignInButton from 'vue-google-signin-button'
 
+import L from 'leaflet';
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
+
 require('./assets/sass/main.scss');
 
 Vue.use(Vuetify)

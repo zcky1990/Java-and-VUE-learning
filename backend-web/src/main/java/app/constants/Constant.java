@@ -24,6 +24,7 @@ public class Constant {
 	public static String SUCCESS_VALIDATED_USER_PROFILE_SUCCESS_MESSAGE = "Success validate Profile";
 	public static String DELETE_USER_SUCCESS_MESSAGE = "Success Delete User";
 	public static String UPDATE_ARTICLE_SUCCESS_MESSAGE = "Success Update Article";
+	public static String UPDATE_SEJARAH_SUCCESS_MESSAGE = "Success Update Sejarah Page";
 	public static String UPDATE_CATEGORY_SUCCESS_MESSAGE = "Success Update Category";
 	public static String UPDATE_ROLES_SUCCESS_MESSAGE = "Success Update Roles";
 	public static String DELETE_ARTICLE_SUCCESS_MESSAGE = "Success Delete Article";

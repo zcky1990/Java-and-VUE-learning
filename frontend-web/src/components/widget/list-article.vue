@@ -1,5 +1,10 @@
 <template>
   <div class="article-component">
+    <div class="title-article">
+      <v-container grid-list-xs>
+      <div class="article-section-title">News</div>
+      </v-container>
+    </div>
     <div v-if="isHasData" class="article-image-container">
       <v-container grid-list-xs>
         <v-layout column>
@@ -52,8 +57,10 @@
       </v-container>
     </div>
     <div class="not-found" v-if="!isHasData">
-      <div v-if="isSearch">Pencarian tidak ditemukan</div>
-      <div v-if="!isSearch">Tidak ada Artikel</div>
+      <v-container>
+        <div v-if="isSearch">Pencarian tidak ditemukan</div>
+        <div v-if="!isSearch">Tidak ada Artikel</div>
+      </v-container>
     </div>
   </div>
 </template>
@@ -190,6 +197,12 @@ export default {
 };
 </script>
 <style scoped>
+.article-section-title {
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  border-bottom: 1px solid #e1e4e8;
+}
 .no-container {
   padding-left: 0px !important;
   padding-right: 0px !important;
@@ -323,7 +336,7 @@ export default {
 }
 .article-component {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 .image-article {
   width: 240px;

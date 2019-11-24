@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Layout from "@/layout/index-layout";
+import Layout from "@/layout/users/index-layout";
 
 export default {
   name: "index",

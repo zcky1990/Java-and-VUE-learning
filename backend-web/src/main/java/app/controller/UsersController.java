@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 
 import app.constants.Constant;
 import app.environment.EnvironmentBuild;
+import app.model.request.AdminLoginRequest;
 import app.model.request.UsersFacebookRequest;
 import app.model.request.UsersGoogleRequest;
 import app.model.request.UsersRequest;
@@ -302,6 +303,40 @@ public class UsersController extends BaseController{
 	/* user-admin END POINT 
 	 * 
 	 */
+	@RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+	public ResponseEntity<String> adminSignIn(@Valid @RequestBody AdminLoginRequest user, HttpServletResponse responseHeader) throws Exception {
+		JsonObject response;
+		try {
+			Users userResponse = repository.signIn(user.getUsername(), user.getPassword());
+			if(userResponse != null) {
+				if(userResponse.isValidated() && userResponse.isStatus()) {
+					response = getSuccessResponse();
+					final String token = jwtTokenUtil.generateToken(this.getUserDetails(userResponse));
+					response.add(Constant.RESPONSE, toJSONObjectWithSerializer(Users.class, new UsersSerializer(), userResponse) );
+					response.addProperty("token", token);
+					response.addProperty("exp_date", getExpiredDate());
+				}
+				else if(!userResponse.isStatus()) {
+					response = getFailedResponse();
+					response.addProperty(Constant.ERROR_MESSAGE,Constant.USER_FOUND_BUT_INACTIVE_ERROR_MESSAGE);
+				}
+				else if(!userResponse.isValidated()){
+					response = getFailedResponse();
+					response.addProperty(Constant.ERROR_MESSAGE,Constant.USER_NOT_VALIDATED_SUCCESS_MESSAGE);
+				}else {
+					response = getFailedResponse();
+					response.addProperty(Constant.ERROR_MESSAGE,Constant.USER_NOT_FOUND_ERROR_MESSAGE);
+				}
+			}else {
+				response = getFailedResponse();
+				response.addProperty(Constant.ERROR_MESSAGE,Constant.USER_NOT_FOUND_ERROR_MESSAGE);
+			}	
+		}catch (Exception e) {
+			response = getFailedResponse();
+			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
+		}
+		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
 	@RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
 	public ResponseEntity<String> create(@Valid @RequestBody UsersRequest userRequest, HttpServletRequest request) throws Exception {
 		Users dataUser = repository.findByUserName(userRequest.getUsername());
