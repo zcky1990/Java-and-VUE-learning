@@ -42,7 +42,7 @@
           <div class="sub-title">Knowledge archive</div>
         </div>
         <div v-if="isMobile">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" color="#DC143C" class="burger-menu"></v-toolbar-side-icon>
+          <v-toolbar-side-icon @click.stop="drawer = !drawer"  class="burger-menu"><v-icon color="#DC143C">menu</v-icon></v-toolbar-side-icon>
         </div>
         <div v-if="!isMobile">
           <div class="icon-container">
@@ -154,23 +154,6 @@ export default {
       users: false,
       menu: false,
       message: false,
-      valid: true,
-      username: "",
-      password: "",
-      showPassword: false,
-      rules: {
-        required: value => !!value || "Required.",
-        min: v => v.length >= 8 || "Min 8 characters"
-      },
-      useranameRules: [
-        v => !!v || "Username is required",
-        v => (v && v.length >= 8) || "Username must be more than 8 characters"
-      ],
-      passwordRules: [
-        v => !!v || "Password is required",
-        v => (v && v.length >= 8) || "Password must be more than 8 characters"
-      ],
-      isLogged: false,
       usersData: {},
       isHeaderFixedShow: false
     };
@@ -193,7 +176,6 @@ export default {
   },
   methods: {
     isLinksMenu(itemtype){
-       console.log(itemtype)
       if (itemtype != "links") {
               return false
             } else {
@@ -212,6 +194,7 @@ export default {
       if (this.isMobile == false) {
         if (this.$refs.navLink) {
           const top = this.$refs.navLink.getBoundingClientRect().top;
+          console.log(top)
           if (top < 0) {
             this.isHeaderFixedShow = true;
           } else {

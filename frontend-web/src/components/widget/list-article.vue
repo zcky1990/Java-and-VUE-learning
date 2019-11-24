@@ -31,9 +31,6 @@
                 <div class="post-title headline">{{item.article_title}}</div>
                 <div class="marker"></div>
                 <div class="post-category">
-                  <div class="category-container">
-                    <p v-for="category in item.categoryArticle" :key="category.id">{{category.name}}</p>
-                  </div>
                 </div>
                 <div class="post-desc">
                   <div v-html="item.article_short_content"></div>
@@ -225,6 +222,9 @@ export default {
 }
 .article-list-container {
   margin-top: 0.7em;
+}
+.post-desc {
+  margin-top: 15px;
 }
 .article-list {
   display: flex;
