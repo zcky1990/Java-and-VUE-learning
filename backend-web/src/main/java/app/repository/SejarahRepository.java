@@ -12,4 +12,5 @@ public interface SejarahRepository extends MongoRepository<Sejarah, String> {
 	@Query(value = "{'slug' : ?0}")
 	Sejarah findBySlug(String slug);
 	
+	Sejarah findBySejarahPublishStatus(Boolean status);
 }

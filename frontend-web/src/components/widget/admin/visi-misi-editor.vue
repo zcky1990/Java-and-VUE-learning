@@ -4,7 +4,7 @@
       <div class="section-title">
         <div class="title">
           <div class="title-text">
-          Sejarah
+          Visi & Misi
           </div>
         </div>
       </div>
@@ -15,9 +15,19 @@
         <alert-component ref="alert"></alert-component>
       </v-flex>
       <v-flex>
+        <div class="asdsa">Visi</div>
         <ckeditor
           :editor="configEditor.editor"
-          v-model="data.sejarah_content"
+          v-model="data.visi"
+          :config="configEditor.editorConfig"
+          @input="validBtn"
+        ></ckeditor>
+      </v-flex>
+      <v-flex>
+        <div class="asdsa">Misi</div>
+        <ckeditor
+          :editor="configEditor.editor"
+          v-model="data.misi"
           :config="configEditor.editorConfig"
           @input="validBtn"
         ></ckeditor>
@@ -66,7 +76,7 @@ class UploadAdapter {
       let stringImage = self.loader._reader._reader.result;
       let postBody = {
         image: stringImage,
-        content: "sejarah"
+        content: "visi-misi"
       };
       AXIOS.post("upload_image_string", postBody, { headers })
         .then(response => {
@@ -96,13 +106,14 @@ export default {
   name: "editor-component",
   data() {
     return {
-      updateUrl: "/sejarah/update",
-      getUrl: "/sejarah/get",
-      addUrl: "/sejarah/add",
+      updateUrl: "/visi-misi/update",
+      getUrl: "/visi-misi/get",
+      addUrl: "/visi-misi/add",
       data: {
         id: "",
-        sejarah_content: "",
-        sejarahPublishStatus: false,
+        visi: "",
+        misi: "",
+        visiMisiPublishStatus: false,
       },
       categoryDropdown: [],
       configEditor: {
@@ -165,7 +176,7 @@ export default {
   methods: {
     validBtn: function() {
       if (
-        this.data.sejarah_content.length > 0 
+        this.data.visi.length > 0 ||  this.data.misi.length > 0 
       ) {
         this.btnDisabled = false;
       } else {
@@ -173,7 +184,7 @@ export default {
       }
     },
     submit: function() {
-      this.data.sejarahPublishStatus = true;
+      this.data.visiMisiPublishStatus = true;
       if ("id" in this.data && this.data.id != "") {
         this.callUpdateRestService(this.data, this.updateUrl);
       } else {
@@ -182,7 +193,7 @@ export default {
       }
     },
     submitAsDraft: function() {
-      this.data.sejarahPublishStatus = false;
+      this.data.visiMisiPublishStatus = false;
       if ("id" in this.data && this.data.id != "") {
         this.callUpdateRestService(this.data, this.updateUrl);
       } else {

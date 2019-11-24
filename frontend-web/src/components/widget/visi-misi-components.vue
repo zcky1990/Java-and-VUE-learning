@@ -4,19 +4,11 @@
       <div class="data-kontak">
           <div class="vision-section">
             <div class="vision-title">Visi</div>
-            <div class="vision-desc">“A World-class university 
- … In continuous pursuit of innovation and enterprise”</div>
+            <div v-html="visi"></div>
           </div>
           <div class="mission-section">
             <div class="vision-title">Misi</div>
-            <div class="vision-desc">The mission of BINUS University is to contribute to the global community through the provision of world-class education by :
-              <ul>
-              <li>Recognizing and rewarding the most creative and value-adding talents</li>
-              <li>Providing a world-class teaching, learning and research experience that fosters excellence in scholarship, innovation and entrepreneurship.</li>
-              <li>Conducting professional services with an emphasis on application of knowledge to the society</li>
-              <li>Creating outstanding leaders for global community</li>
-              <li>Improving the quality of life of Indonesians and the international community</li>
-              </ul>  
+            <div v-html="misi"></div>
             </div>
           </div>
       </div>
@@ -31,10 +23,14 @@ export default {
  
   data() {
     return {
-      
+      url:"/visi-misi/get_visi_misi",
+      visi: "",
+      misi:""
     };
   },
   created() {
+    console.log("sadasdasd")
+    this.getVisiMisi();
   },
   methods: {
     setMessage: function(message, type) {
@@ -42,7 +38,25 @@ export default {
       data.message = message;
       data.type = type;
       EventBus.$emit("SNACKBAR_TRIGGERED", data);
-    }
+    },
+    getVisiMisi: function() {
+      let self = this;
+      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      this.get(
+        this.url,
+        headers,
+        function(response) {
+          if (response.status == 200) {
+            console.log(response.data.response)
+            self.visi = response.data.response.visi;
+            self.misi = response.data.response.misi;
+          }
+        },
+        function(e) {
+          self.showErrorAlert(e);
+        }
+      );
+    },
   },
   computed: {
     

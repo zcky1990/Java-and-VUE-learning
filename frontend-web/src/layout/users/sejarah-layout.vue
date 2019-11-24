@@ -7,11 +7,9 @@
       <v-content>
         <v-container fill-height>
           <v-layout class="content-layout">
-            <v-flex class="left-content"></v-flex>
             <v-flex class="main-content-container">
-              <article-content v-bind:content="article"></article-content>
+              <article-content v-bind:content="content"></article-content>
             </v-flex>
-            <v-flex class="right-content"></v-flex>
           </v-layout>
         </v-container>
       </v-content>
@@ -26,11 +24,11 @@ import SejarahComponents from "@/components/widget/sejarah";
 import { EventBus } from "../../EventBus.js";
 
 export default {
-  name: "article-page-layout",
+  name: "sejarah-page-layout",
   data() {
     return {
-      getArticleUrl: "/sejarah/get_sejarah_article/",
-      article: {},
+      url:"/sejarah/get_sejarah",
+      content: {},
     };
   },
   components: {
@@ -43,11 +41,11 @@ export default {
       let headers = {};
       headers = this.getDefaultHeaders(this.getMeta("token"));
       this.get(
-        this.getArticleUrl,
+        this.url,
         headers,
         function(response) {
-          let responseData = response.data.response;
-          self.article = responseData;
+          let responseData = response.data.response.sejarah_content;
+          self.content = responseData;
         },
         function(e) {
           self.setMessage(e, 1);

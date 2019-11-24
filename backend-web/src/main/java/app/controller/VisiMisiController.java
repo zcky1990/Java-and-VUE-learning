@@ -17,39 +17,39 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.JsonObject;
 
 import app.constants.Constant;
-import app.model.request.SejarahRequest;
+import app.model.request.VisiMisiRequest;
 import app.mongo.model.Sejarah;
 import app.mongo.model.Users;
 import app.mongo.model.VisiMisi;
-import app.repository.SejarahRepository;
 import app.repository.UsersRepository;
+import app.repository.VisiMisiRepository;
 import app.serializer.SejarahSerializer;
 import app.serializer.VisiMisiSerializer;
 import app.util.TimeUtility;
 
 @RestController
 @RequestMapping("/api")
-public class SejarahController extends BaseController {
+public class VisiMisiController extends BaseController {
 	@Autowired
 	private UsersRepository userRepository;
 	
 	@Autowired
-	private SejarahRepository sejarahRepository;
+	private VisiMisiRepository visiMisiRepository;
 	
 
-	@RequestMapping(value = "/sejarah/add", method = RequestMethod.POST)
-	public ResponseEntity<String> addSejarah(@Valid @RequestBody SejarahRequest sejarahRequest, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/visi-misi/add", method = RequestMethod.POST)
+	public ResponseEntity<String> addSejarah(@Valid @RequestBody VisiMisiRequest visiMisiRequest, HttpServletRequest request) throws Exception {
 		String auth = request.getHeader("x-uid");
 		Users user = userRepository.findBy_id(new ObjectId(auth));
 		JsonObject response;
 		if(user != null) {
-			Sejarah sejarah = new Sejarah();
-			sejarah.fromObject(sejarahRequest);
-			sejarah.setAuthor(user);
+			VisiMisi visiMisi = new VisiMisi();
+			visiMisi.fromObject(visiMisiRequest);
+			visiMisi.setAuthor(user);
 			try {
-				sejarahRepository.save(sejarah);
+				visiMisiRepository.save(visiMisi);
 				response = getSuccessResponse();
-				response.add(Constant.RESPONSE, toJSONObjectWithSerializer(Sejarah.class, new SejarahSerializer(), sejarah)  );
+				response.add(Constant.RESPONSE, toJSONObjectWithSerializer(VisiMisi.class, new VisiMisiSerializer(), visiMisi)  );
 			} catch(Exception e) {
 				response = getFailedResponse();
 				response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
@@ -61,21 +61,21 @@ public class SejarahController extends BaseController {
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sejarah/update", method = RequestMethod.PUT)
-	public ResponseEntity<String> updateSejarah(@Valid @RequestBody SejarahRequest sejarahRequest, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/visi-misi/update", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateSejarah(@Valid @RequestBody VisiMisiRequest visiMisiRequest, HttpServletRequest request) throws Exception {
 		String auth = request.getHeader("x-uid");
 		TimeUtility util = new TimeUtility();
 		Users user = userRepository.findBy_id(new ObjectId(auth));
 		JsonObject response;
 		if(user != null) {
-			Sejarah sejarah = new Sejarah();
-			sejarah.fromObject(sejarahRequest);
-			sejarah.setAuthor(user);
-			sejarah.setModified_date(util.getCurrentDate("dd/MM/yyyy HH:mm:ss"));
+			VisiMisi visiMisi = new VisiMisi();
+			visiMisi.fromObject(visiMisiRequest);
+			visiMisi.setAuthor(user);
+			visiMisi.setModified_date(util.getCurrentDate("dd/MM/yyyy HH:mm:ss"));
 			try {
-				sejarahRepository.save(sejarah);
+				visiMisiRepository.save(visiMisi);
 				response = getSuccessResponse();
-				response.addProperty(Constant.RESPONSE,Constant.UPDATE_SEJARAH_SUCCESS_MESSAGE);
+				response.addProperty(Constant.RESPONSE,Constant.UPDATE_VISI_MISI_SUCCESS_MESSAGE);
 			} catch(Exception e) {
 				response = getFailedResponse();
 				response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
@@ -87,13 +87,13 @@ public class SejarahController extends BaseController {
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sejarah/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/visi-misi/get", method = RequestMethod.GET)
 	public ResponseEntity<String> getSejarah( HttpServletRequest request) throws Exception {
 		JsonObject response;
 		try {
-			List<Sejarah> sejarahList = sejarahRepository.findAll();
+			 List<VisiMisi> visiMisiList = visiMisiRepository.findAll();
 			response = getSuccessResponse();
-			response.add(Constant.RESPONSE, this.toJSONArrayWithSerializer(Sejarah.class, new SejarahSerializer(), sejarahList)  );	
+			response.add(Constant.RESPONSE, this.toJSONArrayWithSerializer(VisiMisi.class, new VisiMisiSerializer(), visiMisiList)  );	
 		} catch(Exception e) {
 			response = getFailedResponse();
 			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
@@ -101,14 +101,14 @@ public class SejarahController extends BaseController {
 		return new ResponseEntity<String>( response.toString() , getResponseHeader(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sejarah/get_sejarah", method = RequestMethod.GET)
-	public ResponseEntity<String> getSejarahUsers( HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/visi-misi/get_visi_misi", method = RequestMethod.GET)
+	public ResponseEntity<String> getVisiMisi( HttpServletRequest request) throws Exception {
 		JsonObject response;
 		try {
-			Sejarah sejarah = sejarahRepository.findBySejarahPublishStatus(true);
+			VisiMisi visiMisi = visiMisiRepository.findByVisiMisiPublishStatus(true);
 			response = getSuccessResponse();
-			if(sejarah != null) {
-				response.add(Constant.RESPONSE, this.toJSONObjectWithSerializer(Sejarah.class, new SejarahSerializer(), sejarah)  );	
+			if(visiMisi != null) {
+				response.add(Constant.RESPONSE, this.toJSONObjectWithSerializer(VisiMisi.class, new VisiMisiSerializer(), visiMisi)  );	
 			}else {
 				response.add(Constant.RESPONSE, new JsonObject());	
 			}

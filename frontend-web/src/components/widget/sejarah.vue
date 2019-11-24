@@ -1,14 +1,10 @@
 <template>
   <section class="section article">
     <div id="grid" class="content-container" tag="section">
-      <div class="article-title">
-        <div class="headline">{{content.article_title}}</div>
-      </div>
-
       <div class="content">
         <div class="article-content-container">
           <div class="article-content">
-            <div v-html="content.article_content"></div>
+            <div v-html="content"></div>
           </div>
         </div>
       </div>
@@ -20,78 +16,17 @@ import { EventBus } from "./../../EventBus.js";
 
 export default {
   name: "sejarah-components",
-  props: {
+    props: {
     content: Object
   },
   data() {
     return {
       data: {
-        id: "",
-        userId: "",
-        articleId: ""
+        content: ""
       },
     };
   },
-  created() {
-    this.isUserLoggin = this.isLoggin(this.$session);
-    if (this.isUserLoggin) {
-      this.data.userId = this.getUserId(this.$session);
-    }
-  },
   methods: {
-    followUnfollowAuthors: function(id) {
-      if (this.isUserLoggin) {
-        if (!this.isFollowed) {
-          this.followAuthors(id);
-        } else {
-          this.unFollowAuthors(id);
-        }
-      } else {
-        this.$router.push("/login");
-      }
-    },
-    followAuthors: function(id) {
-      let self = this;
-      let headers = this.getHeaders(this.$session);
-      this.post(
-        this.follow.followUrl + id,
-        {},
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            if (response.data.error_message) {
-              self.setMessage(response.data.error_message, 1);
-            } else {
-              let responseData = response.data.response;
-              self.isFollowed = true;
-            }
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    unFollowAuthors: function(id) {
-      let self = this;
-      let headers = this.getHeaders(this.$session);
-      this.delete(
-        this.follow.unfollowUrl + id,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.isFollowed = false;
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    seeAuthorsDetails: function(id) {
-      let url = "/detail/" + id;
-      this.$router.push(url);
-    },
     setCssSideImage: function() {
       let elm = document.querySelectorAll(".image");
       if (elm.length > 0) {
@@ -144,54 +79,6 @@ export default {
         }
       }
     },
-    bookmarkArticle: function() {
-      this.addBookmark(this.data);
-    },
-    removeBookmarkArticle: function() {
-      this.deleteBookmark(this.data.articleId);
-    },
-    addBookmark: function(data) {
-      let self = this;
-      delete self.data["id"];
-      let headers = this.getHeaders(this.$session);
-      this.post(
-        this.bookmark.createBookmark,
-        data,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            if (response.data.error_message) {
-              self.setMessage(response.data.error_message, 1);
-            } else {
-              self.isBookmarked = true;
-            }
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    deleteBookmark: function(id) {
-      let self = this;
-      let headers = this.getHeaders(this.$session);
-      this.delete(
-        this.bookmark.deleteBookmark + id,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            if (response.data.error_message) {
-              self.setMessage(response.data.error_message, 1);
-            } else {
-              self.isBookmarked = false;
-            }
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
     setMessage: function(message, type) {
       let data = {};
       data.message = message;
@@ -211,31 +98,6 @@ export default {
     this.setBulletNumberingCss();
   },
   computed: {
-    isUserBookmarkArticle: function() {
-      return this.isBookmarked;
-    },
-    isCategoryExists: function() {
-      if (this.content.categoryArticle != undefined) {
-        if (this.content.categoryArticle.name != null) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    },
-    isHasAuthor: function() {
-      if (this.content.author != undefined) {
-        if (this.content.author != null) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    }
   }
 };
 </script>

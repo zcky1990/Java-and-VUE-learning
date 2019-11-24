@@ -9,6 +9,7 @@ import Sejarah from '@/pages/users/sejarah'
 
 import LoginAdmin from '@/pages/admin/login'
 import AdminSejarah from '@/pages/admin/sejarah-admin'
+import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
 import Admin from '@/pages/admin/admin'
 import Category from '@/pages/admin/category'
 import AccessLevel from '@/pages/admin/access-list'
@@ -63,6 +64,11 @@ export default new Router({
       path: '/admin/sejarah',
       name: 'AdminSejarah',
       component: AdminSejarah
+    },
+    {
+      path: '/admin/visi-misi',
+      name: 'AdminVisiMisi',
+      component: AdminVisiMisi
     },
     {
       path: '/admin/category',
