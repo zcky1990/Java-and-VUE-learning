@@ -27,7 +27,6 @@ public class Article {
 	private String status;
 	private String slug;
 	private String modified_date;
-	private List<String> reference_list;
 	private String imageHeader;
 	private Boolean isPublish;
 	
@@ -93,12 +92,6 @@ public class Article {
 	}
 	public void setCategoryArticle(List<Category> categoryArticle) {
 		this.categoryArticle = categoryArticle;
-	}
-	public List<String> getReference_list() {
-		return reference_list;
-	}
-	public void setReference_list(List<String> reference_list) {
-		this.reference_list = reference_list;
 	}
 	public String getArticle_short_content() {
 		return article_short_content;
@@ -174,7 +167,6 @@ public class Article {
 		this.setSlug(request.getSlug());
 		this.setStatus(request.getStatus());
 		this.setType(request.getType());
-		this.setReference_list(request.getReference_list());
 		this.setContentShort(request.getArticle_content());
 		this.setHeaderImageFromContent(request.getArticle_content());
 	}

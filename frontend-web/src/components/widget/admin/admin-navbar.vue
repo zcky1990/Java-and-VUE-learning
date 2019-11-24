@@ -48,6 +48,7 @@ export default {
         { title: "Access Level", url: "/admin/access_level" },
         { title: "Sejarah", url: "/admin/sejarah" },
         { title: "Visi Misi", url: "/admin/visi-misi" },
+        { title: "News", url: "/admin/news" },
         { title: "Roles", url: "/admin/roles" },
         { title: "Users", url: "/admin/users" }
       ],

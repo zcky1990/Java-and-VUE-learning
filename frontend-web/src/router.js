@@ -8,6 +8,7 @@ import VisiMisi from '@/pages/users/visi-misi'
 import Sejarah from '@/pages/users/sejarah'
 
 import LoginAdmin from '@/pages/admin/login'
+import ArticleAdmin from '@/pages/admin/article'
 import AdminSejarah from '@/pages/admin/sejarah-admin'
 import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
 import Admin from '@/pages/admin/admin'
@@ -69,6 +70,11 @@ export default new Router({
       path: '/admin/visi-misi',
       name: 'AdminVisiMisi',
       component: AdminVisiMisi
+    },
+    {
+      path: '/admin/news',
+      name: 'News',
+      component: ArticleAdmin
     },
     {
       path: '/admin/category',

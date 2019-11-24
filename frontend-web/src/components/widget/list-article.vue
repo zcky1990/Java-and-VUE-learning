@@ -103,7 +103,7 @@ export default {
   },
   methods: {
     goTo: function(slug) {
-      let url = "/article/" + slug;
+      let url = "/news/" + slug;
       this.$router.push(url);
     },
     disableEnableLoadMoreBtn: function(value) {
