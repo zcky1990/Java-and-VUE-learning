@@ -87,7 +87,7 @@ export default {
 }
 .marker {
   width: 100px;
-  border: 1px solid #00d1b2;
+  border: 1px solid #DC143C;
   margin-bottom: 5px;
   margin-top: 5px;
 }

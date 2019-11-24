@@ -244,7 +244,7 @@ export default {
 .read-more-links {
   text-decoration: none;
   font-size: 1em;
-  color: #00d1b2 !important;
+  color: #DC143C !important;
 }
 
 .article-list-desc > div > p {
@@ -269,18 +269,18 @@ export default {
 }
 .load-more-btn {
   background-color: white !important;
-  border: 1px solid #00d1b2;
+  border: 1px solid #DC143C;
   border-radius: 25px;
   font-weight: 700;
-  color: #00d1b2;
+  color: #DC143C;
   cursor: pointer;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
 }
 .load-more-btn:hover {
-  background-color: #00d1b2 !important;
-  border: 1px solid #00d1b2;
+  background-color: #DC143C !important;
+  border: 1px solid #DC143C;
   border-radius: 25px;
   font-weight: 700;
   color: white;
@@ -320,7 +320,7 @@ export default {
   background: none !important;
 }
 .link-btn {
-  color: #00d1b2 !important;
+  color: #DC143C !important;
 }
 .no-padding {
   padding: 0px;
