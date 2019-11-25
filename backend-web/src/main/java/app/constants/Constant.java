@@ -28,10 +28,12 @@ public class Constant {
 	public static String UPDATE_VISI_MISI_SUCCESS_MESSAGE = "Success Update Visi Misi Page";
 	public static String UPDATE_CATEGORY_SUCCESS_MESSAGE = "Success Update Category";
 	public static String UPDATE_ROLES_SUCCESS_MESSAGE = "Success Update Roles";
+	public static String UPDATE_HERO_SUCCESS_MESSAGE = "Success Update Hero Banner";
 	public static String DELETE_ARTICLE_SUCCESS_MESSAGE = "Success Delete Article";
 	public static String DELETE_BOOKMARK_SUCCESS_MESSAGE = "Success Delete Bookmark";
 	public static String DELETE_CATEGORY_SUCCESS_MESSAGE = "Success Delete Category";
 	public static String DELETE_ROLES_SUCCESS_MESSAGE = "Success Delete Roles";
+	public static String DELETE_HERO_SUCCESS_MESSAGE = "Success Delete Hero";
 	public static String SUCCESS_FOLLOW_AUHTORS_MESSAGE = "Success Follow Authors";
 	public static String DELETE_UNFOLLOW_AUHTORS_MESSAGE = "Success UnFollow Authors";
 	
