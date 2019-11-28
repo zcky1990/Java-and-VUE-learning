@@ -40,8 +40,6 @@
         <template v-slot:items="props">
           <tr>
             <td class="text-xs-left">{{ props.item.username }}</td>
-            <td class="text-xs-left">{{ props.item.name }}</td>
-            <td class="text-xs-left">{{ props.item.email }}</td>
             <td class="text-xs-left">{{ props.item.validated }}</td>
             <td class="text-xs-left">{{ props.item.status }}</td>
             <td class="text-xs-left">{{ props.item.created_date }}</td>
@@ -164,8 +162,6 @@ export default {
       },
       tableHeaderList: [
         { text: "Username", value: "username" },
-        { text: "Name", value: "name" },
-        { text: "Email", value: "email" },
         { text: "IsValidated", value: "isValidated" },
         { text: "Status", value: "status" },
         { text: "Join Date", value: "joinDate" },

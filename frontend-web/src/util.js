@@ -86,6 +86,15 @@ export default {
                   return true
               }
             },
+
+            getAccessLevel : function(session){
+              let expDate = session.get('users')
+              return (expDate.roles.access_level.level) ? expDate.roles.access_level.level : 0 
+            },
+
+            isHasSuperAdminAccessLevel: function(accLevel){
+              return accLevel == 99 ? true : false;
+            },
             
             getUserId: function(session){
               return session.get('uid')

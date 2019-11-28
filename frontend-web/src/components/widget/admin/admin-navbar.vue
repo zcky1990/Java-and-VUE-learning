@@ -8,7 +8,14 @@
           </v-list-tile-content>
         </router-link>
       </v-list-tile>
-
+       <v-spacer></v-spacer>
+      <v-list-tile v-if="isSuperAdmin" v-for="item in superAdminItems" :key="item.text">
+        <router-link class="nav-draw-links" v-bind:to="item.url">
+          <v-list-tile-content>
+            <v-list-tile-title class="menu-link">{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </router-link>
+      </v-list-tile>
       <div class="user-controller" v-if="isLogged">
         <div class="user-container">
           <v-container>
@@ -44,11 +51,13 @@ export default {
       items: [
         { title: "Home", url: "/admin" },
         { title: "Category", url: "/admin/category" },
-        { title: "Access Level", url: "/admin/access_level" },
         { title: "Hero Banner", url: "/admin/hero" },
         { title: "Sejarah", url: "/admin/sejarah" },
         { title: "Visi Misi", url: "/admin/visi-misi" },
-        { title: "News", url: "/admin/news" },
+        { title: "News", url: "/admin/news" }
+      ],
+      superAdminItems: [
+        { title: "Access Level", url: "/admin/access_level" },
         { title: "Roles", url: "/admin/roles" },
         { title: "Users", url: "/admin/users" }
       ],
@@ -57,11 +66,15 @@ export default {
         width: 0,
         height: 0
       },
-      isLogged: false
+      isLogged: false,
+      isSuperAdmin: false
     };
   },
   created() {
     this.isLogged = this.isLoggin(this.$session);
+    this.isSuperAdmin = this.isHasSuperAdminAccessLevel(
+      this.getAccessLevel(this.$session)
+    );
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
