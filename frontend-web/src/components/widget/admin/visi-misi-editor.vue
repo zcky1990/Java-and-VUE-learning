@@ -1,6 +1,5 @@
 <template>
-  <v-container d-flex fluid grid-list-xs @change="validBtn">
-    <v-layout align-baseline wrap>
+  <v-container @change="validBtn">
       <div class="section-title">
         <div class="title">
           <div class="title-text">
@@ -8,13 +7,13 @@
           </div>
         </div>
       </div>
-      <v-flex xs12 d-felx>
+      <div class="id">
         <v-text-field v-model="data.id" style="display:none;"></v-text-field>
-      </v-flex>
-      <v-flex xs12 d-flex>
+      </div>
+      <div class="alert-contaainer">
         <alert-component ref="alert"></alert-component>
-      </v-flex>
-      <v-flex>
+      </div>
+      <div class="visi-container">
         <div class="asdsa">Visi</div>
         <ckeditor
           :editor="configEditor.editor"
@@ -22,8 +21,8 @@
           :config="configEditor.editorConfig"
           @input="validBtn"
         ></ckeditor>
-      </v-flex>
-      <v-flex>
+      </div>
+      <div class="misi-container">
         <div class="asdsa">Misi</div>
         <ckeditor
           :editor="configEditor.editor"
@@ -31,7 +30,7 @@
           :config="configEditor.editorConfig"
           @input="validBtn"
         ></ckeditor>
-      </v-flex>
+      </div>
       <v-flex xs12 d-flex>
         <v-btn
           v-bind="btnOptions"
@@ -40,7 +39,6 @@
         >Simpan Sebagai Draft</v-btn>
         <v-btn v-bind="btnOptions" class="white--text desc submit-btn" @click="submit">Simpan</v-btn>
       </v-flex>
-    </v-layout>
   </v-container>
 </template>
 <script>
@@ -311,6 +309,10 @@ export default {
 .title-text {
     font-size: 2rem;
     line-height: 2;
+}
+.misi-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 </style>
