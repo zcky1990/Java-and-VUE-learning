@@ -19,7 +19,7 @@ export default {
   name: "admin-sejarah-page-layout",
   components: {
     "admin-menu-navbar": Navbar,
-    "editor" : Editor
+    editor: Editor
   },
   created() {
     let isLogged = this.isLoggin(this.$session);

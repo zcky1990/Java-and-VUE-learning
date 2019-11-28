@@ -1,44 +1,42 @@
 <template>
   <v-container @change="validBtn">
-      <div class="section-title">
-        <div class="title">
-          <div class="title-text">
-          Visi & Misi
-          </div>
-        </div>
+    <div class="section-title">
+      <div class="title">
+        <div class="title-text">Visi & Misi</div>
       </div>
-      <div class="id">
-        <v-text-field v-model="data.id" style="display:none;"></v-text-field>
-      </div>
-      <div class="alert-contaainer">
-        <alert-component ref="alert"></alert-component>
-      </div>
-      <div class="visi-container">
-        <div class="asdsa">Visi</div>
-        <ckeditor
-          :editor="configEditor.editor"
-          v-model="data.visi"
-          :config="configEditor.editorConfig"
-          @input="validBtn"
-        ></ckeditor>
-      </div>
-      <div class="misi-container">
-        <div class="asdsa">Misi</div>
-        <ckeditor
-          :editor="configEditor.editor"
-          v-model="data.misi"
-          :config="configEditor.editorConfig"
-          @input="validBtn"
-        ></ckeditor>
-      </div>
-      <v-flex xs12 d-flex>
-        <v-btn
-          v-bind="btnOptions"
-          class="white--text desc submit-btn"
-          @click="submitAsDraft"
-        >Simpan Sebagai Draft</v-btn>
-        <v-btn v-bind="btnOptions" class="white--text desc submit-btn" @click="submit">Simpan</v-btn>
-      </v-flex>
+    </div>
+    <div class="id">
+      <v-text-field v-model="data.id" style="display:none;"></v-text-field>
+    </div>
+    <div class="alert-contaainer">
+      <alert-component ref="alert"></alert-component>
+    </div>
+    <div class="visi-container">
+      <div class="asdsa">Visi</div>
+      <ckeditor
+        :editor="configEditor.editor"
+        v-model="data.visi"
+        :config="configEditor.editorConfig"
+        @input="validBtn"
+      ></ckeditor>
+    </div>
+    <div class="misi-container">
+      <div class="asdsa">Misi</div>
+      <ckeditor
+        :editor="configEditor.editor"
+        v-model="data.misi"
+        :config="configEditor.editorConfig"
+        @input="validBtn"
+      ></ckeditor>
+    </div>
+    <v-flex xs12 d-flex>
+      <v-btn
+        v-bind="btnOptions"
+        class="white--text desc submit-btn"
+        @click="submitAsDraft"
+      >Simpan Sebagai Draft</v-btn>
+      <v-btn v-bind="btnOptions" class="white--text desc submit-btn" @click="submit">Simpan</v-btn>
+    </v-flex>
   </v-container>
 </template>
 <script>
@@ -111,7 +109,7 @@ export default {
         id: "",
         visi: "",
         misi: "",
-        visiMisiPublishStatus: false,
+        visiMisiPublishStatus: false
       },
       categoryDropdown: [],
       configEditor: {
@@ -173,9 +171,7 @@ export default {
   },
   methods: {
     validBtn: function() {
-      if (
-        this.data.visi.length > 0 ||  this.data.misi.length > 0 
-      ) {
+      if (this.data.visi.length > 0 || this.data.misi.length > 0) {
         this.btnDisabled = false;
       } else {
         this.btnDisabled = true;
@@ -270,8 +266,8 @@ export default {
         function(response) {
           if (response.status == 200) {
             let list = response.data.response;
-            if(list.length > 0){
-              self.data=response.data.response[0];
+            if (list.length > 0) {
+              self.data = response.data.response[0];
             }
           }
         },
@@ -307,12 +303,11 @@ export default {
 </script>
 <style>
 .title-text {
-    font-size: 2rem;
-    line-height: 2;
+  font-size: 2rem;
+  line-height: 2;
 }
 .misi-container {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
 </style>
