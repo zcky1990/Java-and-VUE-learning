@@ -28,7 +28,6 @@
       >
         <template v-slot:items="props">
           <tr>
-            <td class="text-xs-left">{{ props.item.id }}</td>
             <td class="text-xs-left">{{ props.item.type }}</td>
             <td class="text-xs-left">{{ props.item.name }}</td>
             <td class="text-xs-left">{{ props.item.status }}</td>
@@ -120,7 +119,6 @@ export default {
         status: false
       },
       tableHeaderList: [
-        { text: "Id", value: "id" },
         { text: "Type", value: "type" },
         { text: "Name", value: "name" },
         { text: "Status", value: "status" },
