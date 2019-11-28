@@ -46,6 +46,7 @@ export default {
         { title: "Home", url: "/admin" },
         { title: "Category", url: "/admin/category" },
         { title: "Access Level", url: "/admin/access_level" },
+        { title: "Hero Banner", url: "/admin/hero" },
         { title: "Sejarah", url: "/admin/sejarah" },
         { title: "Visi Misi", url: "/admin/visi-misi" },
         { title: "News", url: "/admin/news" },

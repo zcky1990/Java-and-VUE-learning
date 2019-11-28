@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card>
+    <div class="table-content">
       <div class="btn-add">
         <v-btn
           absolute
@@ -21,18 +21,18 @@
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
       <v-data-table
-        class="table-container"
         :headers="tableHeaderList"
         :items="dataTableList"
+        :items-per-page="10"
+        hide-default-footer
+        class="elevation-1"
         :search="search"
       >
         <template v-slot:items="props">
           <tr>
-            <td class="text-xs-left">{{ props.item.id }}</td>
-            <td class="text-xs-left">{{ props.item.type }}</td>
-            <td class="text-xs-left">{{ props.item.name }}</td>
-            <td class="text-xs-left">{{ props.item.status }}</td>
-            <td class="text-xs-left">{{ props.item.created_date }}</td>
+            <td class="text-xs-left">{{ props.item.title }}</td>
+            <td class="text-xs-left">{{ props.item.subtitle }}</td>
+            <td class="text-xs-left">{{ props.item.isPublished }}</td>
             <td>
               <v-layout align-center justify-space-around>
                 <v-icon @click="editListener(props.item.id)">fas fa-edit</v-icon>
@@ -42,7 +42,7 @@
           </tr>
         </template>
       </v-data-table>
-    </v-card>
+    </div>
     <v-dialog v-model="dialog" persistent width="600">
       <v-card>
         <v-container>
@@ -58,9 +58,19 @@
                 color="rgb(0, 209, 178)"
                 class="hidden"
               ></v-text-field>
+              <v-card-text>
+                <v-img v-if="isHasImage == true" alt="Avatar" :src="data.url_image" cover></v-img>
+                <v-icon v-else size="150" center color="#00d1b2">account_circle</v-icon>
+              </v-card-text>
+              <div class="upload-file">
+                <div>
+                  <input type="file" name="displayname" accept="image/*" @change="onFilePicked" />
+                </div>
+              </div>
+
               <v-text-field
-                v-model="data.type"
-                :rules="roleTypeRules"
+                v-model="data.title"
+                :rules="roleTitleRules"
                 label="Type"
                 required
                 outline
@@ -68,15 +78,15 @@
                 color="rgb(0, 209, 178)"
               ></v-text-field>
               <v-text-field
-                v-model="data.name"
-                :rules="roleNameRules"
+                v-model="data.subtitle"
+                :rules="roleSubtitleRules"
                 label="Name"
                 required
                 outline
                 flat
                 color="rgb(0, 209, 178)"
               ></v-text-field>
-              <v-select v-model="data.status" :items="status" label="Status"></v-select>
+              <v-select v-model="data.isPublished" :items="status" label="isPublished"></v-select>
               <v-flex align-center justify-center>
                 <div class="form-bttm-container">
                   <div class="btn-container">
@@ -103,14 +113,14 @@ export default {
       page: 0,
       dialog: false,
       mode: "new",
-      title: "Table Category List",
+      title: "Table Hero",
       search: "",
       urlData: {
-        createUrl: "/category/create",
-        editUrl: "/category/edit",
-        getUrl: "/category/",
-        deleteUrl: "/category/delete/",
-        getListUrl: "/category/get_category_list"
+        createUrl: "/hero/create",
+        editUrl: "/hero/edit",
+        getUrl: "/hero/",
+        deleteUrl: "/hero/delete/",
+        getListUrl: "/hero/get-all-hero"
       },
       isFormShow: true,
       data: {
@@ -120,17 +130,16 @@ export default {
         status: false
       },
       tableHeaderList: [
-        { text: "Id", value: "id" },
-        { text: "Type", value: "type" },
-        { text: "Name", value: "name" },
-        { text: "Status", value: "status" },
-        { text: "Created Date", value: "created_date" },
+        { text: "Title", value: "title" },
+        { text: "Subtitle", value: "subtitle" },
+        { text: "IsPublish", value: "isPublish" },
         { text: "Action", value: "action" }
       ],
+      totalPage: 0,
       dataTableList: [],
       status: [true, false],
-      roleTypeRules: [v => !!v || "Category type is required"],
-      roleNameRules: [v => !!v || "Category Name is required"]
+      roleTitleRules: [v => !!v || "Hero Title is required"],
+      roleSubtitleRules: [v => !!v || "Hero Subtitle is required"]
     };
   },
   created() {
@@ -178,6 +187,7 @@ export default {
           if (response.status == 200) {
             self.dataTableList = response.data.response;
             self.page++;
+            self.totalPage = response.data.totalPage;
           }
         },
         function(e) {
@@ -242,6 +252,52 @@ export default {
         }
       );
     },
+    onFilePicked(e) {
+      let self = this;
+      const files = e.target.files;
+      if (files[0] !== undefined) {
+        let imageName = files[0].name;
+        if (imageName.lastIndexOf(".") <= 0) {
+          return;
+        }
+        const fr = new FileReader();
+        fr.readAsDataURL(files[0]);
+        fr.addEventListener("load", () => {
+          let imageFile = files[0];
+          self.uploadImage(imageFile);
+        });
+      }
+    },
+    uploadImage(imageFile) {
+      let self = this;
+      let headers = this.getHeaders(this.$session);
+      headers["content-type"] = "multipart/form-data";
+      let data = new FormData();
+      data.append("file", imageFile);
+      data.append("content", "hero");
+      this.post(
+        "upload_image",
+        data,
+        headers,
+        function(response) {
+          if (response.data.status == "success") {
+            self.data.image_url = response.data.url;
+          } else {
+            self.setMessage("Upload image failed", 1);
+          }
+        },
+        function() {
+          self.setMessage("Upload image failed", 1);
+        }
+      );
+    },
+    isImageExists: function() {
+      if (this.data.image_url == "" || this.data.image_url == undefined) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     addData: function() {
       this.dialog = true;
       this.mode = "new";
@@ -267,6 +323,9 @@ export default {
       } else {
         return "Edit Category";
       }
+    },
+    isHasImage() {
+      return this.isImageExists();
     }
   }
 };
@@ -291,4 +350,5 @@ export default {
   margin: 0 auto;
   text-align: end;
 }
+
 </style>

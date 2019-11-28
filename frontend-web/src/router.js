@@ -10,6 +10,7 @@ import Sejarah from '@/pages/users/sejarah'
 import LoginAdmin from '@/pages/admin/login'
 import ArticleAdmin from '@/pages/admin/article'
 import AdminSejarah from '@/pages/admin/sejarah-admin'
+import AdminHero from '@/pages/admin/hero'
 import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
 import Admin from '@/pages/admin/admin'
 import Category from '@/pages/admin/category'
@@ -65,6 +66,11 @@ export default new Router({
       path: '/admin/sejarah',
       name: 'AdminSejarah',
       component: AdminSejarah
+    },
+    {
+      path: '/admin/hero',
+      name: 'AdminHero',
+      component: AdminHero
     },
     {
       path: '/admin/visi-misi',
