@@ -4,9 +4,9 @@
       <admin-menu-navbar></admin-menu-navbar>
     </section>
     <section class="admin-layout content-section">
-      <v-container>
+      <v-content>
         <editor></editor>
-      </v-container>
+      </v-content>
     </section>
   </div>
 </template>
