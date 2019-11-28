@@ -1,7 +1,6 @@
 <template>
   <div class="nav-menu">
-    <v-navigation-drawer fixed clipped v-model="drawer" app>
-      <v-subheader>Application Menu</v-subheader>
+    <v-navigation-drawer disable-resize-watcher clipped v-model="drawer" app>
       <v-list-tile v-for="item in items" :key="item.text">
         <router-link class="nav-draw-links" v-bind:to="item.url">
           <v-list-tile-content>

@@ -5,7 +5,9 @@
     </section>
     <section class="admin-layout content-section">
       <v-content>
-        <editor></editor>
+        <v-container>
+          <editor></editor>
+        </v-container>
       </v-content>
     </section>
   </div>

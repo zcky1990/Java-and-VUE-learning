@@ -294,7 +294,6 @@ export default {
   padding-bottom: 16px !important;
 }
 .article-component {
-  border: 1px solid #efefef;
   width: 100%;
 }
 .article {
