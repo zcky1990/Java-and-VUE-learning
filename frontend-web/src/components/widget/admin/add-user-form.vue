@@ -162,7 +162,7 @@ export default {
       },
       tableHeaderList: [
         { text: "Username", value: "username" },
-        { text: "IsValidated", value: "isValidated" },
+          { text: "IsValidated", value: "isValidated" },
         { text: "Status", value: "status" },
         { text: "Join Date", value: "joinDate" },
         { text: "Action", value: "action" }
