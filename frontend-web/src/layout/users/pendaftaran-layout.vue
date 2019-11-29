@@ -1,18 +1,18 @@
 <template>
   <div class="sign-up-page-container">
     <v-container align-center justify-center row fill-height>
-      <sign-up-form></sign-up-form>
+      <pendaftaran-form></pendaftaran-form>
     </v-container>
   </div>
 </template>
 
 <script>
-import SignUpForm from "@/components/widget/user-sign-up-form";
+import PendaftaranForm from "@/components/widget/user-daftar-form";
 
 export default {
   name: "pendaftaran-page-layout",
   components: {
-    "sign-up-form": SignUpForm
+    "pendaftaran-form": PendaftaranForm
   }
 };
 </script>

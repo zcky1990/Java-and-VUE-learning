@@ -91,7 +91,7 @@ public class CloudinaryUtility {
 		}
 		return response;
 	}
-	
+		
 	public JsonObject uploadImage(MultipartFile file) {
 		JsonObject response = new JsonObject();
 		try {
@@ -112,6 +112,25 @@ public class CloudinaryUtility {
 			options = ObjectUtils.asMap("folder", folder + "dev");
 		}else {
 			options = ObjectUtils.asMap("folder", folder);
+		}
+		try {
+			Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
+			response.addProperty("url", uploadResult.get("secure_url").toString());
+			response.addProperty("status", "success");
+		} catch (IOException e) {
+			response.addProperty("error_message", e.getMessage().toString());
+			response.addProperty("status", "error");
+		}
+		return response;
+	}
+	
+	public JsonObject uploadImage(MultipartFile file, String folder, String name) {
+		JsonObject response = new JsonObject();
+		Map options;
+		if(env.endsWith(Constant.DEV_ENV)) {
+			options = ObjectUtils.asMap("folder", folder + "dev", "public_id", name);
+		}else {
+			options = ObjectUtils.asMap("folder", folder, "public_id", name);
 		}
 		try {
 			Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
