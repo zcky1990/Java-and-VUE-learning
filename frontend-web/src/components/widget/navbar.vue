@@ -36,11 +36,11 @@
       <div class="container toolbar-title">
         <div class="title-container">
           <div class="title-navbar" @click="goToHome">
-            <v-img
-              :src="defaultLogo"
-              class="lighten-2"
-              size="56"
-            ></v-img>
+            <v-img :src="defaultLogo" class="lighten-2 icon-header" width="65" height="70" cover></v-img>
+            <div class="title">
+              <h1 class="title-name">UNIVERSITAS</h1>
+              <h1 class="title-name bold">STIE DHARMA AGUNG BANDUNG</h1>
+            </div>
           </div>
         </div>
         <div v-if="isMobile">
@@ -252,8 +252,15 @@ export default {
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 4px;
-  width: 56px;
-  height: 56px;
+  display: flex;
+}
+.icon-header {
+  margin-right: 12px;
+}
+.title-name {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.2;
 }
 .sub-title {
   font-size: 0.9rem;
@@ -319,7 +326,13 @@ export default {
   border-radius: 25px;
 }
 .title {
-  color: white;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.bold {
+    font-weight: 600;
 }
 .link-login {
   text-decoration: none;
