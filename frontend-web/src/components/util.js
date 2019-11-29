@@ -13,8 +13,8 @@ export const Util = {
     }
   },  
 
-  getNoImageUrl(){
-    var base_url = window.location.origin;
+  defaultImageUrl : function(){
+    let base_url = window.location.origin;
     return base_url+"/images/no-image-icon-23494.png"
   },
 

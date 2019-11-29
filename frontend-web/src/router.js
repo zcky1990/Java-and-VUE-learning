@@ -79,7 +79,7 @@ export default new Router({
     },
     {
       path: '/admin/news',
-      name: 'News',
+      name: 'AdminNews',
       component: ArticleAdmin
     },
     {

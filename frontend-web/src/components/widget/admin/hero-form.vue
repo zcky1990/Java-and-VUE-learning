@@ -59,24 +59,20 @@
                 class="hidden"
               ></v-text-field>
               <v-img
-                  :src="data.url_image"
-                  :lazy-src="defaultImage"
-                  aspect-ratio="1"
-                  max-width="500"
-                  max-height="300"
-                  cover
-                  class="grey lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
+                :src="data.url_image"
+                :lazy-src="defaultImage"
+                aspect-ratio="1"
+                max-width="500"
+                max-height="300"
+                cover
+                class="grey lighten-2"
+              >
+                <template v-slot:placeholder>
+                  <div class="fill-height ma-0" align="center" justify="center">
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
               <div class="upload-file">
                 <div>
                   <input type="file" name="displayname" accept="image/*" @change="onFilePicked" />
@@ -160,9 +156,13 @@ export default {
   },
   created() {
     this.getDataList();
-    this.defaultImage = this.getNoImageUrl();
+    this.setDefaultImage();
   },
   methods: {
+    setDefaultImage: function() {
+      let base_url = window.location.origin;
+      this.defaultImage = base_url + "/images/no-image-icon-23494.png";
+    },
     submitForm: function() {
       if (this.$refs.form.validate()) {
         if (this.mode == "new") {
