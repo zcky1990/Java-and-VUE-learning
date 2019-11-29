@@ -9,63 +9,16 @@
       </div>
       <div class="article-authors">
         <div class="authors-container" @click="seeAuthorsDetails(content.author.id)">
-          <div class="image-authors" v-if="isHasAuthor">
-            <v-img
-              :src="content.author.image_profile_url"
-              lazy-src="https://picsum.photos/10/6?image=11"
-              aspect-ratio="1"
-              class="grey lighten-2 rounded"
-            >
-              <template v-slot:placeholder>
-                <v-layout fill-height align-center justify-center ma-0>
-                  <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                </v-layout>
-              </template>
-            </v-img>
-          </div>
-          <div class="author-desc" v-if="isHasAuthor">
+          <div class="author-desc">
             <div class="author">
-              <div class="authors-name">{{content.author.firstname}} {{content.author.lastname}}</div>
-              <div class="article-create-date">{{content.created_date}}</div>
+              <div class="article-create-date">Published at: {{content.created_date}}</div>
             </div>
           </div>
-        </div>
-        <div v-if="isUserLoggin" class="follow-btn">
-          <div
-            v-if="!isFollowed"
-            class="btn-follow"
-            @click="followUnfollowAuthors(content.author.id)"
-          >Follow</div>
-          <div
-            v-else
-            class="btn-follow unfollow-btn"
-            @click="followUnfollowAuthors(content.author.id)"
-          >Unfollow</div>
         </div>
       </div>
 
       <div class="content">
         <div class="article-content-container">
-          <div v-if="isUserLoggin" class="bookmark-container">
-            <div v-if="!isUserBookmarkArticle" class="bookmark-btn" @click="bookmarkArticle">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-icon color="rgb(0, 209, 178)" v-on="on">bookmark</v-icon>
-                </template>
-                <span>Bookmark this Article</span>
-              </v-tooltip>
-            </div>
-
-            <div v-else class="bookmark-btn" @click="removeBookmarkArticle">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-icon color="red" v-on="on">bookmark</v-icon>
-                </template>
-                <span>Unbookmark this Article</span>
-              </v-tooltip>
-            </div>
-          </div>
-
           <div class="article-content">
             <div v-html="content.article_content"></div>
           </div>
@@ -337,7 +290,6 @@ export default {
   display: flex;
 }
 .author {
-  padding-left: 20px;
   padding-top: 7px;
 }
 .rounded {
