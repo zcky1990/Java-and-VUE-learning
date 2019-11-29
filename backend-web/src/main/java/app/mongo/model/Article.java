@@ -25,6 +25,7 @@ public class Article {
 	private String article_short_content;
 	private String type;
 	private String status;
+	@Indexed
 	private String slug;
 	private String modified_date;
 	private String imageHeader;

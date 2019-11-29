@@ -81,7 +81,6 @@
 
               <v-text-field
                 v-model="data.title"
-                :rules="roleTitleRules"
                 label="Title"
                 required
                 outline
@@ -90,7 +89,6 @@
               ></v-text-field>
               <v-text-field
                 v-model="data.subtitle"
-                :rules="roleSubtitleRules"
                 label="Subtitle"
                 required
                 outline
@@ -150,8 +148,6 @@ export default {
       totalPage: 0,
       dataTableList: [],
       status: [true, false],
-      roleTitleRules: [v => !!v || "Hero Title is required"],
-      roleSubtitleRules: [v => !!v || "Hero Subtitle is required"]
     };
   },
   created() {

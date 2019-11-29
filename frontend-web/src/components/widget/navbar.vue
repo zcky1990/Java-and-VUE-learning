@@ -10,9 +10,10 @@
           </div>
           <div class="btn-container">
             <div class="button-login rounded">
-              <router-link class="link-login nav-draw-links button-login" to="/pendaftaran">
-                Pendaftaran
-              </router-link>
+              <router-link
+                class="link-login nav-draw-links button-login"
+                to="/pendaftaran"
+              >Pendaftaran</router-link>
             </div>
           </div>
         </div>
@@ -35,23 +36,24 @@
       <div class="container toolbar-title">
         <div class="title-container">
           <div class="title-navbar" @click="goToHome">
-            <p>
-              <span class="green-color">Bad&egrave;</span> Belajar
-            </p>
+            <v-img
+              :src="defaultLogo"
+              class="lighten-2"
+              size="56"
+            ></v-img>
           </div>
-          <div class="sub-title">Knowledge archive</div>
         </div>
         <div v-if="isMobile">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer"  class="burger-menu"><v-icon color="#DC143C">menu</v-icon></v-toolbar-side-icon>
+          <v-toolbar-side-icon @click.stop="drawer = !drawer" class="burger-menu">
+            <v-icon color="#DC143C">menu</v-icon>
+          </v-toolbar-side-icon>
         </div>
         <div v-if="!isMobile">
           <div class="icon-container">
             <div class="login-container">
               <div class="user-avatar-container">
                 <v-chip class="button-login">
-                  <router-link class="link-login button-login" to="/pendaftaran">
-                    Pendaftaran
-                  </router-link>
+                  <router-link class="link-login button-login" to="/pendaftaran">Pendaftaran</router-link>
                 </v-chip>
               </div>
             </div>
@@ -64,24 +66,19 @@
           <div class="links">
             <div class="menu-btn-link" v-for="item in items" :key="item.text">
               <div v-if="isLinksMenu(item.type)">
-              <router-link class="nav-draw-links" v-bind:to="item.url">
-                <div class="link">{{ item.title }}</div>
-              </router-link>
+                <router-link class="nav-draw-links" v-bind:to="item.url">
+                  <div class="link">{{ item.title }}</div>
+                </router-link>
               </div>
               <div v-else>
                 <v-menu offset-y>
                   <template v-slot:activator="{ on }">
-                    <div class="nav-draw-links" v-on="on">
-                      {{item.title}}
-                    </div>
+                    <div class="nav-draw-links" v-on="on">{{item.title}}</div>
                   </template>
                   <v-list>
-                    <v-list-item
-                      v-for="(list, index) in item.listUrl"
-                      :key="index"
-                    >
+                    <v-list-item v-for="(list, index) in item.listUrl" :key="index">
                       <v-list-item-title>
-                          <div class="sub-link" @click="goToPage(list.url)" >{{list.name}}</div>
+                        <div class="sub-link" @click="goToPage(list.url)">{{list.name}}</div>
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -96,24 +93,20 @@
         <div class="container toolbar-link">
           <div class="links">
             <div class="menu-btn-link">
-               <div v-if="!isLinksMenu(item.type)">
+              <div v-if="!isLinksMenu(item.type)">
                 <router-link class="nav-draw-links" v-bind:to="item.url">
                   <div class="link">{{ item.title }}</div>
                 </router-link>
               </div>
-               <div v-else>
+              <div v-else>
                 <v-menu offset-y>
                   <template v-slot:activator="{ on }">
-                    <div class="nav-draw-links" v-on="on">
-                      {{item.title}}
-                    </div>
+                    <div class="nav-draw-links" v-on="on">{{item.title}}</div>
                   </template>
                   <v-list>
-                    <v-list-item
-                      v-for="(list, index) in item.listUrl" :key="index"
-                    >
+                    <v-list-item v-for="(list, index) in item.listUrl" :key="index">
                       <v-list-item-title>
-                          <div class="sub-link" @click="goToPage(list.url)" >{{list.name}}</div>
+                        <div class="sub-link" @click="goToPage(list.url)">{{list.name}}</div>
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -137,12 +130,17 @@ export default {
       drawer: false,
       isMobile: false,
       items: [
-      { title: "Beranda", type:"links", url: { name: "Index" }},
-      { title: "Tentang", type:"sub-links", listUrl: [ 
-        { name: "Visi & Misi" , url:"/visi-misi"},
-        { name: "Sejarah" , url:"/sejarah"} 
-        ] },
-      { title: "Kontak", type:"links", url: { name: "Kontak" }}],
+        { title: "Beranda", type: "links", url: { name: "Index" } },
+        {
+          title: "Tentang",
+          type: "sub-links",
+          listUrl: [
+            { name: "Visi & Misi", url: "/visi-misi" },
+            { name: "Sejarah", url: "/sejarah" }
+          ]
+        },
+        { title: "Kontak", type: "links", url: { name: "Kontak" } }
+      ],
       icon: {
         type: String,
         default: "$vuetify.icons.cancel"
@@ -155,11 +153,13 @@ export default {
       menu: false,
       message: false,
       usersData: {},
-      isHeaderFixedShow: false
+      isHeaderFixedShow: false,
+      defaultLogo: ""
     };
   },
   created() {
     this.isLogged = this.isLoggin(this.$session);
+    this.setDefaultHeaderImage();
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
     this.usersData = this.getUsers(this.$session);
@@ -171,22 +171,26 @@ export default {
   },
   computed: {
     isLinks(itemtype) {
-      return this.isLinksMenu(itemtype)
+      return this.isLinksMenu(itemtype);
     }
   },
   methods: {
-    isLinksMenu(itemtype){
+    setDefaultHeaderImage: function() {
+      let base_url = window.location.origin;
+      this.defaultLogo = base_url + "/images/logo.png";
+    },
+    isLinksMenu(itemtype) {
       if (itemtype != "links") {
-              return false
-            } else {
-              return true
+        return false;
+      } else {
+        return true;
       }
     },
-    goToPage(url){
+    goToPage(url) {
       this.$router.push(url);
     },
-    goToHome(){
-      if(this.$router.currentRoute.name != 'Index'){
+    goToHome() {
+      if (this.$router.currentRoute.name != "Index") {
         this.$router.push("/");
       }
     },
@@ -194,7 +198,7 @@ export default {
       if (this.isMobile == false) {
         if (this.$refs.navLink) {
           const top = this.$refs.navLink.getBoundingClientRect().top;
-          console.log(top)
+          console.log(top);
           if (top < 0) {
             this.isHeaderFixedShow = true;
           } else {
@@ -221,8 +225,7 @@ export default {
       data.message = message;
       data.type = type;
       EventBus.$emit("SNACKBAR_TRIGGERED", data);
-    },
-
+    }
   }
 };
 </script>
@@ -249,14 +252,16 @@ export default {
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 4px;
+  width: 56px;
+  height: 56px;
 }
 .sub-title {
   font-size: 0.9rem;
   line-height: 1;
 }
 .link-container {
-  border-bottom: 1px solid #DC143C;
-  background: #DC143C;
+  border-bottom: 1px solid #dc143c;
+  background: #dc143c;
 }
 .links {
   display: flex;
@@ -266,7 +271,7 @@ export default {
   justify-content: space-between;
 }
 .menu-btn-link {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 .sub-link {
   padding-left: 20px;
@@ -286,18 +291,18 @@ export default {
   color: #fff;
 }
 .nav-toolbar {
-  color: #DC143C !important;
+  color: #dc143c !important;
 }
 .green-color {
-  color: #DC143C !important;
+  color: #dc143c !important;
 }
 .login-container {
-  border: 1px solid #DC143C;
+  border: 1px solid #dc143c;
   border-radius: 5px;
 }
 .button-login {
   background: white;
-  color: #DC143C;
+  color: #dc143c;
 }
 .pop-up-menu-title {
   font-size: 1.2rem;
@@ -330,18 +335,18 @@ export default {
 /** drawer css **/
 .user-detail-controller {
   padding: 10px;
-  background: #DC143C;
+  background: #dc143c;
   min-height: 200px;
 }
 .btn-drawer-login {
-  border: 1px solid #DC143C;
+  border: 1px solid #dc143c;
   width: fit-content;
   align-items: center;
   text-align: center;
   margin: 0 auto;
 }
-.image-container{
-  border: 1px solid #DC143C;
+.image-container {
+  border: 1px solid #dc143c;
 }
 .image-user {
   margin: 0 auto;
