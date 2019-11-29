@@ -13,6 +13,11 @@ export const Util = {
     }
   },  
 
+  getNoImageUrl(){
+    var base_url = window.location.origin;
+    return base_url+"/images/no-image-icon-23494.png"
+  },
+
   isLoggin : function(session){
     if (!session.exists()) {
       return false

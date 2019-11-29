@@ -58,10 +58,25 @@
                 color="rgb(0, 209, 178)"
                 class="hidden"
               ></v-text-field>
-              <v-card-text>
-                <v-img v-if="isHasImage == true" alt="Avatar" :src="data.url_image" cover></v-img>
-                <v-icon v-else size="150" center color="#00d1b2">account_circle</v-icon>
-              </v-card-text>
+              <v-img
+                  :src="data.url_image"
+                  :lazy-src="defaultImage"
+                  aspect-ratio="1"
+                  max-width="500"
+                  max-height="300"
+                  cover
+                  class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
               <div class="upload-file">
                 <div>
                   <input type="file" name="displayname" accept="image/*" @change="onFilePicked" />
@@ -71,7 +86,7 @@
               <v-text-field
                 v-model="data.title"
                 :rules="roleTitleRules"
-                label="Type"
+                label="Title"
                 required
                 outline
                 flat
@@ -80,7 +95,7 @@
               <v-text-field
                 v-model="data.subtitle"
                 :rules="roleSubtitleRules"
-                label="Name"
+                label="Subtitle"
                 required
                 outline
                 flat
@@ -135,6 +150,7 @@ export default {
         { text: "IsPublish", value: "isPublish" },
         { text: "Action", value: "action" }
       ],
+      defaultImage: "",
       totalPage: 0,
       dataTableList: [],
       status: [true, false],
@@ -144,6 +160,7 @@ export default {
   },
   created() {
     this.getDataList();
+    this.defaultImage = this.getNoImageUrl();
   },
   methods: {
     submitForm: function() {
@@ -281,7 +298,7 @@ export default {
         headers,
         function(response) {
           if (response.data.status == "success") {
-            self.data.image_url = response.data.url;
+            self.data.url_image = response.data.url;
           } else {
             self.setMessage("Upload image failed", 1);
           }
@@ -336,6 +353,9 @@ export default {
 }
 .title {
   padding-bottom: 0.5em;
+}
+.upload-file {
+  margin-bottom: 10px;
 }
 .roles-form-container {
   display: flex;

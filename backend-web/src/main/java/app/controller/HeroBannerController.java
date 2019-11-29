@@ -104,7 +104,7 @@ public class HeroBannerController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/hero/{id}", method = RequestMethod.GET)
-	public ResponseEntity<String> edit(@PathVariable String id, HttpServletRequest request) throws Exception {
+	public ResponseEntity<String> get(@PathVariable String id, HttpServletRequest request) throws Exception {
 		JsonObject response;
 		try {
 			Optional<HeroBanner> responseRoles = repository.findById(id);
