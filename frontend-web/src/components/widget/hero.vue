@@ -27,9 +27,7 @@ export default {
     return {
       items: [
         {
-          url_image: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
-          title: "asdasdsadasdasd",
-          subtitle: "asdasdasdasdasdasdasdsadasdasdasdasdasdasdasd"
+          url_image: window.location.origin+"/images/no-image-icon-23494.png",
         }
       ]
     };

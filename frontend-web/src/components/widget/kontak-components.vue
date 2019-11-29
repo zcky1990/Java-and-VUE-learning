@@ -6,7 +6,7 @@
       </div>
       <div class="data-kontak">
         <div class="name-text"><v-icon left color="#DC143C">home</v-icon>STIE DHARMA AGUNG</div>
-        <div class="contact-phone"> <v-icon left color="#DC143C">phone</v-icon>(021) 8902808</div>
+        <div class="contact-phone"> <v-icon left color="#DC143C">phone</v-icon>081997111818</div>
         <div class="location-text"><v-icon left color="#DC143C">map</v-icon>Jl industri no 33 Cikarang kota Cikarang Utara kab Bekasi 17530</div>
       </div>
     <v-container>
