@@ -7,8 +7,7 @@ import router from './router'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import '@fortawesome/fontawesome-free/css/all.css' 
 import  Util from "./util";
-import FBSignInButton from 'vue-facebook-signin-button'
-import GSignInButton from 'vue-google-signin-button'
+import VueCookies from 'vue-cookies'
 
 import L from 'leaflet';
 delete L.Icon.Default.prototype._getIconUrl;
@@ -21,13 +20,14 @@ L.Icon.Default.mergeOptions({
 
 require('./assets/sass/main.scss');
 
+
+// set default config
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.use(VueSession)
+Vue.use(VueCookies)
 Vue.use(CKEditor)
 Vue.use(Util)
-Vue.use(FBSignInButton)
-Vue.use(GSignInButton)
 
 new Vue({
   icons: {

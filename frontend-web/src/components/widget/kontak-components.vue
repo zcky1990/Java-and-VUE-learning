@@ -10,8 +10,8 @@
         <div class="location-text"><v-icon left color="#DC143C">map</v-icon>Jl industri no 33 Cikarang kota Cikarang Utara kab Bekasi 17530</div>
       </div>
     <v-container>
-      <div id="top_div" style="height: 100%">
-      <v-map :zoom="zoom" :center="center" style="height: 400px;">
+      <div id="top_div" style="height: 100%; ">
+      <v-map :zoom="zoom" :center="center" style="height: 400px;z-index:1;">
         <v-tilelayer :url="url" :attribution="attribution"></v-tilelayer>
         <v-marker :lat-lng="marker" @click="openGoogleMap"></v-marker>       
       </v-map>

@@ -18,17 +18,15 @@
           </div>
         </div>
       </div>
-
       <v-divider></v-divider>
-
-      <v-list-tile class="menu-btn-link" v-for="item in items" :key="item.text">
-        <router-link class="nav-draw-links drawer-links" v-bind:to="item.url">
+      <v-list-tile class="menu-btn-link" v-for="(item ,index ) in navBarMenu" :key="item.name">
+        <div class="nav-draw-links drawer-links"  @click="openPages(item.slug, index)">
           <v-list-tile-content>
             <div class="container">
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
             </div>
           </v-list-tile-content>
-        </router-link>
+        </div>
       </v-list-tile>
     </v-navigation-drawer>
 
@@ -64,26 +62,26 @@
       <div v-if="!isMobile" ref="navLink" class="link-container">
         <div class="container toolbar-link">
           <div class="links">
-            <div class="menu-btn-link" v-for="item in items" :key="item.text">
-              <div v-if="isLinksMenu(item.type)">
-                <router-link class="nav-draw-links" v-bind:to="item.url">
-                  <div class="link">{{ item.title }}</div>
-                </router-link>
+            <div class="menu-btn-link" v-for="(item, index) in navBarMenu" :key="item.text">
+               <div v-if="item.isMenu">
+                 <div class="nav-draw-links" @click="openPages(item.slug, index)">
+                  <div class="link">{{ item.name }}</div>
+                </div>
               </div>
-              <div v-else>
+               <div v-else>
                 <v-menu offset-y>
                   <template v-slot:activator="{ on }">
-                    <div class="nav-draw-links" v-on="on">{{item.title}}</div>
+                    <div class="nav-draw-links" v-on="on">{{item.name}}</div>
                   </template>
                   <v-list>
-                    <v-list-item v-for="(list, index) in item.listUrl" :key="index">
+                    <v-list-item v-for="(list, indexData) in item.submenu" :key="indexData">
                       <v-list-item-title>
-                        <div class="sub-link" @click="goToPage(list.url)">{{list.name}}</div>
+                        <div class="sub-link" @click="openPages(list.slug, index)">{{list.name}}</div>
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
-              </div>
+              </div> 
             </div>
           </div>
         </div>
@@ -93,25 +91,25 @@
         <div class="container toolbar-link">
           <div class="links">
             <div class="menu-btn-link">
-              <div v-if="!isLinksMenu(item.type)">
-                <router-link class="nav-draw-links" v-bind:to="item.url">
-                  <div class="link">{{ item.title }}</div>
-                </router-link>
+              <div v-if="item.isMenu">
+                 <div class="nav-draw-links" @click="openPages(item.slug, index)">
+                  <div class="link">{{ item.name }}</div>
+                </div>
               </div>
-              <div v-else>
+               <div v-else>
                 <v-menu offset-y>
                   <template v-slot:activator="{ on }">
-                    <div class="nav-draw-links" v-on="on">{{item.title}}</div>
+                    <div class="nav-draw-links" v-on="on">{{item.name}}</div>
                   </template>
                   <v-list>
-                    <v-list-item v-for="(list, index) in item.listUrl" :key="index">
+                    <v-list-item v-for="(list, index) in item.submenu" :key="index">
                       <v-list-item-title>
-                        <div class="sub-link" @click="goToPage(list.url)">{{list.name}}</div>
+                        <div class="sub-link" @click="openPages(list.slug, index)">{{list.name}}</div>
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
-              </div>
+              </div> 
             </div>
           </div>
         </div>
@@ -129,17 +127,7 @@ export default {
     return {
       drawer: false,
       isMobile: false,
-      items: [
-        { title: "Beranda", type: "links", url: { name: "Index" } },
-        {
-          title: "Tentang",
-          type: "sub-links",
-          listUrl: [
-            { name: "Visi & Misi", url: "/visi-misi" },
-            { name: "Sejarah", url: "/sejarah" }
-          ]
-        },
-        { title: "Kontak", type: "links", url: { name: "Kontak" } }
+      navBarMenu: [
       ],
       icon: {
         type: String,
@@ -154,8 +142,16 @@ export default {
       message: false,
       usersData: {},
       isHeaderFixedShow: false,
-      defaultLogo: ""
+      defaultLogo: "",
+      currentIndex:0
     };
+  },
+  mounted: function() {
+    let navbar =this.$cookies.get('navMenu');
+    let JsonNavbar = JSON.parse(navbar);
+    for(let i = 0 ; i < JsonNavbar.length; i++){
+      this.navBarMenu.push(JsonNavbar[i]);
+    }
   },
   created() {
     this.isLogged = this.isLoggin(this.$session);
@@ -170,35 +166,55 @@ export default {
     window.removeEventListener("scroll", this.handleFixedNavBar);
   },
   computed: {
-    isLinks(itemtype) {
-      return this.isLinksMenu(itemtype);
-    }
-  },
+   },
   methods: {
     setDefaultHeaderImage: function() {
       let base_url = window.location.origin;
       this.defaultLogo = base_url + "/images/logo.png";
     },
-    isLinksMenu(itemtype) {
-      if (itemtype != "links") {
-        return false;
-      } else {
-        return true;
+    goToPage(url) {
+      this.$router.push(url);
+    },
+    getKontak(index){
+      this.navBarMenu[index];
+    },
+    openPages(url, index) {
+      let obj = this.navBarMenu[index]
+      let isMenu = obj.isMenu
+      if(isMenu) {
+        if (index == 0){
+          this.goToHome();
+        }
+        else if(obj.name == "Kontak"){
+          this.goToKontak();
+        }
+        else {
+          this.goToPage(url);
+        }
+      }else {
+        this.goToPage(url);
       }
     },
     goToPage(url) {
-      this.$router.push(url);
+      let routeUrl = "/pages/"+url;
+      if (this.$router.currentRoute.name != routeUrl) {
+        this.$router.push(routeUrl);
+      }
     },
     goToHome() {
       if (this.$router.currentRoute.name != "Index") {
         this.$router.push("/");
       }
     },
+    goToKontak() {
+      if (this.$router.currentRoute.name != "Kontak") {
+        this.$router.push("/Kontak");
+      }
+    },
     handleFixedNavBar() {
       if (this.isMobile == false) {
         if (this.$refs.navLink) {
           const top = this.$refs.navLink.getBoundingClientRect().top;
-          console.log(top);
           if (top < 0) {
             this.isHeaderFixedShow = true;
           } else {
@@ -229,7 +245,6 @@ export default {
   }
 };
 </script>
-    <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @media only screen and (max-width: 640px) {
   .toolbar-title {

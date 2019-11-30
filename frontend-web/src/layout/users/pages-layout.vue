@@ -27,7 +27,7 @@ export default {
   name: "article-page-layout",
   data() {
     return {
-      getArticleUrl: "/article/get_article/",
+      getArticleUrl: "/pages/get_page/",
       article: {},
       slug: "",
       isUserLoggin: false

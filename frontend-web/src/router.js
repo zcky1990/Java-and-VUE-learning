@@ -2,16 +2,19 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/pages/users/index'
 import Article from '@/pages/users/article'
+import Pages from '@/pages/users/pages'
 import Pendaftaran from '@/pages/users/pendaftaran'
 import Kontak from '@/pages/users/kontak'
 import VisiMisi from '@/pages/users/visi-misi'
 import Sejarah from '@/pages/users/sejarah'
 
 import LoginAdmin from '@/pages/admin/login'
+import AdminPages from '@/pages/admin/pages-admin'
+import AdminMenu from '@/pages/admin/menu-admin'
 import ArticleAdmin from '@/pages/admin/article'
-import AdminSejarah from '@/pages/admin/sejarah-admin'
 import AdminHero from '@/pages/admin/hero'
-import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
+// import AdminSejarah from '@/pages/admin/sejarah-admin'
+// import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
 import Admin from '@/pages/admin/admin'
 import Category from '@/pages/admin/category'
 import AccessLevel from '@/pages/admin/access-list'
@@ -53,6 +56,11 @@ export default new Router({
       component: Article
     },
     {
+      path: '/pages/:slug',
+      name: 'Pages',
+      component: Pages
+    },
+    {
       path: '/admin/login',
       name: 'AdminLogin',
       component: LoginAdmin
@@ -63,20 +71,30 @@ export default new Router({
       component: Admin
     },
     {
-      path: '/admin/sejarah',
-      name: 'AdminSejarah',
-      component: AdminSejarah
-    },
-    {
       path: '/admin/hero',
       name: 'AdminHero',
       component: AdminHero
     },
     {
-      path: '/admin/visi-misi',
-      name: 'AdminVisiMisi',
-      component: AdminVisiMisi
+      path: '/admin/pages',
+      name: 'AdminPages',
+      component: AdminPages
     },
+    {
+      path: '/admin/menu',
+      name: 'AdminMenu',
+      component: AdminMenu
+    },
+    // {
+    //   path: '/admin/sejarah',
+    //   name: 'AdminSejarah',
+    //   component: AdminSejarah
+    // },
+    // {
+    //   path: '/admin/visi-misi',
+    //   name: 'AdminVisiMisi',
+    //   component: AdminVisiMisi
+    // },
     {
       path: '/admin/news',
       name: 'AdminNews',
