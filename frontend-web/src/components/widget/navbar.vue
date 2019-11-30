@@ -19,15 +19,25 @@
         </div>
       </div>
       <v-divider></v-divider>
-      <v-list-tile class="menu-btn-link" v-for="(item ,index ) in navBarMenu" :key="item.name">
-        <div class="nav-draw-links drawer-links"  @click="openPages(item.slug, index)">
-          <v-list-tile-content>
-            <div class="container">
-              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+      <div class="menu-list">
+        <div class="menu-btn-link" v-for="(item ,index ) in navBarMenu" :key="item.name">
+          <div v-if="item.isMenu" class="nav-draw-links drawer-links"  @click="openPages(item.slug, index)">
+            <div class="menu-seide-bar-content-links">
+                <div class="side-nav-title">{{ item.name }}</div>
+              </div>
+          </div>
+          <div v-else class="nav-draw-links drawer-links">
+            <div class="menu-seide-bar-content-links">
+                <div class="side-nav-title" @click="showHideNav">{{ item.name }}</div>
+                <div class="side-nav-title-child">
+                  <div class="child-container" v-for="(list, indexData) in item.submenu" :key="indexData">
+                    <div class="side-nav-title-child-list" @click="openPages(list.slug, index)">{{ list.name }}</div>
+                  </div>
+                </div>
             </div>
-          </v-list-tile-content>
+          </div>
         </div>
-      </v-list-tile>
+      </div>
     </v-navigation-drawer>
 
     <div class="toolbar">
@@ -168,6 +178,14 @@ export default {
   computed: {
    },
   methods: {
+    showHideNav: function(e){
+      let nextSibling = e.srcElement.nextElementSibling;
+      if (nextSibling.classList.contains("hidden")){
+        nextSibling.classList.remove("hidden")
+      }else {
+        nextSibling.classList.add("hidden")
+      }
+    },
     setDefaultHeaderImage: function() {
       let base_url = window.location.origin;
       this.defaultLogo = base_url + "/images/logo.png";
@@ -251,6 +269,9 @@ export default {
     border-bottom: 1px solid #efefef;
   }
 }
+.hidden {
+  display: none;
+}
 .drawer-links {
   color: #000 !important;
   font-weight: 500 !important;
@@ -271,6 +292,9 @@ export default {
 }
 .icon-header {
   margin-right: 12px;
+}
+.menu-list {
+    padding: 20px;
 }
 .title-name {
   font-size: 20px;
@@ -293,14 +317,15 @@ export default {
   justify-content: space-between;
 }
 .menu-btn-link {
-  margin-right: 10px;
+  padding: 10px;
 }
 .sub-link {
   padding-left: 20px;
-  padding-right: 20px;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.5;
+    padding-right: 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 2;
+    text-align: center;
 }
 .nav-draw-links {
   /*color: #00d1b2 !important; */
@@ -308,6 +333,7 @@ export default {
   letter-spacing: 0.2rem;
   line-height: 1;
   font-weight: 800;
+  width: 100%;
   display: inline-block;
   text-decoration: none !important;
   color: #fff;
@@ -423,5 +449,15 @@ export default {
   top: 0;
   width: 100%;
   z-index: 15;
+}
+.side-nav-title-child {
+  margin-left: 5px;
+}
+.side-nav-title-child-list {
+  line-height: 1.2;
+  padding-left: 10px;
+  padding-top: 15px;
+  font-size: 12px;
+  font-weight: 300;
 }
 </style>

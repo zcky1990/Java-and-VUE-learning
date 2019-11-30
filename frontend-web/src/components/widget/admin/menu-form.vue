@@ -52,7 +52,7 @@
           </v-toolbar>
 
           <v-container>
-            <div class="title"> Menu </div>
+            <div class="menu-itle-section"> Menu </div>
             <v-form ref="form" v-model="valid" width="300">
               <v-text-field
                 v-model="data.id"
@@ -68,6 +68,7 @@
                 label="Menu Name"
                 required
                 flat
+                :rules = roleMenuNameRules
                 color="rgb(0, 209, 178)"
               ></v-text-field>
 
@@ -88,43 +89,52 @@
                ></v-select>
 
                <div v-if="isSubmenu" class="sub-menu">
-                  <div class="submenu-title"> SubMenu</div>
-                   <v-btn
-                    style="position: relative; float:right;"
-                    v-on:click="addNewSubMenu"
-                  >
-                  <v-icon>add</v-icon>
-                    Add Submenu
-                  </v-btn>
+                 <div class="submenu-title-container">
+                    <div class="submenu-title-section"> SubMenu</div>
+                    <v-btn
+                      v-on:click="addNewSubMenu"
+                    >
+                    <v-icon>add</v-icon>
+                      Add Submenu
+                    </v-btn>
+                 </div>
                   <v-container>
                     <div class="sub-menu field-container">
-                        <div class="sub-menu-conbtainer" v-for="(item, index) in data.submenu" :key="item.name">
-                          <div class="submenu-title">Submenu {{index+1}}</div>
-                          <v-text-field
-                            v-model="item.id"
-                            label="Id"
+                      <v-card flat>
+                        <v-container>
+                          <div class="sub-menu-conbtainer" v-for="(item, index) in data.submenu" :key="item.name">
+                            <div class="title-container">
+                                <div class="submenu-title">Submenu {{index+1}}</div>
+                                <div class="remove-container"> <v-icon color="white" @click="removeSubMenu(index)">fas fa-trash</v-icon></div>
+                            </div>
+                            <v-text-field
+                              v-model="item.id"
+                              label="Id"
+                              required
+                              flat
+                              color="rgb(0, 209, 178)"
+                              class="hidden"
+                            ></v-text-field>
+
+                            <v-text-field
+                            v-model="item.name"
+                            label="Menu Name"
                             required
                             flat
+                            :rules = roleSubMenuNameRules
                             color="rgb(0, 209, 178)"
-                            class="hidden"
                           ></v-text-field>
 
-                          <v-text-field
-                          v-model="item.name"
-                          label="Menu Name"
-                          required
-                          flat
-                          color="rgb(0, 209, 178)"
-                        ></v-text-field>
-
-                          <v-select 
-                          v-model="item.page" 
-                          :items="pagesPublisList" 
-                          label="Publis Page Url"
-                          return-object
-                          item-text="permalink"
-                          ></v-select>
-                        </div>
+                            <v-select 
+                              v-model="item.page" 
+                              :items="pagesPublisList" 
+                              label="Publis Page Url"
+                              return-object
+                              item-text="permalink"
+                            ></v-select>
+                          </div>
+                        </v-container>
+                      </v-card>
                     </div>
                   </v-container>
               </div>
@@ -184,7 +194,8 @@ export default {
       dataTableList: [],
       type: ["Menu", "Submenu"],
       pagesPublisList: [],
-      roleDomainRules: [v => !!v || "Domain Name is required"],
+      roleMenuNameRules: [v => !!v || "Menu Name is required"],
+      roleSubMenuNameRules: [v => !!v || "Submenu Name is required"],
     };
   },
   created() {
@@ -201,6 +212,9 @@ export default {
         this.data.submenu = [];
          this.data.submenu.push(submenu);
       }
+    },
+    removeSubMenu: function(index){
+      this.data.submenu.splice(index);
     },
     setSubmenu: function(){
       if(this.data.menuType == "Menu"){
@@ -409,6 +423,34 @@ export default {
 }
 .btn-submit {
     display: flex;
+}
+.title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgb(0, 209, 178);
+    color: white;
+    padding: 5px;
+}
+.submenu-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+.menu-itle-section {
+  font-size: 20px;
+  font-weight: 700;
+}
+.submenu-title-section {
+  font-size: 20px;
+  font-weight: 700;
+}
+.submenu-title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.sub-menu-conbtainer {
+  margin-top: 10px;
 }
 @media only screen and (max-width: 600px) {
   .domain-container {
