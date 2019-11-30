@@ -7,7 +7,7 @@
       <div class="snack-bar-container">
         <snack-bar ref="snackbar" @showSnackBar="setMessage()"></snack-bar>
       </div>
-      <router-view></router-view>
+      <router-view :key="$route.fullPath"></router-view>
     </v-app>
   </div>
 </template>

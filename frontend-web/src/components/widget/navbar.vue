@@ -85,7 +85,7 @@
                   </template>
                   <v-list>
                     <div v-for="(list, indexData) in item.submenu" :key="indexData">
-                      <div class="title-sublinks">
+                      <div class="sub-links">
                         <div class="sub-link" @click="openPages(list.slug, index)">{{list.name}}</div>
                       </div>
                     </div>
@@ -189,9 +189,6 @@ export default {
     setDefaultHeaderImage: function() {
       let base_url = window.location.origin;
       this.defaultLogo = base_url + "/images/logo.png";
-    },
-    goToPage(url) {
-      this.$router.push(url);
     },
     getKontak(index){
       this.navBarMenu[index];

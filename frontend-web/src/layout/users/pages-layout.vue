@@ -8,7 +8,7 @@
         <v-container fill-height>
           <v-layout class="content-layout">
             <v-flex class="main-content-container">
-              <pages-content v-bind:content="content"></pages-content>
+              <pages-content></pages-content>
             </v-flex>
           </v-layout>
         </v-container>
@@ -26,7 +26,7 @@ export default {
   name: "pages-page-layout",
   data() {
     return {
-      getArticleUrl: "/pages/get_page/",
+
       content: {},
       slug: "",
       isUserLoggin: false
@@ -37,32 +37,9 @@ export default {
     "pages-content": PagesComponents,
   },
   methods: {
-    getArticleService: function() {
-      let self = this;
-      let headers = {};
-      headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.get(
-        this.getArticleUrl + this.slug,
-        headers,
-        function(response) {
-          let responseData = response.data.response;
-          self.content = responseData;
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    setMessage(message, type) {
-      let data = {};
-      data.message = message;
-      data.type = type;
-      EventBus.$emit("SNACKBAR_TRIGGERED", data);
-    }
   },
   created() {
-    this.slug = this.$route.params.slug;
-    this.getArticleService();
+    
   }
 };
 </script>

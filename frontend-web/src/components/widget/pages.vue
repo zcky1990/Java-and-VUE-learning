@@ -1,17 +1,10 @@
 <template>
   <section class="section article">
-    <div class="categories-container">
-      <div class="categories" v-for="item in content.categoryArticle" :key="item.name">{{item.name}}</div>
-    </div>
     <div id="grid" class="content-container" tag="section">
-      <div class="article-title">
-        <div class="headline">{{content.article_title}}</div>
-      </div>
-
       <div class="content">
         <div class="article-content-container">
           <div class="article-content">
-            <div v-html="content.article_content"></div>
+            <div v-html="data.content"></div>
           </div>
         </div>
       </div>
@@ -23,25 +16,47 @@ import { EventBus } from "./../../EventBus.js";
 
 export default {
   name: "pages-components",
-  props: {
-    content: Object
-  },
   data() {
     return {
+      getArticleUrl: "/pages/get_page/",
       data: {
         id: "",
         userId: "",
         articleId: ""
-      }
+      },
     };
   },
   created() {
+    this.slug = this.$route.params.slug;
     this.isUserLoggin = this.isLoggin(this.$session);
     if (this.isUserLoggin) {
       this.data.userId = this.getUserId(this.$session);
     }
+    this.getArticleService();
   },
   methods: {
+    getArticleService: function() {
+      let self = this;
+      let headers = {};
+      headers = this.getDefaultHeaders(this.getMeta("token"));
+      this.get(
+        this.getArticleUrl + this.slug,
+        headers,
+        function(response) {
+          let responseData = response.data.response;
+          self.data = responseData;
+        },
+        function(e) {
+          self.setMessage(e, 1);
+        }
+      );
+    },
+    setMessage(message, type) {
+      let data = {};
+      data.message = message;
+      data.type = type;
+      EventBus.$emit("SNACKBAR_TRIGGERED", data);
+    },
     seeAuthorsDetails: function(id) {
       let url = "/detail/" + id;
       this.$router.push(url);
@@ -106,7 +121,6 @@ export default {
     }
   },
   updated() {
-    this.data.articleId = this.content.id;
     this.setCssSideImage();
     this.setCssQuote();
     this.setBulletNumberingCss();

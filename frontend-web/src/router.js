@@ -58,7 +58,7 @@ export default new Router({
     {
       path: '/pages/:slug',
       name: 'Pages',
-      component: Pages
+      component: Pages,
     },
     {
       path: '/admin/login',
