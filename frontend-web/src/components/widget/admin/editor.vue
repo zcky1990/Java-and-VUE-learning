@@ -44,25 +44,7 @@
   </v-container>
 </template>
 <script>
-import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
-import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
-import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat";
-import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
-import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
-import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
-import Heading from "@ckeditor/ckeditor5-heading/src/heading";
-import Image from "@ckeditor/ckeditor5-image/src/image";
-import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
-import ImageStyle from "@ckeditor/ckeditor5-image/src/imagestyle";
-import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
-import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
-import Link from "@ckeditor/ckeditor5-link/src/link";
-import List from "@ckeditor/ckeditor5-list/src/list";
-import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
-import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
-
-import CodeBlock from "@/lib/ckeditor5-code/src/codeblock";
-
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Alert from "@/components/widget/alert";
 import { Util } from "@/components/util";
 import { AXIOS } from "@/components/http-common";
@@ -138,54 +120,6 @@ export default {
         editor: ClassicEditor,
         editorConfig: {
           extraPlugins: [MyCustomUploadAdapterPlugin],
-          plugins: [
-            Essentials,
-            Autoformat,
-            Bold,
-            Italic,
-            BlockQuote,
-            Heading,
-            Image,
-            ImageCaption,
-            ImageStyle,
-            ImageToolbar,
-            ImageUpload,
-            Link,
-            List,
-            Paragraph,
-            Alignment,
-            Image,
-            ImageToolbar,
-            ImageCaption,
-            ImageStyle,
-            CodeBlock
-          ],
-          toolbar: {
-            items: [
-              "heading",
-              "alignment",
-              "|",
-              "bold",
-              "italic",
-              "|",
-              "link",
-              "|",
-              "undo",
-              "redo",
-              "|",
-              "bulletedList",
-              "numberedList",
-              "|",
-              "blockQuote",
-              "pre",
-              "|",
-              "imageUpload",
-              "imageTextAlternative",
-              "|",
-              "imageStyle:full",
-              "imageStyle:side"
-            ]
-          }
         }
       }
     };
