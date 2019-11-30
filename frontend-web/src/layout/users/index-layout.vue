@@ -11,19 +11,24 @@
         <article-list></article-list>
       </v-container>
     </section>
+      <section class="footer">
+        <footer-components></footer-components>
+      </section>
   </div>
 </template>
     <script>
 import NavbarComponents from "@/components/widget/navbar";
 import HeroComponents from "@/components/widget/hero";
 import ListArticleComponents from "@/components/widget/list-article";
+import FooterComponents from "@/components/widget/footer";
 
 export default {
   name: "index-page-layout",
   components: {
     "nav-bar": NavbarComponents,
     "hero" : HeroComponents,
-    "article-list" : ListArticleComponents
+    "article-list" : ListArticleComponents,
+    "footer-components": FooterComponents
     }
 };
 </script>

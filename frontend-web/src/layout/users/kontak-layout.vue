@@ -8,17 +8,23 @@
         <contact-us></contact-us>
       </v-container>
     </section>
+    <section class="footer">
+      <footer-components></footer-components>
+    </section>
   </div>
 </template>
     <script>
 import NavbarComponents from "@/components/widget/navbar";
 import ContactComponents from "@/components/widget/kontak-components";
+import FooterComponents from "@/components/widget/footer";
+
 
 export default {
   name: "kontak-page-layout",
   components: {
     "nav-bar": NavbarComponents,
-    "contact-us": ContactComponents
+    "contact-us": ContactComponents,
+    "footer-components": FooterComponents
     },
 };
 </script>

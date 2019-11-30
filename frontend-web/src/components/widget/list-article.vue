@@ -38,21 +38,8 @@
               </div>
             </div>
           </v-flex>
-          <v-flex>
-            <div class="center">
-              <v-btn
-                :loading="isLoadMoreOnProgress"
-                :disabled="isDisable"
-                elevation="0"
-                depressed
-                class="load-more-btn"
-                @click="loadMore"
-              >Load More Article</v-btn>
-            </div>
-          </v-flex>
         </v-layout>
       </v-container>
-    </div>
     <div class="not-found" v-if="!isHasData">
       <v-container>
         <div v-if="isSearch">Pencarian tidak ditemukan</div>
@@ -60,6 +47,18 @@
       </v-container>
     </div>
   </div>
+  <div class="btn-load-more">
+            <div class="center">
+              <v-btn
+                :loading="isLoadMoreOnProgress"
+                :disabled="isDisable"
+                depressed
+                class="load-more-btn"
+                @click="loadMore"
+              >Load More Article</v-btn>
+            </div>
+          </div>
+    </div>
 </template>
 <script>
 import { EventBus } from "./../../EventBus.js";
@@ -303,6 +302,9 @@ export default {
 .category-container > p {
   padding: 2px;
 }
+.btn-load-more {
+    padding-bottom: 5%;
+  }
 
 @media only screen and (max-width: 600px) {
   .article-list {
@@ -312,6 +314,10 @@ export default {
   }
   .desc-article-list {
     padding-left: 0px;
+  }
+  .btn-load-more {
+    padding-top: 10%;
+    padding-bottom: 10%;
   }
 }
 .btn-no-shadow {

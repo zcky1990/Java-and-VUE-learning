@@ -14,12 +14,16 @@
         </v-container>
       </v-content>
     </section>
+    <section class="footer">
+      <footer-components></footer-components>
+    </section>
   </div>
 </template>
 
 <script>
 import Navbar from "@/components/widget/navbar";
 import ArticleComponents from "@/components/widget/article";
+import FooterComponents from "@/components/widget/footer";
 
 import { EventBus } from "../../EventBus.js";
 
@@ -36,7 +40,7 @@ export default {
   components: {
     "user-nav-menu": Navbar,
     "article-content": ArticleComponents,
-    "article-comment": Comment
+    "footer-components": FooterComponents
   },
   methods: {
     getArticleService: function() {

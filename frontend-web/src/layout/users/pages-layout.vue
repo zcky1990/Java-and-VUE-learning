@@ -14,6 +14,9 @@
         </v-container>
       </v-content>
     </section>
+    <section class="footer">
+      <footer-components></footer-components>
+    </section>
   </div>
 </template>
 
@@ -21,6 +24,7 @@
 import Navbar from "@/components/widget/navbar";
 import PagesComponents from "@/components/widget/pages";
 import { EventBus } from "../../EventBus.js";
+import FooterComponents from "@/components/widget/footer";
 
 export default {
   name: "pages-page-layout",
@@ -35,6 +39,7 @@ export default {
   components: {
     "user-nav-menu": Navbar,
     "pages-content": PagesComponents,
+    "footer-components": FooterComponents
   },
   methods: {
   },

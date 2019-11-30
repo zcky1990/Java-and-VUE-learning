@@ -52,7 +52,7 @@
           </div>
         </div>
         <div v-if="isMobile">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" class="burger-menu">
+          <v-toolbar-side-icon @click.stop="drawer = !drawer" class="burger-menu" >
             <v-icon color="#DC143C">menu</v-icon>
           </v-toolbar-side-icon>
         </div>
@@ -70,7 +70,8 @@
       </div>
 
       <div v-if="!isMobile" ref="navLink" class="link-container">
-        <div class="container toolbar-link">
+        
+        <v-toolbar class="toolbar-link" color="#dc143c" :fixed="fixed">
           <div class="links">
             <div class="menu-btn-link" v-for="(item, index) in navBarMenu" :key="item.text">
                <div v-if="item.isMenu">
@@ -94,7 +95,7 @@
               </div> 
             </div>
           </div>
-        </div>
+        </v-toolbar>
       </div>
     </div>
   </div>
@@ -109,6 +110,7 @@ export default {
     return {
       drawer: false,
       isMobile: false,
+      fixed: false,
       navBarMenu: [
       ],
       icon: {
@@ -123,7 +125,6 @@ export default {
       menu: false,
       message: false,
       usersData: {},
-      isHeaderFixedShow: false,
       defaultLogo: "",
       currentIndex:0
     };
@@ -134,6 +135,7 @@ export default {
     for(let i = 0 ; i < JsonNavbar.length; i++){
       this.navBarMenu.push(JsonNavbar[i]);
     }
+     window.addEventListener("scroll", this.handleFixedNavBar);
   },
   created() {
     this.isLogged = this.isLoggin(this.$session);
@@ -141,6 +143,7 @@ export default {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
     this.usersData = this.getUsers(this.$session);
+   
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -202,9 +205,9 @@ export default {
         if (this.$refs.navLink) {
           const top = this.$refs.navLink.getBoundingClientRect().top;
           if (top < 0) {
-            this.isHeaderFixedShow = true;
+              this.fixed = true;
           } else {
-            this.isHeaderFixedShow = false;
+             this.fixed = false;
           }
         }
       }
