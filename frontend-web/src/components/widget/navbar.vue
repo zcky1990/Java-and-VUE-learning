@@ -96,34 +96,6 @@
           </div>
         </div>
       </div>
-      <!--fixed navbar -->
-      <div v-if="!isMobile && isHeaderFixedShow" class="link-container fixed-menu">
-        <div class="container toolbar-link">
-          <div class="links">
-            <div class="menu-btn-link">
-              <div v-if="item.isMenu">
-                 <div class="nav-draw-links" @click="openPages(item.slug, index)">
-                  <div class="link">{{ item.name }}</div>
-                </div>
-              </div>
-               <div v-else>
-                <v-menu offset-y>
-                  <template v-slot:activator="{ on }">
-                    <div class="nav-draw-links" v-on="on">{{item.name}}</div>
-                  </template>
-                  <v-list>
-                    <v-list-item v-for="(list, index) in item.submenu" :key="index">
-                      <v-list-item-title>
-                        <div class="sub-link" @click="openPages(list.slug, index)">{{list.name}}</div>
-                      </v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </div> 
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -169,7 +141,6 @@ export default {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
     this.usersData = this.getUsers(this.$session);
-    window.addEventListener("scroll", this.handleFixedNavBar);
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);

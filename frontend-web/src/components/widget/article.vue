@@ -23,14 +23,6 @@
             <div v-html="content.article_content"></div>
           </div>
         </div>
-        <div v-if="isHaveReference" class="article-reference">
-          <div class="reference-list">Reference</div>
-          <div
-            class="reference-items"
-            v-for="items in content.reference_list"
-            :key="items"
-          >{{items}}</div>
-        </div>
       </div>
     </div>
   </section>
@@ -126,7 +118,6 @@ export default {
   },
   updated() {
     this.data.articleId = this.content.id;
-    console.log(this.data)
     this.setCssSideImage();
     this.setCssQuote();
     this.setBulletNumberingCss();
