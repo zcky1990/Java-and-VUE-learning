@@ -29,8 +29,6 @@
 </template>
 <script>
 import { EventBus } from "./../../EventBus.js";
-import hljs from "highlight.js/lib/highlight";
-import "highlight.js/styles/github.css";
 
 export default {
   name: "article-components",
@@ -121,12 +119,17 @@ export default {
     this.setCssSideImage();
     this.setCssQuote();
     this.setBulletNumberingCss();
-    document.querySelectorAll("pre p").forEach(block => {
-      hljs.highlightBlock(block);
+    document.querySelectorAll("#grid > div.content > div > div > div > figure.table > table").forEach(block => {
+      block.style.borderSpacing="0";
+      block.style.marginBottom="16px";
     });
-
-    document.querySelectorAll("pre ol").forEach(block => {
-      hljs.highlightBlock(block);
+    document.querySelectorAll("#grid > div.content > div > div > div > figure.table > table > thead > tr > th").forEach(block => {
+      block.style.border="1px solid lightgrey";
+    });
+    document.querySelectorAll("#grid > div.content > div > div > div > figure.table > table > tbody > tr > td")
+    .forEach(block => {
+      block.style.border="1px solid lightgrey";
+      block.style.padding="5px";
     });
   },
   computed: {
@@ -141,6 +144,16 @@ export default {
 }
 .authors-container {
   display: flex;
+}
+td {
+    border: 1px solid lightgray;
+    padding: 5px;
+}
+th {
+    border: 1px solid lightgrey;
+}
+table {
+    border-spacing: 0px !important;
 }
 .author {
   padding-top: 7px;

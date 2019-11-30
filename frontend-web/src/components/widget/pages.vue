@@ -124,6 +124,18 @@ export default {
     this.setCssSideImage();
     this.setCssQuote();
     this.setBulletNumberingCss();
+    document.querySelectorAll("#grid > div.content > div > div > div > figure.table > table").forEach(block => {
+      block.style.borderSpacing="0";
+      block.style.marginBottom="16px";
+    });
+    document.querySelectorAll("#grid > div.content > div > div > div > figure.table > table > thead > tr > th").forEach(block => {
+      block.style.border="1px solid lightgrey";
+    });
+    document.querySelectorAll("#grid > div.content > div > div > div > figure.table > table > tbody > tr > td")
+    .forEach(block => {
+      block.style.border="1px solid lightgrey";
+      block.style.padding="5px";
+    });
   },
   computed: {
   }
