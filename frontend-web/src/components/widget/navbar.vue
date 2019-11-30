@@ -84,11 +84,11 @@
                     <div class="nav-draw-links" v-on="on">{{item.name}}</div>
                   </template>
                   <v-list>
-                    <v-list-item v-for="(list, indexData) in item.submenu" :key="indexData">
-                      <v-list-item-title>
+                    <div v-for="(list, indexData) in item.submenu" :key="indexData">
+                      <div class="title-sublinks">
                         <div class="sub-link" @click="openPages(list.slug, index)">{{list.name}}</div>
-                      </v-list-item-title>
-                    </v-list-item>
+                      </div>
+                    </div>
                   </v-list>
                 </v-menu>
               </div> 

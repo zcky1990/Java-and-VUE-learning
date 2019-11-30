@@ -8,7 +8,7 @@
         <v-container fill-height>
           <v-layout class="content-layout">
             <v-flex class="main-content-container">
-              <article-content v-bind:content="article"></article-content>
+              <pages-content v-bind:content="content"></pages-content>
             </v-flex>
           </v-layout>
         </v-container>
@@ -19,24 +19,22 @@
 
 <script>
 import Navbar from "@/components/widget/navbar";
-import ArticleComponents from "@/components/widget/article";
-
+import PagesComponents from "@/components/widget/pages";
 import { EventBus } from "../../EventBus.js";
 
 export default {
-  name: "article-page-layout",
+  name: "pages-page-layout",
   data() {
     return {
       getArticleUrl: "/pages/get_page/",
-      article: {},
+      content: {},
       slug: "",
       isUserLoggin: false
     };
   },
   components: {
     "user-nav-menu": Navbar,
-    "article-content": ArticleComponents,
-    "article-comment": Comment
+    "pages-content": PagesComponents,
   },
   methods: {
     getArticleService: function() {
@@ -48,7 +46,7 @@ export default {
         headers,
         function(response) {
           let responseData = response.data.response;
-          self.article = responseData;
+          self.content = responseData;
         },
         function(e) {
           self.setMessage(e, 1);
