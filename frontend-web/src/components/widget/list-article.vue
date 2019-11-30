@@ -6,7 +6,7 @@
       </v-container>
     </div>
     <div v-if="isHasData" class="article-image-container">
-      <v-container grid-list-xs>
+      <v-container>
         <v-layout column>
           <v-flex class="article-list-container" v-for="item in data" :key="item.slug">
             <div class="article-list" @click="goTo(item.slug)">
@@ -223,6 +223,7 @@ export default {
   margin-top: 0.7em;
 }
 .post-desc {
+  font-size: 1.1em;
   margin-top: 15px;
 }
 .article-list {
@@ -315,10 +316,9 @@ export default {
   .desc-article-list {
     padding-left: 0px;
   }
-  .btn-load-more {
-    padding-top: 10%;
-    padding-bottom: 10%;
-  }
+  .article-list-container{
+    height: 390px;
+}
 }
 .btn-no-shadow {
   -webkit-box-shadow: none !important;

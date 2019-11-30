@@ -123,8 +123,8 @@ public class Article {
 		}
 		Document document = Jsoup.parse(shortContent);
 		shortContent = document.text();
-		if(shortContent.length() > 150) {
-			shortContent = shortContent.substring(0, 150)+"...";
+		if(shortContent.length() > 300) {
+			shortContent = shortContent.substring(0, 300)+"...";
 		}
 		this.setArticle_short_content(shortContent);
 	}
