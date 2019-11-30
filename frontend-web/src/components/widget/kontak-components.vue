@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     openGoogleMap: function(){
-         window.open("https://www.google.com/maps/place/Sekolah+Tinggi+Ilmu+Ekonomi+Dharma+Agung/@-6.9106821,107.6017346,17z/data=!3m1!4b1!4m5!3m4!1s0x2e68e87e307767c3:0x2e9b4d9fbeab69e4!8m2!3d-6.9106821!4d107.6039233");
+      window.open("https://www.google.com/maps/place/Sekolah+Tinggi+Ilmu+Ekonomi+Dharma+Agung/@-6.9106821,107.6017346,17z/data=!3m1!4b1!4m5!3m4!1s0x2e68e87e307767c3:0x2e9b4d9fbeab69e4!8m2!3d-6.9106821!4d107.6039233");
     },
     setMessage: function(message, type) {
       let data = {};

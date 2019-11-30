@@ -1,7 +1,7 @@
 <template>
   <section class="section article">
-    <div v-if="isCategoryExists" class="categories-container">
-      <div class="categories">{{content.categoryArticle.name}}</div>
+    <div class="categories-container">
+      <div class="categories" v-for="item in content.categoryArticle" :key="item.name">{{item.name}}</div>
     </div>
     <div id="grid" class="content-container" tag="section">
       <div class="article-title">
@@ -51,19 +51,7 @@ export default {
         id: "",
         userId: "",
         articleId: ""
-      },
-      bookmark: {
-        createBookmark: "bookmarks/create",
-        deleteBookmark: "bookmarks/delete/"
-      },
-      follow: {
-        followUrl: "follow/authors/",
-        unfollowUrl: "unfollow/authors/"
-      },
-      isFollowed: false,
-      isBookmarked: false,
-      isUserLoggin: false,
-      isHaveReference: false
+      }
     };
   },
   created() {
@@ -73,55 +61,6 @@ export default {
     }
   },
   methods: {
-    followUnfollowAuthors: function(id) {
-      if (this.isUserLoggin) {
-        if (!this.isFollowed) {
-          this.followAuthors(id);
-        } else {
-          this.unFollowAuthors(id);
-        }
-      } else {
-        this.$router.push("/login");
-      }
-    },
-    followAuthors: function(id) {
-      let self = this;
-      let headers = this.getHeaders(this.$session);
-      this.post(
-        this.follow.followUrl + id,
-        {},
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            if (response.data.error_message) {
-              self.setMessage(response.data.error_message, 1);
-            } else {
-              let responseData = response.data.response;
-              self.isFollowed = true;
-            }
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    unFollowAuthors: function(id) {
-      let self = this;
-      let headers = this.getHeaders(this.$session);
-      this.delete(
-        this.follow.unfollowUrl + id,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.isFollowed = false;
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
     seeAuthorsDetails: function(id) {
       let url = "/detail/" + id;
       this.$router.push(url);
@@ -178,54 +117,6 @@ export default {
         }
       }
     },
-    bookmarkArticle: function() {
-      this.addBookmark(this.data);
-    },
-    removeBookmarkArticle: function() {
-      this.deleteBookmark(this.data.articleId);
-    },
-    addBookmark: function(data) {
-      let self = this;
-      delete self.data["id"];
-      let headers = this.getHeaders(this.$session);
-      this.post(
-        this.bookmark.createBookmark,
-        data,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            if (response.data.error_message) {
-              self.setMessage(response.data.error_message, 1);
-            } else {
-              self.isBookmarked = true;
-            }
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    deleteBookmark: function(id) {
-      let self = this;
-      let headers = this.getHeaders(this.$session);
-      this.delete(
-        this.bookmark.deleteBookmark + id,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            if (response.data.error_message) {
-              self.setMessage(response.data.error_message, 1);
-            } else {
-              self.isBookmarked = false;
-            }
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
     setMessage: function(message, type) {
       let data = {};
       data.message = message;
@@ -235,11 +126,7 @@ export default {
   },
   updated() {
     this.data.articleId = this.content.id;
-    this.isFollowed = this.content.isFollowed;
-    this.isBookmarked = this.content.isBookmarked;
-    if (this.content.reference_list) {
-      this.isHaveReference = true;
-    }
+    console.log(this.data)
     this.setCssSideImage();
     this.setCssQuote();
     this.setBulletNumberingCss();
@@ -252,31 +139,6 @@ export default {
     });
   },
   computed: {
-    isUserBookmarkArticle: function() {
-      return this.isBookmarked;
-    },
-    isCategoryExists: function() {
-      if (this.content.categoryArticle != undefined) {
-        if (this.content.categoryArticle.name != null) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    },
-    isHasAuthor: function() {
-      if (this.content.author != undefined) {
-        if (this.content.author != null) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    }
   }
 };
 </script>
@@ -328,14 +190,10 @@ export default {
 }
 .categories {
   padding: 5px 15px 5px 15px;
-  border: 1px solid rgb(0, 209, 178);
-  border-radius: 15px;
-  width: max-content;
-  font-weight: 400;
-}
-.categories:hover {
-  background: rgb(0, 209, 178);
+  border: 1px solid #dc143c;
+  background: #dc143c;
   color: white;
+  font-weight: 400;
 }
 .content-container {
   padding-top: 10px;
