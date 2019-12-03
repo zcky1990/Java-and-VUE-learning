@@ -32,6 +32,7 @@ public class Constant {
 	public static String DELETE_ARTICLE_SUCCESS_MESSAGE = "Success Delete Article";
 	public static String DELETE_BOOKMARK_SUCCESS_MESSAGE = "Success Delete Bookmark";
 	public static String DELETE_CATEGORY_SUCCESS_MESSAGE = "Success Delete Category";
+	public static String DELETE_SUCCESS_MESSAGE = "Success Delete";
 	public static String DELETE_ROLES_SUCCESS_MESSAGE = "Success Delete Roles";
 	public static String DELETE_HERO_SUCCESS_MESSAGE = "Success Delete Hero";
 	public static String SUCCESS_FOLLOW_AUHTORS_MESSAGE = "Success Follow Authors";
