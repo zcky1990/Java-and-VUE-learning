@@ -50,6 +50,8 @@ export default {
         { title: "News", url: "/admin/news" },
         { title: "Pages", url: "/admin/pages" },
         { title: "Menu", url: "/admin/menu" },
+        { title: "Fakultas", url: "/admin/faculty" },
+        { title: "Prodi", url: "/admin/prodi" },
         { title: "Access Level", url: "/admin/access_level" },
         { title: "Roles", url: "/admin/roles" },
         { title: "Users", url: "/admin/users" }
