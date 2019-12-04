@@ -133,6 +133,7 @@ public class FacultyController extends BaseController {
 			}else {
 				faculty = repository.findAllByIsPublished(true);
 			}
+			System.out.println(faculty.size());
 			response.add(Constant.RESPONSE, toJSONArrayWithSerializer(Faculty.class, new FacultySerializer(), faculty)  );
 		} catch(Exception e) {
 			response = getFailedResponse();

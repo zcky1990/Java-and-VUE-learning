@@ -6,6 +6,7 @@ public class ProdiRequest {
 	private String prodiName;
 	private String strata;
 	private Boolean isPublished;
+	private String degree;
 	
 	public String getId() {
 		return id;
@@ -36,5 +37,11 @@ public class ProdiRequest {
 	}
 	public void setIsPublished(Boolean isPublished) {
 		this.isPublished = isPublished;
+	}
+	public String getDegree() {
+		return degree;
+	}
+	public void setDegree(String degree) {
+		this.degree = degree;
 	}
 }

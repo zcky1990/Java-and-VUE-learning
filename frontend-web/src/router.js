@@ -13,6 +13,9 @@ import AdminPages from '@/pages/admin/pages-admin'
 import AdminMenu from '@/pages/admin/menu-admin'
 import ArticleAdmin from '@/pages/admin/article'
 import AdminHero from '@/pages/admin/hero'
+import AdminFaculty from '@/pages/admin/faculty-admin'
+import AdminProdi from '@/pages/admin/prodi-admin'
+
 // import AdminSejarah from '@/pages/admin/sejarah-admin'
 // import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
 import Admin from '@/pages/admin/admin'
@@ -74,6 +77,16 @@ export default new Router({
       path: '/admin/hero',
       name: 'AdminHero',
       component: AdminHero
+    },
+    {
+      path: '/admin/faculty',
+      name: 'AdminFaculty',
+      component: AdminFaculty
+    },
+    {
+      path: '/admin/prodi',
+      name: 'AdminProdi',
+      component: AdminProdi
     },
     {
       path: '/admin/pages',

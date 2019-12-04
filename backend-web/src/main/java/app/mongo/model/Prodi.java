@@ -14,6 +14,7 @@ public class Prodi {
 	private String prodiName;
 	private String strata;
 	private Boolean isPublished;
+	private String degree;
 	
 	public String getStringId() {
 		return _id.toHexString();
@@ -48,13 +49,22 @@ public class Prodi {
 	public void setIsPublished(Boolean isPublished) {
 		this.isPublished = isPublished;
 	}
+	public String getDegree() {
+		return degree;
+	}
+	public void setDegree(String degree) {
+		this.degree = degree;
+	}
 	public void fromObject(ProdiRequest request) {
-		this.set_id(new ObjectId(request.getId()));
+		if(request.getId() != null) {
+			this.set_id(new ObjectId(request.getId()));
+		}
 		if(request.getFakultas() != null) {
 			Faculty fakultas = new Faculty();
 			fakultas.fromObject(request.getFakultas());
 			this.setFakultas(fakultas);
 		}
+		this.setDegree(request.getDegree());
 		this.setProdiName(request.getProdiName());
 		this.setStrata(request.getStrata());
 		this.setIsPublished(request.getIsPublished());

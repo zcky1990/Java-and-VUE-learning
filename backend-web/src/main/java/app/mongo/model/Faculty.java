@@ -37,7 +37,9 @@ public class Faculty {
 	}
 
 	public void fromObject(FacultyRequest request) {
-		this.set_id(new ObjectId(request.getId()));
+		if(request.getId() != null) {
+			this.set_id(new ObjectId(request.getId()));
+		}
 		this.setFacultyName(request.getFacultyName());
 		this.setIsPublished(request.getIsPublished());
 	}
