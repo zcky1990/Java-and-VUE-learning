@@ -48,6 +48,12 @@
                             <div class="sign-in-btn" @click="submit">Edit</div>
                         </div>
                     </div>
+
+                    <div class="submit-btn-container">
+                        <div class="sign-in-btn-container">
+                            <div class="sign-in-btn no-print" @click="Print">Print</div>
+                        </div>
+                    </div>
                 </v-flex>
             </v-form>
         </div>
@@ -137,6 +143,9 @@ export default {
     },
     created() {},
     methods: {
+        Print: function(){
+            window.print();
+        },
         callRestService(model) {
             let self = this;
             this.isLoading = true;
@@ -187,6 +196,14 @@ export default {
 </script>
 
 <style scoped>
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .sign-up-container {
         flex-direction: column !important;

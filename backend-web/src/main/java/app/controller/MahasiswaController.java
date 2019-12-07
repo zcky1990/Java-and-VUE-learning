@@ -134,7 +134,7 @@ public class MahasiswaController extends BaseController {
 	@RequestMapping(value = "/mahasiswa/get_all_mahasiswa_list_filtered", method = RequestMethod.GET)
 	public ResponseEntity<String> getAllFilteredMahasiswaList(@RequestParam(value="page", required=false) String page,@RequestParam(value="startDate", required=true) String startDate,@RequestParam(value="endDate", required=true) String endDate, HttpServletRequest request) throws Exception {
 		JsonObject response;
-//		try {
+		try {
 			List<Mahasiswa> faculty  = new ArrayList<>();
 			response = getSuccessResponse();
 			if(page!= null) {
@@ -155,10 +155,10 @@ public class MahasiswaController extends BaseController {
 				faculty = repository.findAll();
 			}
 			response.add(Constant.RESPONSE, toJSONArrayWithSerializer(Mahasiswa.class, new MahasiswaSerializer(), faculty)  );
-//		} catch(Exception e) {
-//			response = getFailedResponse();
-//			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
-//		}
+		} catch(Exception e) {
+			response = getFailedResponse();
+			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
+		}
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 
