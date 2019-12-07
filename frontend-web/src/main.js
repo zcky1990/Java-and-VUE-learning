@@ -26,6 +26,9 @@ Vue.use(CKEditor)
 Vue.use(Util)
 
 new Vue({
+  icons: {
+    iconfont: 'fa',
+},
   vuetify: vuetify,
   router,
   render: h => h(App)

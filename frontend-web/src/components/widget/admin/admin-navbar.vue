@@ -1,8 +1,8 @@
 <template>
 <div class="nav-menu">
     <v-app-bar color="#00d1b2" class="nav-toolbar" app clipped-right>
-        <v-app-bar-nav-icon color="white" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title ccolor="white">Admin</v-toolbar-title>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title class="white--text desc">Admin</v-toolbar-title>
         <v-menu left bottom>
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">

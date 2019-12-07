@@ -6,9 +6,6 @@ import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 
 const opts = {
-    icons: {
-        iconfont: 'fa',
-    },
     theme: {
         dark: false,
     },
