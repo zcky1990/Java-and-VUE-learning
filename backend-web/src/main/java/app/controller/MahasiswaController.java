@@ -1,6 +1,10 @@
 package app.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +31,7 @@ import app.constants.Constant;
 import app.model.request.MahasiswaRequest;
 import app.mongo.model.Mahasiswa;
 import app.repository.MahasiswaRepository;
+import app.serializer.MahasiswaDetailsSerializer;
 import app.serializer.MahasiswaSerializer;
 
 @RestController
@@ -74,7 +79,7 @@ public class MahasiswaController extends BaseController {
 			Optional<Mahasiswa> responseFaculty = repository.findById(id);
 			Mahasiswa faculty = responseFaculty.get();
 			response = getSuccessResponse();
-			response.add(Constant.RESPONSE, toJSONObjectWithSerializer(Mahasiswa.class, new MahasiswaSerializer(), faculty)  );
+			response.add(Constant.RESPONSE, toJSONObjectWithSerializer(Mahasiswa.class, new MahasiswaDetailsSerializer(), faculty)  );
 		} catch(Exception e) {
 			response = getFailedResponse();
 			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
@@ -106,6 +111,31 @@ public class MahasiswaController extends BaseController {
 			if(page!= null) {
 				Pageable pageableRequest = PageRequest.of(Integer.parseInt(page), 10, Sort.by("_id").descending());
 				Page<Mahasiswa> pageFaculty = repository.findAll(pageableRequest);
+				response.addProperty("total_page", pageFaculty.getTotalPages());
+				faculty = pageFaculty.getContent();
+			}else {
+				faculty = repository.findAll();
+			}
+			response.add(Constant.RESPONSE, toJSONArrayWithSerializer(Mahasiswa.class, new MahasiswaSerializer(), faculty)  );
+		} catch(Exception e) {
+			response = getFailedResponse();
+			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
+		}
+		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/mahasiswa/get_all_mahasiswa_list_filtered", method = RequestMethod.GET)
+	public ResponseEntity<String> getAllFilteredMahasiswaList(@RequestParam(value="page", required=false) String page,@RequestParam(value="startDate", required=true) String startDate,@RequestParam(value="endDate", required=true) String endDate, HttpServletRequest request) throws Exception {
+		JsonObject response;
+		try {
+			List<Mahasiswa> faculty  = new ArrayList<>();
+			response = getSuccessResponse();
+			if(page!= null) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				Date localDateStart = formatter.parse(startDate);  
+				Date localDateEnd = formatter.parse(endDate);  
+				Pageable pageableRequest = PageRequest.of(Integer.parseInt(page), 10, Sort.by("_id").descending());
+				Page<Mahasiswa> pageFaculty = repository.findByCreatedDateBetween(localDateStart,localDateEnd,pageableRequest);
 				response.addProperty("total_page", pageFaculty.getTotalPages());
 				faculty = pageFaculty.getContent();
 			}else {

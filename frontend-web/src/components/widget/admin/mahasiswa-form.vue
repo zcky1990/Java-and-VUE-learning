@@ -1,421 +1,389 @@
 <template>
-  <v-container>
+<v-container>
+    <div class="filter">
+        <div class="date-container">
+            <v-menu ref="startDate" v-model="startDate" :close-on-content-click="false" :nudge-right="40" :return-value.sync="filter.startDate" transition="scale-transition" min-width="290px">
+                <template v-slot:activator="{ on }">
+                    <v-text-field v-model="filter.startDate" label="Start Date" prepend-icon="event" readonly v-on="on"></v-text-field>
+                </template>
+                <v-date-picker v-model="filter.startDate" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="startDate = false">
+                        Cancel
+                    </v-btn>
+                    <v-btn text color="primary" @click="$refs.startDate.save(filter.startDate)">
+                        OK
+                    </v-btn>
+                </v-date-picker>
+            </v-menu>
+            <v-menu ref="endDate" v-model="endDate" :close-on-content-click="false" :nudge-right="40" :return-value.sync="filter.endDate" transition="scale-transition" min-width="290px">
+                <template v-slot:activator="{ on }">
+                    <v-text-field v-model="filter.endDate" label="End Date" prepend-icon="event" readonly v-on="on"></v-text-field>
+                </template>
+                <v-date-picker v-model="filter.endDate" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="endDate = false">
+                        Cancel
+                    </v-btn>
+                    <v-btn text color="primary" @click="$refs.endDate.save(filter.endDate)">
+                        OK
+                    </v-btn>
+                </v-date-picker>
+            </v-menu>
+        </div>
+        <div class="my-2">
+            <v-btn depressed large color="primary" right @click="filterTable">Filter Search</v-btn>
+        </div>
+    </div>
+    <div class="title">
+        Table Calon Mahasiswa
+    </div>
     <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Calories</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in desserts" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>{{ item.calories }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
-  
-    <v-card>
-      <div class="btn-add">
-        <v-btn
-          absolute
-          dark
-          fab
-          top
-          right
-          color="rgb(0, 209, 178)"
-          @click="addData"
-          style="position: relative; float:right;"
-        >
-          <v-icon>add</v-icon>
-        </v-btn>
-      </div>
-      <v-card-title class="table-title">{{title}}</v-card-title>
-      <v-card-title>
-        <v-select
-          :items="filterDropDownList"
-          v-model="dataFilter"
-          label="Role"
-          outlined
-          item-text="name"
-          item-value="id"
-          color="rgb(0, 209, 178)"
-          @change="filterData"
-        ></v-select>
-
-        <v-spacer></v-spacer>
-        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-      </v-card-title>
-      <v-data-table
-        class="table-container"
-        :headers="tableHeaderList"
-        :items="dataTableList"
-        :search="search"
-      >
-        <template v-slot:items="props">
-          <tr>
-            <td class="text-xs-left">{{ props.item.username }}</td>
-            <td class="text-xs-left">{{ props.item.validated }}</td>
-            <td class="text-xs-left">{{ props.item.status }}</td>
-            <td class="text-xs-left">{{ props.item.created_date }}</td>
-            <td>
-              <v-layout align-center justify-space-around>
-                <v-icon @click="editListener(props.item.id)">fas fa-edit</v-icon>
-                <v-icon @click="deleteListener(props.item.id)">fas fa-trash</v-icon>
-              </v-layout>
-            </td>
-          </tr>
+        <template v-slot:default>
+            <thead>
+                <tr>
+                    <th class="text-left">Nama Lengkap</th>
+                    <th class="text-left">Email</th>
+                    <th class="text-left">Jenis Kelamin</th>
+                    <th class="text-left">Nomor Telpon</th>
+                    <th class="text-left">Kota</th>
+                    <th class="text-left">Tanggal Mendaftar</th>
+                    <th class="text-left">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in dataTableList" :key="item.name">
+                    <td>{{ item.fullName }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.gender }}</td>
+                    <td>{{ item.phoneNumber }}</td>
+                    <td>{{ item.city }}</td>
+                    <td>{{item.created_date}}</td>
+                    <td>
+                        <v-layout align-center justify-space-around>
+                            <v-icon small class="mr-2" @click="editListener(item.id)">edit</v-icon>
+                            <v-icon small class="mr-2" @click="deleteListener(item.id)">delete</v-icon>
+                        </v-layout>
+                    </td>
+                </tr>
+            </tbody>
         </template>
-      </v-data-table>
-    </v-card>
-    <v-dialog v-model="dialog" persistent width="600">
-      <v-card>
-        <v-container>
-          <div ref="formContainer" class="form-container">
-            <div class="title">{{titleForm}}</div>
-            <v-form ref="form" v-model="valid" width="300">
-              <v-text-field
-                v-model="data.id"
-                label="Id"
-                required
-                outline
-                flat
-                color="rgb(0, 209, 178)"
-                class="hidden"
-              ></v-text-field>
-              <v-text-field
-                v-model="data.username"
-                :rules="useranameRules"
-                label="Username"
-                required
-                outline
-                flat
-                color="rgb(0, 209, 178)"
-              ></v-text-field>
-              <v-text-field
-                v-model="data.email"
-                :rules="emailRules"
-                label="Email"
-                required
-                outline
-                flat
-                color="rgb(0, 209, 178)"
-              ></v-text-field>
-              <v-text-field
-                v-model="data.password"
-                :rules="passwordRules"
-                :type="show1 ? 'text' : 'password'"
-                @click:append="show1 = !show1"
-                :append-icon="show1 ? 'visibility' : 'visibility_off'"
-                label="Password"
-                hint="At least 8 characters"
-                required
-                outline
-                flat
-                color="rgb(0, 209, 178)"
-              ></v-text-field>
+    </v-simple-table>
+    <template>
+        <div class="text-center">
+            <v-pagination v-model="page" :length="totalPage" prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @input="getDataMahasiswa"></v-pagination>
+        </div>
+    </template>
 
-              <v-select
-                :items="dataDropdownList"
-                v-model="data.roles"
-                label="Role"
-                outlined
-                item-text="name"
-                return-object
-                color="rgb(0, 209, 178)"
-              ></v-select>
-              <v-select v-model="data.status" :items="status" label="Status"></v-select>
-              <v-select v-model="data.validated" :items="status" label="Validated"></v-select>
-              <v-flex align-center justify-center>
-                <div class="form-bttm-container">
-                  <div class="btn-container">
-                    <v-btn class="white--text desc" color="#00d1b2" @click="dialog=!dialog">Cancel</v-btn>
-                    <v-btn class="white--text desc" color="#00d1b2" @click="submitForm">Submit</v-btn>
-                  </div>
-                </div>
-              </v-flex>
-            </v-form>
-          </div>
-        </v-container>
-      </v-card>
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-card>
+            <v-toolbar dark color="#00d1b2">
+                <v-btn icon dark @click="closeDialog">
+                    <v-icon>close</v-icon>
+                </v-btn>
+                <v-toolbar-title>{{titleForm}}</v-toolbar-title>
+                <div class="flex-grow-1"></div>
+            </v-toolbar>
+            <v-container>
+                <mahasiswa-form ref="formEditor" :list="itemsProdiList" :data="data"></mahasiswa-form>
+            </v-container>
+        </v-card>
     </v-dialog>
-  </v-container>
+</v-container>
 </template>
+
 <script>
-import { EventBus } from "./../../../EventBus.js";
+import {
+    EventBus
+} from "./../../../EventBus.js";
+
+import MahasiswaForm from './mahasiswa-data-form';
 
 export default {
-  name: "add-user-form",
-  data() {
-    return {
-      show1: false,
-      valid: false,
-      page: 0,
-      dialog: false,
-      mode: "new",
-      title: "Table User List",
-      search: "",
-      urlData: {
-        createUrl: "/mahasiswa/create",
-        editUrl: "/mahasiswa/edit",
-        getUrl: "/mahasiswa/detail/",
-        deleteUrl: "/mahasiswa/delete/",
-        getListUrl: "/mahasiswa/get_all_mahasiswa_list",
-      },
-      isFormShow: true,
-      data: {
-        id: "",
-        type: "",
-        name: "",
-        status: false,
-        access_level: {
-          id: "",
-          level: "",
-          description: ""
-        }
-      },
-      tableHeaderList: [
-        { text: "Username", value: "username" },
-        { text: "IsValidated", value: "isValidated" },
-        { text: "Status", value: "status" },
-        { text: "Join Date", value: "joinDate" },
-        { text: "Action", value: "action" }
-      ],
-      dataTableList: [],
-      filterDropDownList: [
-        {
-          id: "All",
-          name: "All Member",
-          status: true,
-          type: "member"
-        }
-      ],
-      dataDropdownList: [],
-      dataFilter: "",
-      status: [true, false],
-      useranameRules: [
-        v => !!v || "Username is required",
-        v =>
-          (v && v.length >= 8) || "Username must be or more than 8 characters"
-      ],
-      passwordRules: [
-        v => !!v || "Password is required",
-        v =>
-          (v && v.length >= 8) || "Password must be or more than 8 characters"
-      ],
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+/.test(v) || "E-mail must be valid"
-      ]
-    };
-  },
-  created() {
-    //this.getDataRoleList();
-    this.getDataList();
-  },
-  methods: {
-    submitForm: function() {
-      if (this.$refs.form.validate()) {
-        if (this.mode == "new") {
-          this.createData(this.data);
-        } else {
-          this.updateData(this.data);
-        }
-      }
+    name: "add-user-form",
+    components: {
+        "mahasiswa-form": MahasiswaForm
     },
-    resetData: function() {
-      this.data = {};
+    data() {
+        return {
+            show1: false,
+            valid: false,
+            page: 0,
+            dialog: false,
+            mode: "new",
+            title: "Table User List",
+            search: "",
+            totalPage: 0,
+            startDate: false,
+            endDate: false,
+            filter: {
+                startDate: "",
+                endDate: ""
+            },
+            urlData: {
+                createUrl: "/mahasiswa/create",
+                editUrl: "/mahasiswa/edit",
+                getUrl: "/mahasiswa/",
+                deleteUrl: "/mahasiswa/delete/",
+                getListUrl: "/mahasiswa/get_all_mahasiswa_list",
+                getFilteredListUrl: "/mahasiswa/get_all_mahasiswa_list_filtered",
+            },
+            isFormShow: true,
+            data: {
+                id: "",
+            },
+            itemsProdiList: {},
+            dataTableList: [],
+            filterDropDownList: [{
+                id: "All",
+                name: "All Member",
+                status: true,
+                type: "member"
+            }],
+            dataDropdownList: [],
+            dataFilter: "",
+            status: [true, false],
+            useranameRules: [
+                v => !!v || "Username is required",
+                v =>
+                (v && v.length >= 8) || "Username must be or more than 8 characters"
+            ],
+            passwordRules: [
+                v => !!v || "Password is required",
+                v =>
+                (v && v.length >= 8) || "Password must be or more than 8 characters"
+            ],
+            emailRules: [
+                v => !!v || "E-mail is required",
+                v => /.+@.+/.test(v) || "E-mail must be valid"
+            ]
+        };
     },
-    createData: function(model) {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.post(
-        this.urlData.createUrl,
-        model,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.dataTableList.push(response.data.response);
-            self.resetData();
-            self.dialog = false;
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    getDataList: function() {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.get(
-        this.urlData.getListUrl + "?page=" + this.page,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.dataTableList = response.data.response;
-            self.page++;
-          }
-        },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    filterData: function() {
-      this.page = 0;
-      if (this.dataFilter !== "All") {
-        this.getFilteredDataList();
-      } else {
+    created() {
         this.getDataList();
-      }
+        this.getProdi();
     },
-    getFilteredDataList: function() {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.get(
-        this.urlData.getListUrl +
-          "?roleId=" +
-          this.dataFilter +
-          "&page=" +
-          this.page,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.dataTableList = response.data.response;
-            self.page++;
-          }
+    methods: {
+        getProdi: function () {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.get(
+                "/prodi/get_all_published_prodi_list",
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.itemsProdiList = response.data.response;
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
         },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    getDataRoleList: function() {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.get(
-        this.urlData.getListDropdown + "?status=true",
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.dataDropdownList = response.data.response;
-            for (let i = 0; i < response.data.response.length; i++) {
-              self.filterDropDownList.push(response.data.response[i]);
+        closeDialog: function () {
+            this.dialog = false;
+        },
+        submitForm: function () {
+            if (this.$refs.form.validate()) {
+                if (this.mode == "new") {
+                    this.createData(this.data);
+                } else {
+                    this.updateData(this.data);
+                }
             }
-          }
         },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    deleteData: function(id) {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.delete(
-        this.urlData.deleteUrl + id,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            for (let i = 0; i < self.dataTableList.length; i++) {
-              if (self.dataTableList[i].id == id) {
-                self.dataTableList.splice(i, 1);
-                break;
-              }
+        resetData: function () {
+            this.data = {};
+        },
+        createData: function (model) {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.post(
+                this.urlData.createUrl,
+                model,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.dataTableList.push(response.data.response);
+                        self.resetData();
+                        self.dialog = false;
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
+        },
+        getDataList: function () {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.get(
+                this.urlData.getListUrl + "?page=" + this.page,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.dataTableList = response.data.response;
+                        self.totalPage = response.data.total_page;
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
+        },
+        filterTable: function(){
+            if(this.filter.startDate != "" && this.filter.endDate != null) {
+                this.page= 0;
+                this.getFilteredDataList();
             }
-          }
         },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    getData: function(id) {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.get(
-        this.urlData.getUrl + id,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.dialog = true;
-            self.data = response.data.response;
-            self.mode = "edit";
-          }
+        getFilteredDataList: function () {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.get(
+                this.urlData.getFilteredListUrl + "?page=" + this.page+"&startDate="+this.filter.startDate+"&endDate="+this.filter.endDate,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.dataTableList = response.data.response;
+                        self.totalPage = response.data.total_page;
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
         },
-        function(e) {
-          self.setMessage(e, 1);
-        }
-      );
-    },
-    updateData: function(model) {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.put(
-        this.urlData.editUrl,
-        model,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.resetData();
-            self.dialog = false;
-          }
+        getDataMahasiswa: function (page) {
+            this.page = page - 1;
+            this.getDataList();
         },
-        function(e) {
-          self.setMessage(e, 1);
+        filterData: function () {
+            this.page = 0;
+            if (this.dataFilter !== "All") {
+                this.getFilteredDataList();
+            } else {
+                this.getDataList();
+            }
+        },
+        deleteData: function (id) {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.delete(
+                this.urlData.deleteUrl + id,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        for (let i = 0; i < self.dataTableList.length; i++) {
+                            if (self.dataTableList[i].id == id) {
+                                self.dataTableList.splice(i, 1);
+                                break;
+                            }
+                        }
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
+        },
+        getData: function (id) {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.get(
+                this.urlData.getUrl + id,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.dialog = true;
+                        self.data = response.data.response;
+                        self.mode = "edit";
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
+        },
+        updateData: function (model) {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.put(
+                this.urlData.editUrl,
+                model,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.resetData();
+                        self.dialog = false;
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
+        },
+        addData: function () {
+            this.dialog = true;
+            this.mode = "new";
+            this.resetData();
+        },
+        editListener: function (id) {
+            this.getData(id);
+        },
+        deleteListener: function (id) {
+            this.deleteData(id);
+        },
+        setMessage: function (message, type) {
+            let data = {};
+            data.message = message;
+            data.type = type;
+            EventBus.$emit("SNACKBAR_TRIGGERED", data);
         }
-      );
     },
-    addData: function() {
-      this.dialog = true;
-      this.mode = "new";
-      this.resetData();
-    },
-    editListener: function(id) {
-      this.getData(id);
-    },
-    deleteListener: function(id) {
-      this.deleteData(id);
-    },
-    setMessage: function(message, type) {
-      let data = {};
-      data.message = message;
-      data.type = type;
-      EventBus.$emit("SNACKBAR_TRIGGERED", data);
+    computed: {
+        titleForm: function () {
+            if (this.mode == "new") {
+                return "Add new Calon Mahasiswa";
+            } else {
+                return "Edit Calon Mahasiswa";
+            }
+        }
     }
-  },
-  computed: {
-    titleForm: function() {
-      if (this.mode == "new") {
-        return "Add new User";
-      } else {
-        return "Edit User";
-      }
-    }
-  }
 };
 </script>
+
 <style scoped>
 .table-title {
-  font-size: 2em;
+    font-size: 2em;
 }
+
 .title {
-  padding-bottom: 0.5em;
+    padding-bottom: 0.5em;
 }
+
 .roles-form-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
+
 .hidden {
-  display: none;
+    display: none;
 }
+
+.filter {
+    display: flex;
+    justify-content: flex-end;
+}
+.date-container {
+    display: flex;
+    margin-right: 20px;
+}
+
 .btn-container {
-  position: relative;
-  margin: 0 auto;
-  text-align: end;
+    position: relative;
+    margin: 0 auto;
+    text-align: end;
 }
 </style>
