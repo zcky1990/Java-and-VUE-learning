@@ -37,6 +37,7 @@
             </div>
         </div>
         <div class="my-2 paddedd">
+            <v-btn depressed large color="primary" right @click="download">Download</v-btn>
             <v-btn depressed large color="primary" right @click="filterTable">Filter Search</v-btn>
         </div>
     </div>
@@ -103,6 +104,7 @@ import {
 } from "./../../../EventBus.js";
 
 import MahasiswaForm from './mahasiswa-data-form';
+import axios from 'axios'
 
 export default {
     name: "add-user-form",
@@ -133,7 +135,8 @@ export default {
                 deleteUrl: "/mahasiswa/delete/",
                 getListUrl: "/mahasiswa/get_all_mahasiswa_list",
                 getFilteredListUrl: "/mahasiswa/get_all_mahasiswa_list_filtered",
-                getFilteredDataListByNameOrEmailUrl: "/mahasiswa/get_all_mahasiswa_list_filtered_by_name_email"
+                getFilteredDataListByNameOrEmailUrl: "/mahasiswa/get_all_mahasiswa_list_filtered_by_name_email",
+                download: "/api/mahasiswa/exportCSV"
             },
             isFormShow: true,
             data: {
@@ -246,6 +249,25 @@ export default {
             if (this.filter.name != null && this.filter.name != undefined) {
                 this.page = 0;
                 this.getFilteredDataListByNameOrEmail();
+            }
+        },
+        download: function () {
+            if (this.filter.startDate != "" && this.filter.endDate != null) {
+                let self = this;
+                let headersData = this.getDefaultHeaders(this.getMeta("token"));
+                axios({
+                    url: this.urlData.download+ "?startDate=" + this.filter.startDate + "&endDate=" + this.filter.endDate,
+                    method: 'GET',
+                    responseType: 'blob',
+                    headers: headersData
+                }).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fileLink = document.createElement('a');
+                     fileLink.href = fileURL;
+                     fileLink.setAttribute('download', response.headers["content-disposition"].split("filename=")[1]);
+                     document.body.appendChild(fileLink);
+                     fileLink.click();
+                });
             }
         },
         getFilteredDataList: function () {

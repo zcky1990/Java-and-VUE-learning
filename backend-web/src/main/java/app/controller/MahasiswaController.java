@@ -1,21 +1,16 @@
 package app.controller;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +28,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+
 import com.google.gson.JsonObject;
 
 import app.constants.Constant;
+import app.csvmodel.MahasiswaCSV;
 import app.model.request.MahasiswaRequest;
 import app.mongo.model.Mahasiswa;
 import app.repository.MahasiswaRepository;
@@ -183,5 +184,36 @@ public class MahasiswaController extends BaseController {
 		}
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/mahasiswa/exportCSV", method = RequestMethod.GET)
+	public void exportCSV(@RequestParam(value="startDate", required=true) String startDate,@RequestParam(value="endDate", required=true) String endDate, HttpServletRequest request, HttpServletResponse response) throws Exception {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				Date lsDate = formatter.parse(startDate);    
+				LocalDate strdate = lsDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+				Date leDate = formatter.parse(endDate);    
+				LocalDate enddate = leDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+				Date st = Date.from(strdate.atStartOfDay().toInstant(ZoneOffset.UTC));
+				Date et = Date.from(enddate.atStartOfDay().toInstant(ZoneOffset.UTC));
+				List<Mahasiswa> pageFaculty = repository.findByTimeCreatedBetween(st,et);
+		
+		        String filename = "download_"+startDate+"_"+endDate+".csv";
+		        response.setContentType("text/csv");
+		        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+		                "attachment; filename=\"" + filename + "\"");
 
+		        StatefulBeanToCsv<MahasiswaCSV> writer = new StatefulBeanToCsvBuilder<MahasiswaCSV>(response.getWriter())
+		                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+		                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+		                .withOrderedResults(false)
+		                .build();
+		        List<MahasiswaCSV> list = new ArrayList<>();
+		        for(int i = 0 ; i < pageFaculty.size(); i++) {
+		        	MahasiswaCSV csv = new MahasiswaCSV(pageFaculty.get(i));
+		        	list.add(csv);
+		        }
+		        writer.write(list);
+		        
+	}
 }
