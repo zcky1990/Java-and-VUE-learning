@@ -231,9 +231,9 @@ export default {
                 }
             );
         },
-        filterTable: function(){
-            if(this.filter.startDate != "" && this.filter.endDate != null) {
-                this.page= 0;
+        filterTable: function () {
+            if (this.filter.startDate != "" && this.filter.endDate != null) {
+                this.page = 0;
                 this.getFilteredDataList();
             }
         },
@@ -241,7 +241,7 @@ export default {
             let self = this;
             let headers = this.getDefaultHeaders(this.getMeta("token"));
             this.get(
-                this.urlData.getFilteredListUrl + "?page=" + this.page+"&startDate="+this.filter.startDate+"&endDate="+this.filter.endDate,
+                this.urlData.getFilteredListUrl + "?page=" + this.page + "&startDate=" + this.filter.startDate + "&endDate=" + this.filter.endDate,
                 headers,
                 function (response) {
                     if (response.status == 200) {
@@ -376,6 +376,7 @@ export default {
     display: flex;
     justify-content: flex-end;
 }
+
 .date-container {
     display: flex;
     margin-right: 20px;

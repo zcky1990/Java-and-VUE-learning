@@ -1,8 +1,14 @@
 package app.mongo.model;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Date;
+
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -30,8 +36,7 @@ public class Mahasiswa {
 	private School sekolah;
 	private boolean isValidated;
 	@Indexed
-	@CreatedDate
-    private LocalDate createdDate;
+	private Date timeCreated;
 	@DBRef
 	private Prodi prodi;
 	
@@ -152,6 +157,12 @@ public class Mahasiswa {
 	public void setProdi(Prodi prodi) {
 		this.prodi = prodi;
 	}
+	public Date getTimeCreated() {
+		return timeCreated;
+	}
+	public void setTimeCreated(Date timeCreated) {
+		this.timeCreated = timeCreated;
+	}
 	public void fromObject(MahasiswaRequest request) {
 		if(request.getId() != null) {
 			this.set_id(new ObjectId(request.getId()));
@@ -173,6 +184,11 @@ public class Mahasiswa {
 			newProdi.fromObject(request.getProdi());
 			this.setProdi(newProdi);
 		}
+		//need to set date..need to find another way to save date
+		Date leDate = new Date();
+		LocalDate enddate = leDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Date st = Date.from(enddate.atStartOfDay().toInstant(ZoneOffset.UTC));
+		this.setTimeCreated(st);
 		this.setStatus(request.getStatus());
 		this.setZipcode(request.getZipcode());
 		this.setSekolah(request.getSekolah());

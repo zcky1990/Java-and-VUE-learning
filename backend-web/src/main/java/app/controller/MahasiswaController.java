@@ -1,12 +1,19 @@
 package app.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -127,25 +134,31 @@ public class MahasiswaController extends BaseController {
 	@RequestMapping(value = "/mahasiswa/get_all_mahasiswa_list_filtered", method = RequestMethod.GET)
 	public ResponseEntity<String> getAllFilteredMahasiswaList(@RequestParam(value="page", required=false) String page,@RequestParam(value="startDate", required=true) String startDate,@RequestParam(value="endDate", required=true) String endDate, HttpServletRequest request) throws Exception {
 		JsonObject response;
-		try {
+//		try {
 			List<Mahasiswa> faculty  = new ArrayList<>();
 			response = getSuccessResponse();
 			if(page!= null) {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				Date localDateStart = formatter.parse(startDate);  
-				Date localDateEnd = formatter.parse(endDate);  
+				Date lsDate = formatter.parse(startDate);    
+				LocalDate strdate = lsDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+				Date leDate = formatter.parse(endDate);    
+				LocalDate enddate = leDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+				Date st = Date.from(strdate.atStartOfDay().toInstant(ZoneOffset.UTC));
+				Date et = Date.from(enddate.atStartOfDay().toInstant(ZoneOffset.UTC));
 				Pageable pageableRequest = PageRequest.of(Integer.parseInt(page), 10, Sort.by("_id").descending());
-				Page<Mahasiswa> pageFaculty = repository.findByCreatedDateBetween(localDateStart,localDateEnd,pageableRequest);
+				Page<Mahasiswa> pageFaculty = repository.findByTimeCreatedBetween(st,et,pageableRequest);
 				response.addProperty("total_page", pageFaculty.getTotalPages());
 				faculty = pageFaculty.getContent();
 			}else {
 				faculty = repository.findAll();
 			}
 			response.add(Constant.RESPONSE, toJSONArrayWithSerializer(Mahasiswa.class, new MahasiswaSerializer(), faculty)  );
-		} catch(Exception e) {
-			response = getFailedResponse();
-			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
-		}
+//		} catch(Exception e) {
+//			response = getFailedResponse();
+//			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
+//		}
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 
