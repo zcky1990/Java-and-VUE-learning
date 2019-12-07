@@ -1,275 +1,355 @@
 <template>
-  <v-container>
+<div class="pendaftaran-form">
     <div class="title-container">
-      <div class="title bulma-color">Daftar Online</div>
-      <div class="sub-title"> blbalablb</div>
+        <div class="title bulma-color">Daftar Online</div>
+        <div class="sub-title">blbalablb</div>
     </div>
-    <v-layout class="sign-up-container" align-center justify-center flex>
-      <div class="left-side-container">
-       
-      </div>
+    <div class="sign-up-container" align-center justify-center flex>
+        <div class="form-container">
+            <v-form ref="form" v-model="valid" width="300">
+                <v-text-field v-model="data.idNumber" :rules="idNumberRules" label="Nomor Identitas" required color="#00d1b2"></v-text-field>
+                <v-text-field v-model="data.fullName" :rules="nameRules" label="Name Lengkap" required color="#00d1b2"></v-text-field>
+                <v-textarea v-model="data.address" name="input-7-1" label="Alamat" value hint="masukan alamat anda"></v-textarea>
+                <v-select v-model="data.religion" :items="itemsReligion" required label="Agama"></v-select>
+                <v-text-field v-model="data.email" :rules="emailRules" label="E-mail" required color="#00d1b2"></v-text-field>
+                <v-select v-model="data.gender" :items="itemsGender" required label="Jenis Kelamin"></v-select>
+                <v-select v-model="data.status" :items="itemsStatus" required label="Status"></v-select>
+                <div class="birthday">
+                    <v-text-field v-model="data.placeOfBirth" :rules="placeOfBirthRules" label="Tempat lahir" required color="#00d1b2"></v-text-field>
+                    <v-menu ref="startMenu" v-model="startMenu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="data.birthday" transition="scale-transition" min-width="290px" offset-y full-width>
+                        <template v-slot:activator="{ on }">
+                            <v-text-field v-model="data.birthday" label="Tanggal Lahir" prepend-icon="event" readonly v-on="on"></v-text-field>
+                        </template>
+                        <v-date-picker v-model="data.birthday" no-title scrollable>
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="startMenu = false">
+                                Cancel
+                            </v-btn>
+                            <v-btn text color="primary" @click="$refs.startMenu.save(data.birthday)">
+                                OK
+                            </v-btn>
+                        </v-date-picker>
+                    </v-menu>
+                </div>
 
-      <div class="form-container">
-        <v-form ref="form" v-model="valid" width="300">
-          <v-text-field
-            v-model="firstname"
-            :rules="nameRules"
-            label="First name"
-            required
-            color="#00d1b2"
-          ></v-text-field>
+                <v-text-field v-model="data.city" :rules="cityRules" label="Kota" required color="#00d1b2"></v-text-field>
+                <v-text-field v-model="data.subDistrict" :rules="subDistrictRules" label="Kelurahan" required color="#00d1b2"></v-text-field>
+                <v-text-field v-model="data.district" :rules="districtRules" label="Kecamatan" required color="#00d1b2"></v-text-field>
+                <v-text-field v-model="data.zipcode" :rules="zipCodeRules" label="Kode Pos" required color="#00d1b2"></v-text-field>
+                <v-text-field v-model="data.phoneNumber" :rules="phoneNumberRules" label="Nomor Telpon" required color="#00d1b2"></v-text-field>
 
-          <v-text-field
-            v-model="lastname"
-            :rules="nameRules"
-            label="Last name"
-            required
-            color="#00d1b2"
-          ></v-text-field>
-
-          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required color="#00d1b2"></v-text-field>
-
-          <v-text-field
-            v-model="username"
-            :rules="useranameRules"
-            label="Username"
-            required
-            color="#00d1b2"
-          ></v-text-field>
-
-          <v-text-field
-            v-model="password"
-            :rules="passwordRules"
-            label="Password"
-            hint="At least 8 characters"
-            :type="show1 ? 'text' : 'password'"
-            @click:append="show1 = !show1"
-            :append-icon="show1 ? 'visibility' : 'visibility_off'"
-            required
-            color="#00d1b2"
-          ></v-text-field>
-          <v-flex align-center justify-center>
-            <div class="submit-btn-container">
-              <div class="sign-in-btn-container">
-                <div class="sign-in-btn" @click="submit">Daftar</div>
-              </div>
-            </div>
-          </v-flex>
-        </v-form>
-      </div>
-    </v-layout>
-    <div
-      class="term-condition-container"
-    >* By signing up, you agree to our Terms of Use and to receive emails & updates and acknowledge that you read our Privacy Policy.</div>
-  </v-container>
+                <div class="data-pendidikan-sections">
+                    <v-text-field v-model="data.sekolah.schoolName" :rules="schoolNameRules" label="Nama Sekolah" required color="#00d1b2"></v-text-field>
+                    <v-textarea v-model="data.sekolah.schoolAddress" :rules="schoolAddressRules" name="input-7-1" label="Alamat Sekolah" value hint="Masukan alamat sekolah anda"></v-textarea>
+                    <v-select v-model="data.sekolah.schoolType" :items="itemsSchoolType" required label="Jenis Sekolah"></v-select>
+                    <v-text-field v-model="data.sekolah.schoolMajor" :rules="schoolMajorRules" label="Jurusan" required color="#00d1b2"></v-text-field>
+                    <v-text-field v-model="data.sekolah.graduationYear" :rules="graduationYearRules" label="Tahun lulus Sekolah" required color="#00d1b2"></v-text-field>
+                </div>
+                <v-select :items="itemsProdiList" v-model="data.prodi" label="Pilihan Program Studi" outlined item-text="prodiName" return-object color="rgb(0, 209, 178)"></v-select>
+                <v-flex align-center justify-center>
+                    <div class="submit-btn-container">
+                        <div class="sign-in-btn-container">
+                            <div class="sign-in-btn" @click="submit">Daftar</div>
+                        </div>
+                    </div>
+                </v-flex>
+            </v-form>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>
-import { EventBus } from "./../../EventBus.js";
+import {
+    EventBus
+} from "./../../EventBus.js";
 
 export default {
-  name: "user-daftar-form",
-  components: {
-
-  },
-  data() {
-    return {
-      valid: false,
-      show1: false,
-      firstname: "",
-      lastname: "",
-      password: "",
-      username: "",
-      email: "",
-      nameRules: [
-        v => !!v || "Name is required"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
-      ],
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+/.test(v) || "E-mail must be valid"
-      ],
-      useranameRules: [
-        v => !!v || "Username is required",
-        v =>
-          (v && v.length >= 8) || "Username must be or more than 8 characters"
-      ],
-      passwordRules: [
-        v => !!v || "Password is required",
-        v =>
-          (v && v.length >= 8) || "Password must be or more than 8 characters"
-      ],
-      isLoading: false
-    };
-  },
-  methods: {
-    callRestService(model) {
-      let self = this;
-      this.isLoading = true;
-      let router = this.$router;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.post(
-        "users/sign_up",
-        model,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            let responseData = response.data;
-            if (responseData["error_message"] != undefined) {
-              self.setMessage(responseData.error_message, 1);
-              self.isLoading = false;
-            } else {
-              self.setMessage(
-                "Please check your email to verify your accounts",
-                0
-              );
-              self.isLoading = false;
-              router.push("/");
-            }
-          }
+    name: "user-daftar-form",
+    components: {},
+    data() {
+        return {
+            valid: false,
+            show1: false,
+            startMenu: false,
+            start: '2019-01-12',
+            data: {
+                sekolah: {}
+            },
+            itemsProdiList: [],
+            itemsGender: ["Laki-laki", "Perempuan"],
+            itemsStatus: ["Menikah", "Belum Menikah"],
+            itemsReligion: ["Islam", "Kristen", "Budha", "Hindu"],
+            itemsSchoolType: ["SMA", "SMK", "STM"],
+            nameRules: [
+                v => !!v || "Nama lengkap harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            schoolNameRules: [
+                v => !!v || "Nama Sekolah harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            schoolAddressRules: [
+                v => !!v || "Alamat Sekolah harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            graduationYearRules: [
+                v => !!v || "Tahun Lulus harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            schoolMajorRules: [
+                v => !!v || "Jurusan Sekolah harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            cityRules: [
+                v => !!v || "Nama Kota harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            subDistrictRules: [
+                v => !!v || "Nama Kelurahan harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            districtRules: [
+                v => !!v || "Nama Kecamatan harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            phoneNumberRules: [
+                v => !!v || "Nomor telpon harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            zipCodeRules: [
+                v => !!v || "Kode Pos harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            cityRules: [
+                v => !!v || "Nama Kota harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            statusRules: [
+                v => !!v || "Status harus di pilih"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            idNumberRules: [
+                v => !!v || "Nomor identitas harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            placeOfBirthRules: [
+                v => !!v || "Tempat lahir harus diisi"
+                //v => v.length <= 10 || 'Name must be less than 10 characters'
+            ],
+            emailRules: [
+                v => !!v || "E-mail harus diisi",
+                v => /.+@.+/.test(v) || "E-mail harus valid"
+            ],
+            addressRules: [
+                v => !!v || "Alamat harus diisi",
+            ],
+            passwordRules: [
+                v => !!v || "Password is required",
+            ],
+            isLoading: false
+        };
+    },
+    created() {
+        this.getProdi();
+    },
+    methods: {
+        getProdi: function () {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.get(
+                "/prodi/get_all_published_prodi_list",
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.itemsProdiList = response.data.response;
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
         },
-        function(e) {
-          self.isLoading = false;
-          self.setMessage(e, 1);
+        callRestService(model) {
+            let self = this;
+            this.isLoading = true;
+            let router = this.$router;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.post(
+                "/mahasiswa/create",
+                model,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        let responseData = response.data;
+                        if (responseData["error_message"] != undefined) {
+                            self.setMessage(responseData.error_message, 1);
+                            self.isLoading = false;
+                        } else {
+                            self.setMessage(
+                                "Please check your email to verify your accounts",
+                                0
+                            );
+                            self.isLoading = false;
+                            //router.push("/");
+                        }
+                    }
+                },
+                function (e) {
+                    self.isLoading = false;
+                    self.setMessage(e, 1);
+                }
+            );
+        },
+        setMessage(message, type) {
+            let data = {};
+            data.message = message;
+            data.type = type;
+            EventBus.$emit("SNACKBAR_TRIGGERED", data);
+        },
+        submit() {
+            if (this.$refs.form.validate()) {
+                this.callRestService(this.data);
+            }
+        },
+        goToPage() {
+            this.$router.push("/");
         }
-      );
-    },
-    setMessage(message, type) {
-      let data = {};
-      data.message = message;
-      data.type = type;
-      EventBus.$emit("SNACKBAR_TRIGGERED", data);
-    },
-    submit() {
-      if (this.$refs.form.validate()) {
-        let model = {};
-        model.username = this.username;
-        model.password = this.password;
-        model.firstname = this.firstname;
-        model.lastname = this.lastname;
-        model.email = this.email;
-        model.type = "Free Member";
-        this.callRestService(model);
-      }
-    },
-    goToPage() {
-      this.$router.push("/login");
     }
-  }
 };
 </script>
 
 <style scoped>
 @media only screen and (max-width: 600px) {
-  .sign-up-container {
-    flex-direction: column !important;
-  }
-  .title {
-    font-size: 1.4rem !important;
-    font-weight: 600;
-    color: rgb(0, 209, 178);
-    text-align: center;
-  }
+    .sign-up-container {
+        flex-direction: column !important;
+    }
+
+    .title {
+        font-size: 1.4rem !important;
+        font-weight: 600;
+        color: rgb(0, 209, 178);
+        text-align: center;
+    }
 }
 
 .title-container {
-  flex-grow: 1;
-  text-align: center;
-  margin-bottom: 16px;
+    flex-grow: 1;
+    text-align: center;
+    margin-bottom: 16px;
 }
+
 .form-container {
-  flex-grow: 0;
-  width: 320px;
-  margin-left: 2%;
-  margin-right: 2%;
+    flex-grow: 0;
+    width: 320px;
+    margin-left: 2%;
+    margin-right: 2%;
 }
+
 .sign-up-container {
-  flex-direction: row;
+    flex-direction: row;
 }
+
 .submit-btn-container {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
+
 .link-not-sign-up {
-  flex-grow: 1;
-  z-index: 1;
+    flex-grow: 1;
+    z-index: 1;
 }
+
 .sign-up-link {
-  text-decoration: none;
+    text-decoration: none;
 }
+
 .title {
-  text-align: center;
-  line-height: 1.5 !important;
-  font-size: 1.5rem !important;
-  color: rgb(0, 209, 178);
-  font-weight: 900;
+    text-align: center;
+    line-height: 1.5 !important;
+    font-size: 1.5rem !important;
+    color: rgb(0, 209, 178);
+    font-weight: 900;
 }
+
 .sub-title {
-  text-align: center;
-  color: #6c757d;
-  font-size: 1rem;
-  font-weight: 300;
+    text-align: center;
+    color: #6c757d;
+    font-size: 1rem;
+    font-weight: 300;
 }
+
 .bulma-color {
-  color: rgb(0, 209, 178);
+    color: rgb(0, 209, 178);
 }
+
 .submit-btn-container {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
+
 .link-not-sign-up {
-  flex-grow: 1;
-  color: #00d1b2;
+    flex-grow: 1;
+    color: #00d1b2;
 }
+
 .sign-up-link {
-  text-decoration: none;
+    text-decoration: none;
 }
+
 .link-btn {
-  color: #00d1b2;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  cursor: pointer;
+    color: #00d1b2;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    cursor: pointer;
 }
+
 .left-side-container {
-  margin-bottom: 20px;
-  width: 300px;
-  margin-left: 2%;
-  margin-right: 2%;
+    margin-bottom: 20px;
+    width: 300px;
+    margin-left: 2%;
+    margin-right: 2%;
 }
+
 .title-sub-title-container {
-  width: fit-content;
-  margin: 0 auto;
+    width: fit-content;
+    margin: 0 auto;
 }
+
 .desc {
-  font-size: 1.25rem;
-  font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
+
 .facebook-btn,
 .google-btn {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
+
 .term-condition-container {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-  margin-top: 5%;
-  line-height: 24px;
-  color: #858f96;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 5%;
+    line-height: 24px;
+    color: #858f96;
 }
+
 .sign-in-btn {
-  padding: 8px;
-  width: 110px;
-  border: 1px solid;
-  text-align: center;
-  border-radius: 15px;
-  border: 1px solid rgb(0, 209, 178);
-  color: rgb(0, 209, 178);
-  cursor: pointer;
+    padding: 8px;
+    width: 110px;
+    border: 1px solid;
+    text-align: center;
+    border-radius: 15px;
+    border: 1px solid rgb(0, 209, 178);
+    color: rgb(0, 209, 178);
+    cursor: pointer;
 }
+
 .sign-in-btn:hover {
-  background: #00d1b2;
-  border: 1px solid rgb(0, 209, 178);
-  color: white;
+    background: #00d1b2;
+    border: 1px solid rgb(0, 209, 178);
+    color: white;
 }
 </style>

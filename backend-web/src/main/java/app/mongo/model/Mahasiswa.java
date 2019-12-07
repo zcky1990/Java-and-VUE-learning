@@ -1,27 +1,37 @@
 package app.mongo.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import app.model.request.MahasiswaRequest;
 
 public class Mahasiswa {
 	@Id
 	private ObjectId _id;
+	private String idNumber;
 	private String fullName;
 	private String email;
+	private String placeOfBirth;
 	private String birthday;
 	private String address;
-	private String phonenumber;
-	private String modified_date;
-	private String sex;
+	private String religion;
+	private String status;
+	private String phoneNumber;
+	private String modifiedDate;
+	private String gender;
 	private String city;
+	private String subDistrict;
+	private String district;
 	private String zipcode;
-	private boolean status;
 	private School sekolah;
-	private String graduationYear;
-	private Date submitAt;
+	private boolean isValidated;
+	@Indexed
+	@CreatedDate
+    private LocalDate createdDate;
 	@DBRef
 	private Prodi prodi;
 	
@@ -33,6 +43,60 @@ public class Mahasiswa {
 	}
 	public void set_id(ObjectId _id) {
 		this._id = _id;
+	}
+	public String getIdNumber() {
+		return idNumber;
+	}
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+	public String getPlaceOfBirth() {
+		return placeOfBirth;
+	}
+	public void setPlaceOfBirth(String placeOfBirth) {
+		this.placeOfBirth = placeOfBirth;
+	}
+	public String getReligion() {
+		return religion;
+	}
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+	public String getSubDistrict() {
+		return subDistrict;
+	}
+	public void setSubDistrict(String subDistrict) {
+		this.subDistrict = subDistrict;
+	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public boolean isValidated() {
+		return isValidated;
+	}
+	public void setValidated(boolean isValidated) {
+		this.isValidated = isValidated;
 	}
 	public String getFullName() {
 		return fullName;
@@ -58,24 +122,6 @@ public class Mahasiswa {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public boolean isStatus() {
-		return status;
-	}
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-	public String getModified_date() {
-		return modified_date;
-	}
-	public void setModified_date(String modified_date) {
-		this.modified_date = modified_date;
-	}
-	public String getPhonenumber() {
-		return phonenumber;
-	}
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
 	public String getCity() {
 		return city;
 	}
@@ -94,17 +140,11 @@ public class Mahasiswa {
 	public void setSekolah(School sekolah) {
 		this.sekolah = sekolah;
 	}
-	public String getSex() {
-		return sex;
+	public String getGender() {
+		return gender;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-	public String getGraduationYear() {
-		return graduationYear;
-	}
-	public void setGraduationYear(String graduationYear) {
-		this.graduationYear = graduationYear;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public Prodi getProdi() {
 		return prodi;
@@ -112,29 +152,28 @@ public class Mahasiswa {
 	public void setProdi(Prodi prodi) {
 		this.prodi = prodi;
 	}
-	public Date getSubmitAt() {
-		return submitAt;
-	}
-	public void setSubmitAt(Date submitAt) {
-		this.submitAt = submitAt;
-	}
 	public void fromObject(MahasiswaRequest request) {
 		if(request.getId() != null) {
 			this.set_id(new ObjectId(request.getId()));
 		}
+		this.setIdNumber(request.getIdNumber());
 		this.setEmail(request.getEmail());
 		this.setFullName(request.getFullName());
 		this.setAddress(request.getAddress());
+		this.setPlaceOfBirth(request.getPlaceOfBirth());
 		this.setBirthday(request.getBirthday());
-		this.setSex(request.getSex());
-		this.setGraduationYear(request.getGraduationYear());
+		this.setGender(request.getGender());
 		this.setCity(request.getCity());
-		this.setPhonenumber(request.getPhonenumber());
+		this.setDistrict(request.getDistrict());
+		this.setSubDistrict(request.getSubDistrict());
+		this.setReligion(request.getReligion());
+		this.setPhoneNumber(request.getPhoneNumber());
 		if(request.getProdi() != null) {
 			Prodi newProdi = new Prodi();
 			newProdi.fromObject(request.getProdi());
 			this.setProdi(newProdi);
 		}
+		this.setStatus(request.getStatus());
 		this.setZipcode(request.getZipcode());
 		this.setSekolah(request.getSekolah());
 	}

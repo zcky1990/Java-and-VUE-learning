@@ -4,19 +4,24 @@ import app.mongo.model.School;
 
 public class MahasiswaRequest {
 	private String id;
+	private String idNumber;
 	private String fullName;
 	private String email;
+	private String placeOfBirth;
 	private String birthday;
 	private String address;
-	private String phonenumber;
-	private String modified_date;
-	private String sex;
+	private String religion;
+	private String status;
+	private String phoneNumber;
+	private String modifiedDate;
+	private String gender;
 	private String city;
+	private String subDistrict;
+	private String district;
 	private String zipcode;
-	private boolean status;
 	private School sekolah;
-	private String graduationYear;
 	private ProdiRequest prodi;
+	private boolean isValidated;
 	public String getId() {
 		return id;
 	}
@@ -47,23 +52,65 @@ public class MahasiswaRequest {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getPhonenumber() {
-		return phonenumber;
+	public String getIdNumber() {
+		return idNumber;
 	}
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
 	}
-	public String getModified_date() {
-		return modified_date;
+	public String getPlaceOfBirth() {
+		return placeOfBirth;
 	}
-	public void setModified_date(String modified_date) {
-		this.modified_date = modified_date;
+	public void setPlaceOfBirth(String placeOfBirth) {
+		this.placeOfBirth = placeOfBirth;
 	}
-	public String getSex() {
-		return sex;
+	public String getReligion() {
+		return religion;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+	public String getSubDistrict() {
+		return subDistrict;
+	}
+	public void setSubDistrict(String subDistrict) {
+		this.subDistrict = subDistrict;
+	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public boolean isValidated() {
+		return isValidated;
+	}
+	public void setValidated(boolean isValidated) {
+		this.isValidated = isValidated;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public String getCity() {
 		return city;
@@ -77,23 +124,11 @@ public class MahasiswaRequest {
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
-	public boolean isStatus() {
-		return status;
-	}
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
 	public School getSekolah() {
 		return sekolah;
 	}
 	public void setSekolah(School sekolah) {
 		this.sekolah = sekolah;
-	}
-	public String getGraduationYear() {
-		return graduationYear;
-	}
-	public void setGraduationYear(String graduationYear) {
-		this.graduationYear = graduationYear;
 	}
 	public ProdiRequest getProdi() {
 		return prodi;

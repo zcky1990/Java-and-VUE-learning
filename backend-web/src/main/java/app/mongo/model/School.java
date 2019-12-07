@@ -5,6 +5,7 @@ public class School {
 	private String schoolAddress;
 	private String schoolType;
 	private String schoolMajor;
+	private String graduationYear;
 	
 	public String getSchoolName() {
 		return schoolName;
@@ -30,4 +31,11 @@ public class School {
 	public void setSchoolMajor(String schoolMajor) {
 		this.schoolMajor = schoolMajor;
 	}
+	public String getGraduationYear() {
+		return graduationYear;
+	}
+	public void setGraduationYear(String graduationYear) {
+		this.graduationYear = graduationYear;
+	}
+	
 }

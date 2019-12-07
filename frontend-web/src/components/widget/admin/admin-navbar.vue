@@ -54,6 +54,7 @@ export default {
         { title: "Prodi", url: "/admin/prodi" },
         { title: "Access Level", url: "/admin/access_level" },
         { title: "Roles", url: "/admin/roles" },
+        { title: "Calon Mahasiswa", url: "/admin/mahasiswa" },
         { title: "Users", url: "/admin/users" }
       ],
       title: "Admin",

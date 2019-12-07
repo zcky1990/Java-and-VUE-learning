@@ -15,6 +15,7 @@ import ArticleAdmin from '@/pages/admin/article'
 import AdminHero from '@/pages/admin/hero'
 import AdminFaculty from '@/pages/admin/faculty-admin'
 import AdminProdi from '@/pages/admin/prodi-admin'
+import AdminMahasiswa from '@/pages/admin/mahasiswa'
 
 // import AdminSejarah from '@/pages/admin/sejarah-admin'
 // import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
@@ -97,6 +98,11 @@ export default new Router({
       path: '/admin/menu',
       name: 'AdminMenu',
       component: AdminMenu
+    },
+    {
+      path: '/admin/mahasiswa',
+      name: 'AdminMahasiswa',
+      component: AdminMahasiswa
     },
     // {
     //   path: '/admin/sejarah',
