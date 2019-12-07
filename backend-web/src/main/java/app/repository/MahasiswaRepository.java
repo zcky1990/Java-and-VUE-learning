@@ -13,5 +13,8 @@ public interface MahasiswaRepository extends MongoRepository<Mahasiswa, String> 
 	
 	@Query(value = "{'timeCreated':{ $gte:?0, $lt:?1}}")
 	Page<Mahasiswa> findByTimeCreatedBetween(Date startDate,Date endDate, Pageable pageable);
+	
+	@Query(value ="{$or: [{'fullName': ?0 }, {'email': ?0}]}")
+	Page<Mahasiswa> findByNameOrEmail(String name, Pageable pageable);
 
 }

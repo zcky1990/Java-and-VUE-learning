@@ -1,37 +1,42 @@
 <template>
 <v-container>
     <div class="filter">
-        <div class="date-container">
-            <v-menu ref="startDate" v-model="startDate" :close-on-content-click="false" :nudge-right="40" :return-value.sync="filter.startDate" transition="scale-transition" min-width="290px">
-                <template v-slot:activator="{ on }">
-                    <v-text-field v-model="filter.startDate" label="Start Date" prepend-icon="event" readonly v-on="on"></v-text-field>
-                </template>
-                <v-date-picker v-model="filter.startDate" no-title scrollable>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="startDate = false">
-                        Cancel
-                    </v-btn>
-                    <v-btn text color="primary" @click="$refs.startDate.save(filter.startDate)">
-                        OK
-                    </v-btn>
-                </v-date-picker>
-            </v-menu>
-            <v-menu ref="endDate" v-model="endDate" :close-on-content-click="false" :nudge-right="40" :return-value.sync="filter.endDate" transition="scale-transition" min-width="290px">
-                <template v-slot:activator="{ on }">
-                    <v-text-field v-model="filter.endDate" label="End Date" prepend-icon="event" readonly v-on="on"></v-text-field>
-                </template>
-                <v-date-picker v-model="filter.endDate" no-title scrollable>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="endDate = false">
-                        Cancel
-                    </v-btn>
-                    <v-btn text color="primary" @click="$refs.endDate.save(filter.endDate)">
-                        OK
-                    </v-btn>
-                </v-date-picker>
-            </v-menu>
+        <div class="input-container">
+            <div class="date-container">
+                <v-menu ref="startDate" v-model="startDate" :close-on-content-click="false" :nudge-right="40" :return-value.sync="filter.startDate" transition="scale-transition" min-width="290px">
+                    <template v-slot:activator="{ on }">
+                        <v-text-field v-model="filter.startDate" label="Start Date" prepend-icon="event" readonly v-on="on"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="filter.startDate" no-title scrollable>
+                        <v-spacer></v-spacer>
+                        <v-btn text color="primary" @click="startDate = false">
+                            Cancel
+                        </v-btn>
+                        <v-btn text color="primary" @click="$refs.startDate.save(filter.startDate)">
+                            OK
+                        </v-btn>
+                    </v-date-picker>
+                </v-menu>
+                <v-menu ref="endDate" v-model="endDate" :close-on-content-click="false" :nudge-right="40" :return-value.sync="filter.endDate" transition="scale-transition" min-width="290px">
+                    <template v-slot:activator="{ on }">
+                        <v-text-field v-model="filter.endDate" label="End Date" prepend-icon="event" readonly v-on="on"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="filter.endDate" no-title scrollable>
+                        <v-spacer></v-spacer>
+                        <v-btn text color="primary" @click="endDate = false">
+                            Cancel
+                        </v-btn>
+                        <v-btn text color="primary" @click="$refs.endDate.save(filter.endDate)">
+                            OK
+                        </v-btn>
+                    </v-date-picker>
+                </v-menu>
+            </div>
+            <div class="search-by-name">
+                <v-text-field v-model="filter.name" solo-inverted prepend-inner-icon="mdi-magnify" label="Search" class="hidden-sm-and-down" />
+            </div>
         </div>
-        <div class="my-2">
+        <div class="my-2 paddedd">
             <v-btn depressed large color="primary" right @click="filterTable">Filter Search</v-btn>
         </div>
     </div>
@@ -118,7 +123,8 @@ export default {
             endDate: false,
             filter: {
                 startDate: "",
-                endDate: ""
+                endDate: "",
+                name: "",
             },
             urlData: {
                 createUrl: "/mahasiswa/create",
@@ -127,6 +133,7 @@ export default {
                 deleteUrl: "/mahasiswa/delete/",
                 getListUrl: "/mahasiswa/get_all_mahasiswa_list",
                 getFilteredListUrl: "/mahasiswa/get_all_mahasiswa_list_filtered",
+                getFilteredDataListByNameOrEmailUrl: "/mahasiswa/get_all_mahasiswa_list_filtered_by_name_email"
             },
             isFormShow: true,
             data: {
@@ -236,6 +243,10 @@ export default {
                 this.page = 0;
                 this.getFilteredDataList();
             }
+            if (this.filter.name != null && this.filter.name != undefined) {
+                this.page = 0;
+                this.getFilteredDataListByNameOrEmail();
+            }
         },
         getFilteredDataList: function () {
             let self = this;
@@ -254,9 +265,34 @@ export default {
                 }
             );
         },
+        getFilteredDataListByNameOrEmail: function () {
+            let self = this;
+            let headers = this.getDefaultHeaders(this.getMeta("token"));
+            this.get(
+                this.urlData.getFilteredDataListByNameOrEmailUrl + "?page=" + this.page + "&name=" + this.filter.name,
+                headers,
+                function (response) {
+                    if (response.status == 200) {
+                        self.dataTableList = response.data.response;
+                        self.totalPage = response.data.total_page;
+                    }
+                },
+                function (e) {
+                    self.setMessage(e, 1);
+                }
+            );
+        },
         getDataMahasiswa: function (page) {
-            this.page = page - 1;
-            this.getDataList();
+            if (this.filter.startDate != "" && this.filter.endDate != null) {
+                this.page = page - 1;
+                this.getFilteredDataList();
+            } else if (this.filter.name != null && this.filter.name != undefined) {
+                this.page = page - 1;
+                this.getFilteredDataListByNameOrEmail();
+            } else {
+                this.page = page - 1;
+                this.getDataList();
+            }
         },
         filterData: function () {
             this.page = 0;
@@ -380,6 +416,15 @@ export default {
 .date-container {
     display: flex;
     margin-right: 20px;
+}
+
+.input-container {
+    display: flex;
+    padding: 20px;
+}
+
+.paddedd {
+    padding: 20px;
 }
 
 .btn-container {

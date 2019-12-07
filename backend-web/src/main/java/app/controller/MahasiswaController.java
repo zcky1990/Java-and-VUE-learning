@@ -161,5 +161,27 @@ public class MahasiswaController extends BaseController {
 		}
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/mahasiswa/get_all_mahasiswa_list_filtered_by_name_email", method = RequestMethod.GET)
+	public ResponseEntity<String> getAllFilteredMahasiswaListByName(@RequestParam(value="page", required=false) String page,@RequestParam(value="name", required=true) String name, HttpServletRequest request) throws Exception {
+		JsonObject response;
+		try {
+			List<Mahasiswa> faculty  = new ArrayList<>();
+			response = getSuccessResponse();
+			if(page!= null) {
+				Pageable pageableRequest = PageRequest.of(Integer.parseInt(page), 10, Sort.by("_id").descending());
+				Page<Mahasiswa> pageFaculty = repository.findByNameOrEmail(name,pageableRequest);
+				response.addProperty("total_page", pageFaculty.getTotalPages());
+				faculty = pageFaculty.getContent();
+			}else {
+				faculty = repository.findAll();
+			}
+			response.add(Constant.RESPONSE, toJSONArrayWithSerializer(Mahasiswa.class, new MahasiswaSerializer(), faculty)  );
+		} catch(Exception e) {
+			response = getFailedResponse();
+			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
+		}
+		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
 
 }
