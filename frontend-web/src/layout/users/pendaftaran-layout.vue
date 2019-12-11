@@ -1,6 +1,6 @@
 <template>
   <div class="sign-up-page-container">
-    <v-container align-center justify-center row fill-height>
+    <v-container align-center justify-center>
       <pendaftaran-form></pendaftaran-form>
     </v-container>
   </div>
