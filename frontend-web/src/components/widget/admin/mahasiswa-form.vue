@@ -83,7 +83,7 @@
 
     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
-            <v-toolbar dark color="#00d1b2">
+            <v-toolbar dark color="#00d1b2" class="no-print">
                 <v-btn icon dark @click="closeDialog">
                     <v-icon>close</v-icon>
                 </v-btn>
@@ -453,5 +453,17 @@ export default {
     position: relative;
     margin: 0 auto;
     text-align: end;
+}
+
+@media print {
+   body {
+    margin: 0;
+    color: #000;
+    background-color: #fff;
+  }
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
 }
 </style>

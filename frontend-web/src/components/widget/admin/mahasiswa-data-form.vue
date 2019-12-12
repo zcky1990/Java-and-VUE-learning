@@ -206,7 +206,7 @@
               color="rgb(0, 209, 178)"
             ></v-select>
           </div>
-          <v-flex align-center justify-center>
+          <v-flex class="btn-container no-print">
             <div class="submit-btn-container">
               <div class="sign-in-btn-container">
                 <div class="sign-in-btn" @click="submit">Edit</div>
@@ -215,13 +215,14 @@
 
             <div class="submit-btn-container">
               <div class="sign-in-btn-container">
-                <div class="sign-in-btn no-print" @click="Print">Print</div>
+                <div class="sign-in-btn" @click="Print">Print</div>
               </div>
             </div>
           </v-flex>
         </v-form>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -268,10 +269,13 @@ export default {
       ],
       addressRules: [v => !!v || "Alamat harus diisi"],
       passwordRules: [v => !!v || "Password is required"],
+      itemsProdiList: [],
       isLoading: false
     };
   },
-  created() {},
+  created() {
+    this.itemsProdiList = this.list;
+  },
   methods: {
     Print: function() {
       window.print();
@@ -327,6 +331,18 @@ export default {
 
 <style scoped>
 @media print {
+  @page {
+    size: 330mm 427mm;
+    margin: 14mm;
+  }
+  .container {
+    width: 1170px;
+  }
+  body { 
+    overflow: auto;
+    height: auto; 
+  }
+
   .no-print,
   .no-print * {
     display: none !important;
@@ -398,6 +414,12 @@ export default {
 .submit-btn-container {
   display: flex;
   flex-direction: row;
+  margin-right: 20px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .link-not-sign-up {
@@ -422,6 +444,18 @@ export default {
   width: 300px;
   margin-left: 2%;
   margin-right: 2%;
+}
+
+.title-sections {
+      font-size: 1.5em;
+    line-height: 2;
+    background: #00d1b2;
+    padding: 5px;
+    color:white;
+}
+
+.prodi-container {
+  margin-bottom: 20px;
 }
 
 .title-sub-title-container {

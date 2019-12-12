@@ -244,59 +244,45 @@ export default {
       itemsSchoolType: ["SMA", "SMK", "STM"],
       nameRules: [
         v => !!v || "Nama lengkap harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       schoolNameRules: [
         v => !!v || "Nama Sekolah harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       schoolAddressRules: [
         v => !!v || "Alamat Sekolah harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       graduationYearRules: [
         v => !!v || "Tahun Lulus harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       schoolMajorRules: [
         v => !!v || "Jurusan Sekolah harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       cityRules: [
         v => !!v || "Nama Kota harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       subDistrictRules: [
         v => !!v || "Nama Kelurahan harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       districtRules: [
         v => !!v || "Nama Kecamatan harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       phoneNumberRules: [
         v => !!v || "Nomor telpon harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       zipCodeRules: [
         v => !!v || "Kode Pos harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       cityRules: [
         v => !!v || "Nama Kota harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       statusRules: [
         v => !!v || "Status harus di pilih"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       idNumberRules: [
         v => !!v || "Nomor identitas harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       placeOfBirthRules: [
         v => !!v || "Tempat lahir harus diisi"
-        //v => v.length <= 10 || 'Name must be less than 10 characters'
       ],
       emailRules: [
         v => !!v || "E-mail harus diisi",
@@ -450,6 +436,7 @@ export default {
 .submit-btn-container {
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
 }
 
 .link-not-sign-up {
@@ -459,6 +446,18 @@ export default {
 
 .sign-up-link {
   text-decoration: none;
+}
+
+.title-sections {
+      font-size: 1.5em;
+    line-height: 2;
+    background: #00d1b2;
+    padding: 5px;
+    color:white;
+}
+
+.prodi-container {
+  margin-bottom: 5px;
 }
 
 .link-btn {
