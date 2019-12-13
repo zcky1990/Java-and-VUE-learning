@@ -5,7 +5,7 @@
         <v-icon>chat</v-icon>
       </v-btn>
     </div>
-    <chat ref="chatContainer" class="hidden" @interface="hideChat"></chat>
+    <chat ref="chatContainer" class="hidden" @deleteChat="deleteChat" @hideChat="hideChat"></chat>
   </div>
 </template>
 
@@ -28,6 +28,9 @@ export default {
     },
     hideChat() {
       this.$refs.chatContainer.$el.classList.add("hidden");
+    },
+    deleteChat(){
+      console.log("emit call")
     }
   }
 };

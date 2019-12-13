@@ -8,11 +8,13 @@
     <div class="text-message" v-else>
       <div class="username">
         <div class="title">{{username}}</div>
-        <div class="icons">
-          <v-icon color="white" @click="hideChat">hidden</v-icon>
-        </div>
-        <div class="icons">
-          <v-icon color="white" @click="hideChat">close</v-icon>
+        <div class="icons-container">
+          <div class="icons">
+            <v-icon color="white" small @click="hideChat">fa-window-minimize</v-icon>
+          </div>
+          <div class="icons">
+            <v-icon color="white" @click="deleteChat">fa-window-close</v-icon>
+          </div>
         </div>
       </div>
       <div class="messages">
@@ -70,7 +72,10 @@ export default {
   },
   methods: {
     hideChat() {
-      this.$emit("interface");
+      this.$emit("hideChat");
+    },
+    deleteChat(){
+      this.$emit("deleteChat");
     },
     updateUsername(e) {
       let self = this;
@@ -197,6 +202,13 @@ export default {
   font-size: 1.4em;
   color: white;
   justify-content: space-between;
+}
+.icons-container {
+    display: flex;
+    flex-direction: row;
+}
+.icons {
+  margin-left:5px;
 }
 .messages {
   height: 300px;
