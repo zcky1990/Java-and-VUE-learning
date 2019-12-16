@@ -99,6 +99,10 @@ export default {
             getUserId: function(session){
               return session.get('uid')
             },
+
+            getUserName: function(session){
+              return session.get('username')
+            },
           
             checkAdminSession : function () {
               if (!this.$session.exists()) {

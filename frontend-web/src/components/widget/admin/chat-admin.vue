@@ -1,17 +1,9 @@
 <template>
   <v-card ref="chatContainer" class="chat-message-container">
-    <div class="username-container" v-if="!username">
-      You can't chat without a name. What's your name?
-      <br />
-      <input type="text" placeholder="Name" v-on:keyup.enter="updateUsername" />
-    </div>
-    <div class="text-message" v-else>
+    <div class="text-message">
       <div class="username">
         <div class="title">{{username}}</div>
         <div class="icons-container">
-          <div class="icons">
-            <v-icon color="white" class="minus" small @click="hideMessageChat">minus</v-icon>
-          </div>
           <div class="icons">
             <v-icon color="white" @click="deleteMessageChat">close</v-icon>
           </div>
@@ -53,84 +45,53 @@
 
 <script>
 // @ is an alias to /src
-import fire from "../../fire";
+import fire from "../../../fire";
 
 export default {
-  name: "chat",
+  name: "chat-admin-content",
   props: {
+    username: {
+      type: String
+    },
     messageId: {
       type: String
     },
-    hideChat: {
-      type: Function,
-      required: true
-    },
-    deleteChat: {
+    closeChat: {
       type: Function,
       required: true
     }
   },
   data() {
     return {
-      username: "",
       messages: [],
       user_id: "",
       message_id: "",
-      isIdExists: false,
       date: ""
     };
   },
   methods: {
-    hideMessageChat() {
-      this.hideChat();
-    },
     deleteMessageChat() {
-      this.username = "";
       this.messages = [];
-      this.isIdExists = false;
-      this.deleteChat();
+      this.closeChat();
     },
     updateUsername(e) {
       let self = this;
-      e.preventDefault();
-      if (e.target.value) {
-        var user = fire
-          .auth()
-          .signInAnonymously()
-          .catch(function(error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-          });
-        fire.auth().onAuthStateChanged(function() {
-          if (user) {
-            self.user_id = user.uid;
-          }
+      var user = fire
+        .auth()
+        .signInAnonymously()
+        .catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
         });
-        this.username = e.target.value;
-      }
+      fire.auth().onAuthStateChanged(function() {
+        if (user) {
+          self.user_id = user.uid;
+        }
+      });
     },
     sendMessage(e) {
       e.preventDefault();
       var self = this;
-      if (this.isIdExists == false) {
-        let date = new Date();
-        let date_created =
-          date.getDate() +
-          "-" +
-          (date.getMonth() + 1) +
-          "-" +
-          date.getFullYear();
-        const message = {
-          message_id: self.message_id,
-          user: self.username,
-          created: date_created
-        };
-        fire
-          .database()
-          .ref("messages_list/messages")
-          .push(message);
-        this.isIdExists = true;
-      }
       if (e.target.value) {
         const message = {
           username: self.username,
@@ -164,7 +125,8 @@ export default {
     }
   },
   watch: {
-    messageId: function() {
+    messageId: function(newValue, oldValue) {
+      this.updateUsername();
       this.getMessage();
     },
     messages: function() {
@@ -172,7 +134,7 @@ export default {
     }
   },
   mounted() {
-    // this.getMessage();
+    this.updateUsername();
   }
 };
 </script>

@@ -16,6 +16,7 @@ import AdminHero from '@/pages/admin/hero'
 import AdminFaculty from '@/pages/admin/faculty-admin'
 import AdminProdi from '@/pages/admin/prodi-admin'
 import AdminMahasiswa from '@/pages/admin/mahasiswa'
+import AdminChat from '@/pages/admin/chat'
 
 // import AdminSejarah from '@/pages/admin/sejarah-admin'
 // import AdminVisiMisi from '@/pages/admin/visi-misi-admin'
@@ -78,6 +79,11 @@ export default new Router({
       path: '/admin/hero',
       name: 'AdminHero',
       component: AdminHero
+    },
+    {
+      path: '/admin/chat',
+      name: 'AdminChat',
+      component:AdminChat
     },
     {
       path: '/admin/faculty',
