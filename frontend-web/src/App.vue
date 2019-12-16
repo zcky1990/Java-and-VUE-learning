@@ -9,12 +9,18 @@
       </div>
       <router-view :key="$route.fullPath"></router-view>
     </v-app>
+    <div id="sound" hidden>
+      <source :src="mp3Url" type="audio/ogg" />
+      <source :src="oggUrl" type="audio/mpeg" />
+    </div>
   </div>
 </template>
 
 <script>
 import SnackBar from "@/components/widget/snack-bar";
 import { EventBus } from "./EventBus.js";
+import soundMp3 from "@/assets/sound/when.mp3";
+import soundOgg from "@/assets/sound/when.ogg";
 
 export default {
   name: "app",
@@ -26,13 +32,17 @@ export default {
         top: true
       },
       urlNavbar: "/menu/get_menu",
-      navMenu:[]
+      navMenu: [],
+      mp3Url: "",
+      oggUrl: "",
     };
   },
   created() {
     EventBus.$on("SNACKBAR_TRIGGERED", val => {
       this.setMessage(val.message, val.type);
     });
+    this.mp3Url = soundMp3;
+    this.oggUrl = soundOgg;
     this.getMenu();
   },
   components: {
@@ -56,20 +66,40 @@ export default {
         headers,
         function(response) {
           if (response.status == 200) {
-            self.navMenu.push({ name: "Beranda", isMenu: true, slug: "Index", submenu: [] });
+            self.navMenu.push({
+              name: "Beranda",
+              isMenu: true,
+              slug: "Index",
+              submenu: []
+            });
             self.navMenu = self.navMenu.concat(response.data.response);
-            self.navMenu.push({ name: "Kontak", isMenu: true, slug: "Kontak", submenu: [] });
-            self.$cookies.set('navMenu',JSON.stringify(self.navMenu));
+            self.navMenu.push({
+              name: "Kontak",
+              isMenu: true,
+              slug: "Kontak",
+              submenu: []
+            });
+            self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
           }
         },
         function(e) {
-          self.navMenu.push({ name: "Beranda", isMenu: true, slug: "Index" ,submenu: [] });
-          self.navMenu.push({ name: "Kontak", isMenu: true, slug: "Kontak" ,submenu: [] });
-          self.$cookies.set('navMenu',JSON.stringify(self.navMenu));
+          self.navMenu.push({
+            name: "Beranda",
+            isMenu: true,
+            slug: "Index",
+            submenu: []
+          });
+          self.navMenu.push({
+            name: "Kontak",
+            isMenu: true,
+            slug: "Kontak",
+            submenu: []
+          });
+          self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
           self.setMessage(e, 1);
         }
       );
-    },
+    }
   }
 };
 </script>
@@ -112,7 +142,7 @@ export default {
 }
 .marker {
   width: 100px;
-  border: 1px solid #DC143C;
+  border: 1px solid #dc143c;
   margin-bottom: 5px;
   margin-top: 5px;
 }
@@ -126,6 +156,6 @@ export default {
   line-height: 25.5px;
 }
 pre > p {
-  margin-bottom:0px !important;
+  margin-bottom: 0px !important;
 }
 </style>

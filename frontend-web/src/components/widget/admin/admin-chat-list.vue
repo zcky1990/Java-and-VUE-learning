@@ -55,6 +55,9 @@ export default {
     };
   },
   methods: {
+    playSoundNotif() {
+      this.playNotifSound();
+    },
     setMessage(message, type) {
       let data = {};
       data.message = message;
@@ -91,13 +94,21 @@ export default {
       });
     },
     removeMessageList(key, message_id) {
-      const messageRef = fire.database().ref("messages/"+message_id);
+      const messageRef = fire.database().ref("messages/" + message_id);
       messageRef.remove();
 
       const itemsRef = fire.database().ref("messages_list/messages");
       itemsRef.child(key).remove();
-      if(this.messageList.length == 1){
+      if (this.messageList.length == 1) {
         this.messageList = [];
+      }
+    }
+  },
+  watch: {
+    messageList: function(newValue, oldValue) {
+      console.log("new val: ", newValue, " old val :", newValue);
+      if (newValue.length > oldValue.length) {
+        this.playSoundNotif();
       }
     }
   },

@@ -103,6 +103,13 @@ export default {
             getUserName: function(session){
               return session.get('username')
             },
+
+            playNotifSound : function(){
+              var x = document.getElementById("sound"); 
+              var sound = x.children[0].src
+              var audio = new Audio(sound);
+              audio.play();
+            },
           
             checkAdminSession : function () {
               if (!this.$session.exists()) {
