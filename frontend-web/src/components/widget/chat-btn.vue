@@ -1,7 +1,7 @@
 <template>
   <div class="chat-container">
     <div class="btn-container">
-      <v-btn color="pink" dark large absolute bottom right fab @click="showChat">
+      <v-btn class="btn-chat" color="pink" dark large fixed bottom right fab @click="showChat">
         <v-icon>chat</v-icon>
       </v-btn>
     </div>
@@ -46,8 +46,8 @@ export default {
         (date.getFullYear() + "_" + date.getUTCMilliseconds());
       this.messageId = "user_chat_" + chatId;
     },
-    isShow(){
-      return (this.messageId != "") ? true: false;
+    isShow() {
+      return this.messageId != "" ? true : false;
     },
     showChat() {
       if (this.isNewChat) {
@@ -121,5 +121,12 @@ export default {
 }
 .message-bubble {
   padding: 5px;
+}
+.chat-content {
+  position: fixed;
+  right: 5px;
+  bottom: 30px;
+  width: 100%;
+  z-index: 5;
 }
 </style>
