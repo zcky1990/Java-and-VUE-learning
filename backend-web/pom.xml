@@ -112,11 +112,13 @@
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/target/dist</directory>
+									<directory>${project.parent.basedir}/frontend-web/target/dist</directory>
 									<includes>
 										<include>static/</include>
 										<include>index.html</include>
 										<include>favicon.ico</include>
+										<include>service-worker.js</include>
+										<include>robots.txt</include>
 									</includes>
 								</resource>
 							</resources>
@@ -134,10 +136,12 @@
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/target/dist</directory>
+									<directory>${project.parent.basedir}/frontend-web/target/dist</directory>
 									<includes>
 										<include>index.html</include>
 										<include>favicon.ico</include>
+										<include>service-worker.js</include>
+										<include>robots.txt</include>
 									</includes>
 								</resource>
 							</resources>
