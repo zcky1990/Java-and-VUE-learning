@@ -5,7 +5,15 @@
         <v-icon>chat</v-icon>
       </v-btn>
     </div>
-    <chat ref="chatContainer" class="hidden" @deleteChat="deleteChat" @hideChat="hideChat"></chat>
+    <div class="chat-content" v-if="isShow">
+      <chat
+        ref="chatContainer"
+        class="hidden"
+        :message-id="messageId"
+        :hide-chat="hideChat"
+        :delete-chat="deleteChat"
+      ></chat>
+    </div>
   </div>
 </template>
 
@@ -19,18 +27,41 @@ export default {
   },
   data() {
     return {
-      isDeleteHidden: true
+      isNewChat: true,
+      isDestroyed: false,
+      messageId: ""
     };
   },
   methods: {
+    setMessageId() {
+      let date = new Date();
+      let date_created =
+        date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+      this.date = date_created;
+      let chatId =
+        date.getDate() +
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        (date.getFullYear() + "_" + date.getUTCMilliseconds());
+      this.messageId = "user_chat_" + chatId;
+    },
+    isShow(){
+      return (this.messageId != "") ? true: false;
+    },
     showChat() {
+      if (this.isNewChat) {
+        this.setMessageId();
+      }
+      this.isNewChat = false;
       this.$refs.chatContainer.$el.classList.remove("hidden");
     },
     hideChat() {
       this.$refs.chatContainer.$el.classList.add("hidden");
     },
-    deleteChat(){
-      console.log("emit call")
+    deleteChat() {
+      this.hideChat();
+      this.isNewChat = true;
     }
   }
 };

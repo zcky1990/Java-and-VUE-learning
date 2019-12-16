@@ -10,10 +10,10 @@
         <div class="title">{{username}}</div>
         <div class="icons-container">
           <div class="icons">
-            <v-icon color="white" small @click="hideChat">fa-window-minimize</v-icon>
+            <v-icon color="white" class="minus" small @click="hideMessageChat">minus</v-icon>
           </div>
           <div class="icons">
-            <v-icon color="white" @click="deleteChat">fa-window-close</v-icon>
+            <v-icon color="white" @click="deleteMessageChat">close</v-icon>
           </div>
         </div>
       </div>
@@ -57,6 +57,19 @@ import fire from "../../fire";
 
 export default {
   name: "chat",
+  props: {
+    messageId: {
+      type: String
+    },
+    hideChat: {
+      type: Function,
+      required: true
+    },
+    deleteChat: {
+      type: Function,
+      required: true
+    }
+  },
   data() {
     return {
       username: "",
@@ -67,15 +80,15 @@ export default {
       date: ""
     };
   },
-  beforeMount() {
-    this.childData = this.parentData; // save props data to itself's data and deal with it
-  },
   methods: {
-    hideChat() {
-      this.$emit("hideChat");
+    hideMessageChat() {
+      this.hideChat();
     },
-    deleteChat(){
-      this.$emit("deleteChat");
+    deleteMessageChat() {
+      this.username = "";
+      this.messages = [];
+      this.isIdExists = false;
+      this.deleteChat();
     },
     updateUsername(e) {
       let self = this;
@@ -130,20 +143,8 @@ export default {
         e.target.value = "";
       }
     },
-    setMessageId() {
-      let date = new Date();
-      let date_created =
-        date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-      this.date = date_created;
-      let chatId =
-        date.getDate() +
-        "-" +
-        (date.getMonth() + 1) +
-        "-" +
-        (date.getFullYear() + "_" + date.getUTCMilliseconds());
-      this.message_id = "user_chat_" + chatId;
-    },
     getMessage() {
+      this.message_id = this.messageId;
       let vm = this;
       const itemsRef = fire.database().ref("messages/" + vm.message_id);
       itemsRef.on("value", snapshot => {
@@ -162,9 +163,16 @@ export default {
       });
     }
   },
+  watch: {
+    messageId: function() {
+      this.getMessage();
+    },
+    messages: function() {
+      console.log("new message");
+    }
+  },
   mounted() {
-    this.setMessageId();
-    this.getMessage();
+    // this.getMessage();
   }
 };
 </script>
@@ -204,11 +212,11 @@ export default {
   justify-content: space-between;
 }
 .icons-container {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 .icons {
-  margin-left:5px;
+  margin-left: 5px;
 }
 .messages {
   height: 300px;
@@ -218,17 +226,26 @@ export default {
 }
 .user-message {
   border-radius: 10px;
-  width: fit-content;
-  float: right;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-content: flex-end;
+  width: 100%;
 }
 .other-user-message {
   border-radius: 10px;
-  width: fit-content;
-  float: left;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  width: 100%;
 }
 .message-bubble {
   padding: 5px;
+}
+.minus {
+  width: 16px;
+  height: 24px;
+  border-bottom: 2px solid #fff !important;
 }
 </style>
