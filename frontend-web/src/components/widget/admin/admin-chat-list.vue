@@ -14,7 +14,7 @@
 
             <v-card-actions>
               <v-btn text @click="openChat(item.message_id)">Open Chat</v-btn>
-              <v-btn text @click="removeMessageList(item.id)">Delete Chat</v-btn>
+              <v-btn text @click="removeMessageList(item.id, item.message_id)">Delete Chat</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -90,9 +90,15 @@ export default {
         }
       });
     },
-    removeMessageList(key) {
+    removeMessageList(key, message_id) {
+      const messageRef = fire.database().ref("messages/"+message_id);
+      messageRef.remove();
+
       const itemsRef = fire.database().ref("messages_list/messages");
       itemsRef.child(key).remove();
+      if(this.messageList.length == 1){
+        this.messageList = [];
+      }
     }
   },
   mounted() {
