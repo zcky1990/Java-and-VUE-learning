@@ -21,7 +21,7 @@
                 <v-text-field
                   v-model="data.fullName"
                   :rules="nameRules"
-                  label="Name Lengkap"
+                  label="Nama Lengkap"
                   required
                   color="#00d1b2"
                 ></v-text-field>
@@ -222,12 +222,13 @@
         </v-form>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import { EventBus } from "./../../../EventBus.js";
+import jsPDF from "jspdf";
+import imageLogo from "@/assets/image/stiami.jpeg";
 
 export default {
   name: "user-daftar-form",
@@ -241,6 +242,7 @@ export default {
   },
   data() {
     return {
+      imageData: imageLogo,
       valid: false,
       show1: false,
       startMenu: false,
@@ -277,8 +279,226 @@ export default {
     this.itemsProdiList = this.list;
   },
   methods: {
+    toDataUrl(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          callback(reader.result);
+        };
+        reader.readAsDataURL(xhr.response);
+      };
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.send();
+    },
+
     Print: function() {
-      window.print();
+      var doc = new jsPDF();
+      //header form
+      doc.setFontStyle("bold");
+      doc.setFontSize("12");
+      doc.text("STIE Dharma Agung Bandung", 60, 20);
+
+      doc.setFontSize("10");
+      doc.text("Jl industri no 33 Cikarang kota", 60, 25);
+
+      doc.setFontSize("10");
+      doc.text("Cikarang Utara kab Bekasi 17530", 60, 30);
+
+      doc.setFontSize("10");
+      doc.text("081997111818", 60, 35);
+
+      //row title section 1
+      doc.setFontStyle("bold");
+      doc.setFontSize("14");
+      doc.text("Data Personal", 20, 50);
+      doc.line(20, 52, 180, 52);
+      //row 1
+      doc.setFontStyle("normal");
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Nomor Identitas", 20, 60);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Nama Lengkap", 100, 60);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.idNumber, 20, 65);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.fullName, 100, 65);
+      //row 2
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Email", 20, 75);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Nomor Telpon", 100, 75);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.email, 20, 80);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.phoneNumber, 100, 80);
+      //row 3
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Alamat", 20, 90);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.address, 20, 95);
+
+      //row 4
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Agama", 20, 110);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Jenis Kelamin", 60, 110);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Status", 100, 110);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.religion, 20, 115);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.gender, 60, 115);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.status, 100, 115);
+
+      //row 5
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Tempat Lahir", 20, 120);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Tanggal Lahir", 100, 120);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.placeOfBirth, 20, 125);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.birthday, 100, 125);
+
+      //row 6
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Kota", 20, 135);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Kelurahan", 60, 135);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Kecamatan", 100, 135);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Kodepos", 140, 135);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.city, 20, 140);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.subDistrict, 60, 140);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.district, 100, 140);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.zipcode, 140, 140);
+
+      //row title section 2
+      doc.setFontStyle("bold");
+      doc.setFontSize("14");
+      doc.text("Data Pendidikan", 20, 150);
+      doc.line(20, 152, 180, 152);
+
+      //row 7
+      doc.setFontStyle("normal");
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Nama Sekolah", 20, 160);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.sekolah.schoolName, 20, 165);
+
+      //row 8
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Alamat Sekolah", 20, 175);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.sekolah.schoolAddress, 20, 180);
+      //row 9
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Jenis Sekolah", 20, 195);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Jurusan", 60, 195);
+
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Tahun Lulus Sekolah", 100, 195);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.sekolah.schoolType, 20, 200);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.sekolah.schoolMajor, 60, 200);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.sekolah.graduationYear, 100, 200);
+
+      //row title section 3
+      doc.setFontStyle("bold");
+      doc.setFontSize("14");
+      doc.text("Prodi Pilihan", 20, 215);
+      doc.line(20, 217, 180, 217);
+
+      //row 10
+      doc.setFontStyle("normal");
+      doc.setFontSize("8");
+      doc.setTextColor(150);
+      doc.text("Prodi pilihan", 20, 225);
+
+      doc.setFontSize("12");
+      doc.setTextColor("black");
+      doc.text(this.data.prodi.prodiName, 20, 230);
+
+      let name = this.data.fullName;
+      let user = name.split(" ").join("-");
+      doc.save("form-pendaftaran-" + user + ".pdf");
     },
     callRestService(model) {
       let self = this;
@@ -338,9 +558,9 @@ export default {
   .container {
     width: 1170px;
   }
-  body { 
+  body {
     overflow: auto;
-    height: auto; 
+    height: auto;
   }
 
   .no-print,
@@ -447,11 +667,11 @@ export default {
 }
 
 .title-sections {
-      font-size: 1.5em;
-    line-height: 2;
-    background: #00d1b2;
-    padding: 5px;
-    color:white;
+  font-size: 1.5em;
+  line-height: 2;
+  background: #00d1b2;
+  padding: 5px;
+  color: white;
 }
 
 .prodi-container {

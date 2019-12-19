@@ -28,6 +28,7 @@
     "ckeditor5-simple-upload": "^1.0.7",
     "firebase": "^7.6.0",
     "highlight.js": "^9.15.10",
+    "jspdf": "^1.5.3",
     "leaflet": "^1.6.0",
     "material-design-icons-iconfont": "^5.0.1",
     "postcss-loader": "^3.0.0",

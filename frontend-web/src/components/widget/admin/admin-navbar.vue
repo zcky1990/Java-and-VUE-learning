@@ -108,6 +108,10 @@ export default {
                     url: "/admin/mahasiswa"
                 },
                 {
+                    title: "Chat",
+                    url: "/admin/chat"
+                },
+                {
                     title: "Users",
                     url: "/admin/users"
                 }
