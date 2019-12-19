@@ -305,10 +305,10 @@ export default {
             );
         },
         getDataMahasiswa: function (page) {
-            if (this.filter.startDate != "" && this.filter.endDate != null) {
+            if (this.filter.startDate != "" && this.filter.endDate != "") {
                 this.page = page - 1;
                 this.getFilteredDataList();
-            } else if (this.filter.name != null && this.filter.name != undefined) {
+            } else if (this.filter.name != "" && this.filter.name != "") {
                 this.page = page - 1;
                 this.getFilteredDataListByNameOrEmail();
             } else {
