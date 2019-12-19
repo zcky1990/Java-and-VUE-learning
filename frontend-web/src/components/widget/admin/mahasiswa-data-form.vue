@@ -228,7 +228,7 @@
 <script>
 import { EventBus } from "./../../../EventBus.js";
 import jsPDF from "jspdf";
-import imageLogo from "@/assets/image/stiami.jpeg";
+// import imageLogo from "@/assets/image/stiami.jpeg";
 
 export default {
   name: "user-daftar-form",
@@ -242,7 +242,6 @@ export default {
   },
   data() {
     return {
-      imageData: imageLogo,
       valid: false,
       show1: false,
       startMenu: false,
@@ -279,20 +278,6 @@ export default {
     this.itemsProdiList = this.list;
   },
   methods: {
-    toDataUrl(url, callback) {
-      var xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        var reader = new FileReader();
-        reader.onloadend = function() {
-          callback(reader.result);
-        };
-        reader.readAsDataURL(xhr.response);
-      };
-      xhr.open("GET", url);
-      xhr.responseType = "blob";
-      xhr.send();
-    },
-
     Print: function() {
       var doc = new jsPDF();
       //header form

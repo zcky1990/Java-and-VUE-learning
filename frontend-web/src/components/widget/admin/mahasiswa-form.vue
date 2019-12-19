@@ -36,9 +36,9 @@
                 <v-text-field v-model="filter.name" solo-inverted prepend-inner-icon="mdi-magnify" label="Search" class="hidden-sm-and-down" />
             </div>
         </div>
-        <div class="my-2 paddedd">
-            <v-btn depressed large color="primary" right @click="download">Download</v-btn>
-            <v-btn depressed large color="primary" right @click="filterTable">Filter Search</v-btn>
+        <div class="paddedd">
+            <v-btn color="primary btn-download" width="100" right @click="download">Download</v-btn>
+            <v-btn color="primary" width="100" right @click="filterTable">Search</v-btn>
         </div>
     </div>
     <div class="title">
@@ -432,7 +432,7 @@ export default {
 
 .filter {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-evenly;
 }
 
 .date-container {
@@ -446,7 +446,9 @@ export default {
 }
 
 .paddedd {
-    padding: 20px;
+        justify-content: space-between;
+    align-items: center;
+    display: flex;
 }
 
 .btn-container {
