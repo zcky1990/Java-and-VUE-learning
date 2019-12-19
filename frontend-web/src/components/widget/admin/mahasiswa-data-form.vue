@@ -550,25 +550,6 @@ export default {
 </script>
 
 <style scoped>
-@media print {
-  @page {
-    size: 330mm 427mm;
-    margin: 14mm;
-  }
-  .container {
-    width: 1170px;
-  }
-  body {
-    overflow: auto;
-    height: auto;
-  }
-
-  .no-print,
-  .no-print * {
-    display: none !important;
-  }
-}
-
 @media only screen and (max-width: 600px) {
   .sign-up-container {
     flex-direction: column !important;
