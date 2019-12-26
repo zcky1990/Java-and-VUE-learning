@@ -36,10 +36,10 @@ export default {
   data() {
     return {
       zoom: 17,
-        center: [-6.9106821,107.6017346,17],
+        center: [-6.2621103,107.1455647,17],
         url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        marker: L.latLng(-6.9106821,107.6017346,17),
+        marker: L.latLng(-6.2621103,107.1455647,17),
     };
   },
   mounted() {
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     openGoogleMap: function(){
-      window.open("https://www.google.com/maps/place/Sekolah+Tinggi+Ilmu+Ekonomi+Dharma+Agung/@-6.9106821,107.6017346,17z/data=!3m1!4b1!4m5!3m4!1s0x2e68e87e307767c3:0x2e9b4d9fbeab69e4!8m2!3d-6.9106821!4d107.6039233");
+      window.open("https://www.google.com/maps/place/Jl.+Industri+No.33,+Cikarang+Kota,+Kec.+Cikarang+Utara,+Bekasi,+Jawa+Barat+17530/@-6.2621103,107.1455647,17z/data=!3m1!4b1!4m5!3m4!1s0x2e69851df0221813:0x721c77d11f33c02b!8m2!3d-6.2621156!4d107.1477534");
     },
     setMessage: function(message, type) {
       let data = {};
