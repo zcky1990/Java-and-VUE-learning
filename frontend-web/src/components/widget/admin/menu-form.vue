@@ -99,8 +99,8 @@
                     <v-container>
                       <div
                         class="sub-menu-conbtainer"
-                        v-for="(item, index) in data.submenu"
-                        :key="item.name"
+                        v-for="(item, index) in submenu"
+                        :key="index"
                       >
                         <div class="title-container">
                           <div class="submenu-title">Submenu {{index+1}}</div>
@@ -112,7 +112,6 @@
                           v-model="item.id"
                           label="Id"
                           required
-                          flat
                           color="rgb(0, 209, 178)"
                           class="hidden"
                         ></v-text-field>
@@ -121,7 +120,6 @@
                           v-model="item.name"
                           label="Menu Name"
                           required
-                          flat
                           :rules="roleSubMenuNameRules"
                           color="rgb(0, 209, 178)"
                         ></v-text-field>
@@ -181,8 +179,9 @@ export default {
         id: "",
         menuType: "Menu",
         permalink: "",
-        submenu: [{ "name": "", "page": ""}]
+        submenu: [{ "name": "", "page": {}, "_id": {} }]
       },
+      submenu:[],
       tableHeaderList: [
         {
           text: "Menu Name",
@@ -216,8 +215,8 @@ export default {
     addNewSubMenu: function() {
       let item = {};
       item.name = "";
-      item.page = "";
-      this.data.submenu.push(item);
+      item.page = {};
+      this.submenu.push(item);
     },
     removeSubMenu: function(index) {
       this.data.submenu.splice(index);
@@ -245,14 +244,15 @@ export default {
       this.data.submenu = [];
       let item = {};
       item.name = "";
-      item.page = "";
-      this.data.submenu.push(item);
+      item.page = {};
+      this.submenu.push(item);
     },
     createData: function(model) {
       let self = this;
       let headers = this.getDefaultHeaders(this.getMeta("token"));
       if (this.isSubmenu) {
         this.data.page = null;
+        this.data.submenu = this.submenu;
       }
       this.post(
         this.urlData.createUrl,
@@ -333,6 +333,7 @@ export default {
           if (response.status == 200) {
             self.dialog = true;
             self.data = response.data.response;
+            self.submenu = self.data.submenu;
             self.setSubmenu();
             self.mode = "edit";
           }
@@ -346,6 +347,7 @@ export default {
       let self = this;
       if (this.isSubmenu) {
         this.data.page = null;
+        this.data.submenu = this.submenu;
       }
       let headers = this.getDefaultHeaders(this.getMeta("token"));
       this.put(
@@ -384,6 +386,9 @@ export default {
     },
     closeDialog: function() {
       this.dialog = false;
+      this.data = {};
+      this.submenu = [];
+      this.isSubmenu = false;
     }
   },
   computed: {
