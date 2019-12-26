@@ -330,7 +330,7 @@ export default {
               self.isLoading = false;
             } else {
               self.setMessage(
-                "Please check your email to verify your accounts",
+                "Anda Sudah berhasil Mendaftar",
                 0
               );
               self.isLoading = false;
