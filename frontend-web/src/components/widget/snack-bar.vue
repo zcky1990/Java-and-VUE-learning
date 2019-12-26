@@ -11,7 +11,7 @@
     :top="postionTop"
   >
     {{textMessage}}
-    <v-btn :color="closebtnColor" flat @click="snackbar = false">Close</v-btn>
+    <v-btn :color="closebtnColor" @click="snackbar = false">Close</v-btn>
   </v-snackbar>
 </template>
 <script>

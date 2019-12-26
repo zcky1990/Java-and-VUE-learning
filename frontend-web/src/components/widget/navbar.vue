@@ -60,9 +60,7 @@
           <div class="icon-container">
             <div class="login-container">
               <div class="user-avatar-container">
-                <v-chip class="button-login">
                   <router-link class="link-login button-login" to="/pendaftaran">Pendaftaran</router-link>
-                </v-chip>
               </div>
             </div>
           </div>

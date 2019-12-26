@@ -8,7 +8,13 @@
     </section>
     <section class="content-section">
       <v-container>
-        <article-list></article-list>
+        <v-row>
+          <v-col cols="12" md="2"></v-col>
+          <v-col cols="12" md="8">
+            <article-list></article-list>
+          </v-col>
+          <v-col cols="12" md="2"></v-col>
+        </v-row>
       </v-container>
     </section>
     <section>
