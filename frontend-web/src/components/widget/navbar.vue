@@ -287,6 +287,7 @@ export default {
 }
 .menu-btn-link {
   padding: 10px;
+  white-space: nowrap;
 }
 .sub-link {
   padding-left: 20px;

@@ -30,7 +30,6 @@ export default {
   name: "pages-page-layout",
   data() {
     return {
-
       content: {},
       slug: "",
       isUserLoggin: false
@@ -41,11 +40,8 @@ export default {
     "pages-content": PagesComponents,
     "footer-components": FooterComponents
   },
-  methods: {
-  },
-  created() {
-    
-  }
+  methods: {},
+  created() {}
 };
 </script>
 <style scoped>
