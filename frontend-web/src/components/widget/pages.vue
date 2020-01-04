@@ -113,12 +113,6 @@ export default {
         }
       }
     },
-    setMessage: function(message, type) {
-      let data = {};
-      data.message = message;
-      data.type = type;
-      EventBus.$emit("SNACKBAR_TRIGGERED", data);
-    }
   },
   updated() {
     this.setCssSideImage();

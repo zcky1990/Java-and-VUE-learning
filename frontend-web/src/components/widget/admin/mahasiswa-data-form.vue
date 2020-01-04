@@ -260,7 +260,6 @@ export default {
       districtRules: [v => !!v || "Nama Kecamatan harus diisi"],
       phoneNumberRules: [v => !!v || "Nomor telpon harus diisi"],
       zipCodeRules: [v => !!v || "Kode Pos harus diisi"],
-      cityRules: [v => !!v || "Nama Kota harus diisi"],
       statusRules: [v => !!v || "Status harus di pilih"],
       idNumberRules: [v => !!v || "Nomor identitas harus diisi"],
       placeOfBirthRules: [v => !!v || "Tempat lahir harus diisi"],

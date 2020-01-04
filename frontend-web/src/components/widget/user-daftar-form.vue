@@ -272,9 +272,6 @@ export default {
       zipCodeRules: [
         v => !!v || "Kode Pos harus diisi"
       ],
-      cityRules: [
-        v => !!v || "Nama Kota harus diisi"
-      ],
       statusRules: [
         v => !!v || "Status harus di pilih"
       ],
@@ -316,7 +313,6 @@ export default {
     callRestService(model) {
       let self = this;
       this.isLoading = true;
-      let router = this.$router;
       let headers = this.getDefaultHeaders(this.getMeta("token"));
       this.post(
         "/mahasiswa/create",
@@ -371,7 +367,7 @@ export default {
   .title {
     font-size: 1.4rem !important;
     font-weight: 600;
-    color: rgb(0, 209, 178);
+    color: rgb(220, 20, 60);
     text-align: center;
   }
 }
@@ -418,7 +414,7 @@ export default {
   text-align: center;
   line-height: 1.5 !important;
   font-size: 1.5rem !important;
-  color: rgb(0, 209, 178);
+  color: rgb(220, 20, 60);
   font-weight: 900;
 }
 
@@ -430,7 +426,7 @@ export default {
 }
 
 .bulma-color {
-  color: rgb(0, 209, 178);
+  color: rgb(220, 20, 60);
 }
 
 .submit-btn-container {
@@ -441,7 +437,7 @@ export default {
 
 .link-not-sign-up {
   flex-grow: 1;
-  color: #00d1b2;
+  color: rgb(220, 20, 60);
 }
 
 .sign-up-link {
@@ -451,7 +447,7 @@ export default {
 .title-sections {
       font-size: 1.5em;
     line-height: 2;
-    background: #00d1b2;
+    background: rgb(220, 20, 60);
     padding: 5px;
     color:white;
 }
@@ -461,7 +457,7 @@ export default {
 }
 
 .link-btn {
-  color: #00d1b2;
+  color: rgb(220, 20, 60);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -505,14 +501,14 @@ export default {
   border: 1px solid;
   text-align: center;
   border-radius: 15px;
-  border: 1px solid rgb(0, 209, 178);
-  color: rgb(0, 209, 178);
+  border: 1px solid rgb(220, 20, 60);
+  color: rgb(220, 20, 60);
   cursor: pointer;
 }
 
 .sign-in-btn:hover {
-  background: #00d1b2;
-  border: 1px solid rgb(0, 209, 178);
+  background: rgb(220, 20, 60);
+  border: 1px solid rgb(220, 20, 60);
   color: white;
 }
 </style>

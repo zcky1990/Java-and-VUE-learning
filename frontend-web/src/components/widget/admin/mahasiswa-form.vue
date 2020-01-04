@@ -253,7 +253,6 @@ export default {
         },
         download: function () {
             if (this.filter.startDate != "" && this.filter.endDate != null) {
-                let self = this;
                 let headersData = this.getDefaultHeaders(this.getMeta("token"));
                 axios({
                     url: this.urlData.download+ "?startDate=" + this.filter.startDate + "&endDate=" + this.filter.endDate,
