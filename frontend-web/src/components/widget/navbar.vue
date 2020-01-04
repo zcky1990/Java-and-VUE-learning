@@ -47,7 +47,7 @@
             <v-img :src="imageLogo" class="lighten-2 icon-header" width="65" height="70" cover></v-img>
             <div class="title">
               <h1 class="title-name">UNIVERSITAS</h1>
-              <h1 class="title-name bold">STIE DHARMA AGUNG BANDUNG</h1>
+              <h1 class="title-name bold">STIE DHARMA AGUNG</h1>
             </div>
           </div>
         </div>

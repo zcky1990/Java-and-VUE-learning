@@ -282,7 +282,7 @@ export default {
       //header form
       doc.setFontStyle("bold");
       doc.setFontSize("12");
-      doc.text("STIE Dharma Agung Bandung", 60, 20);
+      doc.text("STIE Dharma Agung", 60, 20);
 
       doc.setFontSize("10");
       doc.text("Jl industri no 33 Cikarang kota", 60, 25);
