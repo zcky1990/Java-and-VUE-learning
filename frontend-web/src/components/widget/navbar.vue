@@ -44,7 +44,7 @@
       <div class="container toolbar-title">
         <div class="title-container">
           <div class="title-navbar" @click="goToHome">
-            <v-img :src="defaultLogo" class="lighten-2 icon-header" width="65" height="70" cover></v-img>
+            <v-img :src="imageLogo" class="lighten-2 icon-header" width="65" height="70" cover></v-img>
             <div class="title">
               <h1 class="title-name">UNIVERSITAS</h1>
               <h1 class="title-name bold">STIE DHARMA AGUNG BANDUNG</h1>
@@ -101,6 +101,7 @@
 
 <script>
 import { EventBus } from "./../../EventBus.js";
+import imageLogo from "../../assets/image/stiami.jpeg"
 
 export default {
   name: "navbar",
@@ -123,7 +124,7 @@ export default {
       menu: false,
       message: false,
       usersData: {},
-      defaultLogo: "",
+      imageLogo: imageLogo,
       currentIndex:0
     };
   },
