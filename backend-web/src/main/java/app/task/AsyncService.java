@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import app.constants.Constant;
+import app.environment.EnvironmentBuild;
 import app.mongo.model.Users;
 import app.util.MailUtility;
 
@@ -15,7 +16,7 @@ public class AsyncService {
 	private static final Logger logger = LoggerFactory.getLogger(AsyncService.class);
 	
 	@Async
-	public void sendSuccessSignUpMailService(Users user, String env) throws InterruptedException {
+	public void sendSuccessSignUpMailService(Users user, EnvironmentBuild env) throws InterruptedException {
 		logger.info("start sending mail");
 		MailUtility mUtil = new MailUtility(env);
 		String template = mUtil.getEmailTemplate(Constant.MAIL_TEMPLATE_PATH);

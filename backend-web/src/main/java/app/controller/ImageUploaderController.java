@@ -29,7 +29,7 @@ public class ImageUploaderController extends BaseController{
 	@RequestMapping(value = "/upload_image", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<String>  uploadFile(@RequestParam(value = "file") MultipartFile file, @RequestParam(value = "content") String content, HttpServletRequest request) throws Exception {
 		JsonObject response = new JsonObject();
-		CloudinaryUtility util= new CloudinaryUtility(env.getEnvirontment());
+		CloudinaryUtility util= new CloudinaryUtility(env);
 		response= util.uploadImage(file, content);
 		return new ResponseEntity<String>( response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
@@ -37,7 +37,7 @@ public class ImageUploaderController extends BaseController{
 	@RequestMapping(value = "/upload_image_string", method = RequestMethod.POST)
 	public ResponseEntity<String>  uploadImageFileString(@RequestBody UploadImage image, HttpServletRequest request) throws Exception {
 		JsonObject response = new JsonObject();
-		CloudinaryUtility util= new CloudinaryUtility(env.getEnvirontment());
+		CloudinaryUtility util= new CloudinaryUtility(env);
 		if(image.getContent().isEmpty()) {
 			response= util.uploadBase64ImageString(image.getImage());
 		}else {

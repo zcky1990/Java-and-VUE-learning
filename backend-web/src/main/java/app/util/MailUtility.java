@@ -1,7 +1,6 @@
 package app.util;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.*;
@@ -10,54 +9,32 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.google.gson.Gson;
-
-import app.config.Mail;
 import app.config.MailConfig;
-import app.config.MailEnvirontment;
 import app.constants.Constant;
+import app.environment.EnvironmentBuild;
 import app.mongo.model.Users;
 
 public class MailUtility {
 	private Util util = new Util();
-	private String env;
+	private EnvironmentBuild env;
 	private MailConfig config;
-	private Gson gson = new Gson();
 
-	public MailUtility(String env) {
+	public MailUtility(EnvironmentBuild env) {
 		this.env = env;
-		this.getMailConfig();
-	}
-
-	public void getMailConfig() {
-		String mailConfig = util.getStringJsonFile(Constant.MAIL_CONFIG_PATH);
-		Mail mailconfig = gson.fromJson(mailConfig, Mail.class);
-		ArrayList<MailEnvirontment> mailEnvirontment = mailconfig.getMailconfig();
-		for(int i = 0; i < mailEnvirontment.size(); i++) {
-			MailEnvirontment mail = mailEnvirontment.get(i);
-			if(mail.getEnv().equals(env)) {
-				config = mail.getConfig();
-				break;
-			}
-		}
-	} 
-
-	public MailConfig getConfig() {
-		return config;
 	}
 
 	public void sendMail(String messageBody, String pathAttachment, String to, String subject) {
 		Properties prop = new Properties();
-		prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", config.getPort());
+		prop.put("mail.smtp.host", env.getMailHost());
+        prop.put("mail.smtp.port", env.getMailPort());
         prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.socketFactory.port", config.getPort());
+        prop.put("mail.smtp.socketFactory.port", env.getMailPort());
         prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         
 		Session session = Session.getInstance(prop,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(config.getUsername(), config.getPassword());
+                        return new PasswordAuthentication(env.getMailUsername(), env.getMailPassword());
                     }
                 });
 		

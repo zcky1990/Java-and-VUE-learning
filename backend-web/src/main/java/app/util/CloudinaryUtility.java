@@ -2,52 +2,31 @@ package app.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.*;
 import com.cloudinary.utils.ObjectUtils;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import app.config.CloudinaryConfig;
-import app.config.CloudinaryEnv;
-import app.config.CloudinaryModelJson;
 import app.constants.Constant;
+import app.environment.EnvironmentBuild;
 
 public class CloudinaryUtility {
-	private Util util = new Util();
-	private String env;
-	private Gson gson = new Gson();
-	private CloudinaryConfig config;
+	private EnvironmentBuild env;
 	private Cloudinary cloudinary;
 	
-	public CloudinaryUtility(String env) {
+	public CloudinaryUtility(EnvironmentBuild env) {
 		this.env = env;
-		this.getCloudinaryConfig();
 		this.setProperties();
 	}
-	
-	public void getCloudinaryConfig() {
-		String stringConfig = util.getStringJsonFile(Constant.CLOUDINARY_CONFIG_PATH);
-		CloudinaryModelJson cloudConfig = gson.fromJson(stringConfig, CloudinaryModelJson.class);
-		ArrayList<CloudinaryEnv> environtmentConfig = cloudConfig.getArrayConfig();
-		for(int i = 0; i < environtmentConfig.size(); i++) {
-			CloudinaryEnv cloudinaryEnv = environtmentConfig.get(i);
-			if(cloudinaryEnv.getEnv().equals(env)) {
-				config = cloudinaryEnv.getConfig();
-				break;
-			}
-		}
-	}
-	
+		
 	public void setProperties() {
 		cloudinary = new Cloudinary(ObjectUtils.asMap(
-				  "cloud_name", config.getCloud_name(),
-				  "api_key", config.getApi_key(),
-				  "api_secret", config.getApi_secret()));
+				  "cloud_name", env.getCloudinaryCloudName(),
+				  "api_key", env.getCloudinaryApiKey(),
+				  "api_secret", env.getCloudinaryApiSecret()));
 	}
 	
 	public JsonObject uploadImage(String path) {
@@ -108,7 +87,7 @@ public class CloudinaryUtility {
 	public JsonObject uploadImage(MultipartFile file, String folder) {
 		JsonObject response = new JsonObject();
 		Map options;
-		if(env.endsWith(Constant.DEV_ENV)) {
+		if(env.getEnvirontment().equals(Constant.DEV_ENV)) {
 			options = ObjectUtils.asMap("folder", folder + "dev");
 		}else {
 			options = ObjectUtils.asMap("folder", folder);
@@ -127,7 +106,7 @@ public class CloudinaryUtility {
 	public JsonObject uploadImage(MultipartFile file, String folder, String name) {
 		JsonObject response = new JsonObject();
 		Map options;
-		if(env.endsWith(Constant.DEV_ENV)) {
+		if(env.getEnvirontment().equals(Constant.DEV_ENV)) {
 			options = ObjectUtils.asMap("folder", folder + "dev", "public_id", name);
 		}else {
 			options = ObjectUtils.asMap("folder", folder, "public_id", name);

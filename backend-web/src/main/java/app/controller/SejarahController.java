@@ -20,11 +20,9 @@ import app.constants.Constant;
 import app.model.request.SejarahRequest;
 import app.mongo.model.Sejarah;
 import app.mongo.model.Users;
-import app.mongo.model.VisiMisi;
 import app.repository.SejarahRepository;
 import app.repository.UsersRepository;
 import app.serializer.SejarahSerializer;
-import app.serializer.VisiMisiSerializer;
 import app.util.TimeUtility;
 
 @RestController

@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
 
 import app.constants.Constant;
 import app.model.request.ArticleRequest;
-import app.model.response.ArticleResponse;
 import app.mongo.model.Article;
 import app.mongo.model.Users;
 import app.repository.ArticleRepository;

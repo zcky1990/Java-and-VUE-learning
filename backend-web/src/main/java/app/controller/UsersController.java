@@ -78,7 +78,7 @@ public class UsersController extends BaseController{
 				user.setRoles(role);
 				user.setStatus(true);
 				repository.save(user);
-				service.sendSuccessSignUpMailService(user, env.getEnvirontment());
+				service.sendSuccessSignUpMailService(user, env);
 				response = getSuccessResponse();
 				response.add(Constant.RESPONSE, toJSONObjectWithSerializer(Users.class, new UsersSerializer(), user));
 			} catch(Exception e) {
