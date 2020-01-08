@@ -253,7 +253,7 @@ export default {
     },
     getDataList: function() {
       let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       this.get(
         this.urlData.getListUrl + "?status=true",
         headers,

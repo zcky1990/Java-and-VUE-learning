@@ -131,7 +131,7 @@ export default {
     },
     getArticle: function() {
       let self = this;
-      let headers = this.getHeaders(this.$session);
+      let headers = this.getRequestHeader();
       this.get(
         this.getUrlRequest() + "page=" + this.page,
         headers,
@@ -150,7 +150,7 @@ export default {
     },
     getLoadMoreService: function() {
       let self = this;
-      let headers = this.getHeaders(this.$session);
+      let headers = this.getRequestHeader();
       this.disableEnableLoadMoreBtn(true);
       this.get(
         this.getUrlRequest() + "page=" + this.page,
@@ -206,7 +206,7 @@ export default {
     },
     getArticleById: function(id) {
       let self = this;
-      let headers = this.getHeaders(this.$session);
+      let headers = this.getRequestHeader();
       this.get(
         this.articleUrl + id,
         headers,
@@ -234,7 +234,7 @@ export default {
     },
     deleteData: function(id) {
       let self = this;
-      let headers = this.getHeaders(this.$session);
+      let headers = this.getRequestHeader();
       this.delete(
         this.delelteArticleUrl + id,
         headers,
@@ -249,6 +249,10 @@ export default {
           self.setMessage(e, 1);
         }
       );
+    },
+    getRequestHeader: function() {
+      this.requestHeader = this.getHeaders(this.$session);
+      return this.requestHeader;
     }
   },
   computed: {

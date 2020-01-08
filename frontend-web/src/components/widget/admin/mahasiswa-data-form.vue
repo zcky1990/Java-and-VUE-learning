@@ -488,7 +488,7 @@ export default {
       let self = this;
       this.isLoading = true;
       let router = this.$router;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       this.put(
         "/mahasiswa/edit",
         model,
@@ -515,6 +515,10 @@ export default {
       messageData.message = message;
       messageData.type = type;
       EventBus.$emit("SNACKBAR_TRIGGERED", messageData);
+    },
+    getRequestHeader: function() {
+      this.requestHeader = this.getHeaders(this.$session);
+      return this.requestHeader;
     },
     submit() {
       if (this.$refs.form.validate()) {

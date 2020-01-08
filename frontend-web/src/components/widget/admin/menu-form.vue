@@ -153,7 +153,7 @@
 
 <script>
 import { EventBus } from "./../../../EventBus.js";
-import Vue from 'vue'
+import Vue from "vue";
 
 export default {
   name: "pages-form",
@@ -179,9 +179,9 @@ export default {
         id: "",
         menuType: "Menu",
         permalink: "",
-        submenu: [{ "name": "", "page": {}, "_id": {} }]
+        submenu: [{ name: "", page: {}, _id: {} }]
       },
-      submenu:[],
+      submenu: [],
       tableHeaderList: [
         {
           text: "Menu Name",
@@ -249,7 +249,7 @@ export default {
     },
     createData: function(model) {
       let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       if (this.isSubmenu) {
         this.data.page = null;
         this.data.submenu = this.submenu;
@@ -272,7 +272,7 @@ export default {
     },
     getMenuDataList: function() {
       let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       this.get(
         this.urlData.getListUrl,
         headers,
@@ -288,7 +288,7 @@ export default {
     },
     deleteData: function(id) {
       let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       this.delete(
         this.urlData.deleteUrl + id,
         headers,
@@ -309,7 +309,7 @@ export default {
     },
     getPagesList: function() {
       let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       this.get(
         this.urlData.getListPage,
         headers,
@@ -325,7 +325,7 @@ export default {
     },
     getData: function(id) {
       let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       this.get(
         this.urlData.getUrl + id,
         headers,
@@ -349,7 +349,7 @@ export default {
         this.data.page = null;
         this.data.submenu = this.submenu;
       }
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      let headers = this.getRequestHeader();
       this.put(
         this.urlData.editUrl,
         model,
@@ -384,6 +384,10 @@ export default {
       data.type = type;
       EventBus.$emit("SNACKBAR_TRIGGERED", data);
     },
+    getRequestHeader: function() {
+      this.requestHeader = this.getHeaders(this.$session);
+      return this.requestHeader;
+    },
     closeDialog: function() {
       this.dialog = false;
       this.data = {};
@@ -406,10 +410,10 @@ export default {
       return true;
     }
   },
-  watch:{
-      data: function(){
-        console.log("data change")
-      }
+  watch: {
+    data: function() {
+      console.log("data change");
+    }
   }
 };
 </script>
