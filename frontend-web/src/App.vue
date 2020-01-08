@@ -43,7 +43,10 @@ export default {
     });
     this.mp3Url = soundMp3;
     this.oggUrl = soundOgg;
-    this.getMenu();
+    let navbar = this.$cookies.get('navMenu');
+    if(navbar == "" || navbar == undefined || navbar == null){
+      this.getMenu();
+    }
   },
   components: {
     "snack-bar": SnackBar
@@ -79,6 +82,7 @@ export default {
               slug: "Kontak",
               submenu: []
             });
+            self.$cookies.config(60 * 60 * 4 ,'');
             self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
           }
         },
@@ -95,6 +99,7 @@ export default {
             slug: "Kontak",
             submenu: []
           });
+          self.$cookies.config(60 * 60 * 4 ,'');
           self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
           self.setMessage(e, 1);
         }

@@ -21,19 +21,30 @@
       <v-divider></v-divider>
       <div class="menu-list">
         <div class="menu-btn-link" v-for="(item ,index ) in navBarMenu" :key="item.name">
-          <div v-if="item.isMenu" class="nav-draw-links drawer-links"  @click="openPages(item.slug, index)">
+          <div
+            v-if="item.isMenu"
+            class="nav-draw-links drawer-links"
+            @click="openPages(item.slug, index)"
+          >
             <div class="menu-seide-bar-content-links">
-                <div class="side-nav-title">{{ item.name }}</div>
-              </div>
+              <div class="side-nav-title">{{ item.name }}</div>
+            </div>
           </div>
           <div v-else class="nav-draw-links drawer-links">
             <div class="menu-seide-bar-content-links">
-                <div class="side-nav-title" @click="showHideNav">{{ item.name }}</div>
-                <div class="side-nav-title-child">
-                  <div class="child-container" v-for="(list, indexData) in item.submenu" :key="indexData">
-                    <div class="side-nav-title-child-list" @click="openPages(list.slug, index)">{{ list.name }}</div>
-                  </div>
+              <div class="side-nav-title" @click="showHideNav">{{ item.name }}</div>
+              <div class="side-nav-title-child">
+                <div
+                  class="child-container"
+                  v-for="(list, indexData) in item.submenu"
+                  :key="indexData"
+                >
+                  <div
+                    class="side-nav-title-child-list"
+                    @click="openPages(list.slug, index)"
+                  >{{ list.name }}</div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -52,7 +63,7 @@
           </div>
         </div>
         <div v-if="isMobile">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" class="burger-menu" >
+          <v-toolbar-side-icon @click.stop="drawer = !drawer" class="burger-menu">
             <v-icon color="#DC143C">menu</v-icon>
           </v-toolbar-side-icon>
         </div>
@@ -60,7 +71,7 @@
           <div class="icon-container">
             <div class="login-container">
               <div class="user-avatar-container">
-                  <router-link class="link-login button-login" to="/pendaftaran">Pendaftaran</router-link>
+                <router-link class="link-login button-login" to="/pendaftaran">Pendaftaran</router-link>
               </div>
             </div>
           </div>
@@ -68,16 +79,15 @@
       </div>
 
       <div v-if="!isMobile" ref="navLink" class="link-container">
-        
         <v-toolbar class="toolbar-link" color="#dc143c" :fixed="fixed">
           <div class="links">
             <div class="menu-btn-link" v-for="(item, index) in navBarMenu" :key="item.text">
-               <div v-if="item.isMenu">
-                 <div class="nav-draw-links" @click="openPages(item.slug, index)">
+              <div v-if="item.isMenu">
+                <div class="nav-draw-links" @click="openPages(item.slug, index)">
                   <div class="link">{{ item.name }}</div>
                 </div>
               </div>
-               <div v-else>
+              <div v-else>
                 <v-menu offset-y>
                   <template v-slot:activator="{ on }">
                     <div class="nav-draw-links" v-on="on">{{item.name}}</div>
@@ -90,7 +100,7 @@
                     </div>
                   </v-list>
                 </v-menu>
-              </div> 
+              </div>
             </div>
           </div>
         </v-toolbar>
@@ -101,7 +111,7 @@
 
 <script>
 import { EventBus } from "./../../EventBus.js";
-import imageLogo from "../../assets/image/stiami.jpeg"
+import imageLogo from "../../assets/image/stiami.jpeg";
 
 export default {
   name: "navbar",
@@ -110,8 +120,7 @@ export default {
       drawer: false,
       isMobile: false,
       fixed: false,
-      navBarMenu: [
-      ],
+      navBarMenu: [],
       icon: {
         type: String,
         default: "$vuetify.icons.cancel"
@@ -125,16 +134,34 @@ export default {
       message: false,
       usersData: {},
       imageLogo: imageLogo,
-      currentIndex:0
+      currentIndex: 0
     };
   },
   mounted: function() {
-    let navbar =this.$cookies.get('navMenu');
-    let JsonNavbar = JSON.parse(navbar);
-    for(let i = 0 ; i < JsonNavbar.length; i++){
+    let navbar = this.$cookies.get("navMenu");
+    let JsonNavbar = [];
+    if (navbar == null) {
+      JsonNavbar = [
+        {
+          name: "Beranda",
+          isMenu: true,
+          slug: "Index",
+          submenu: []
+        },
+        {
+          name: "Kontak",
+          isMenu: true,
+          slug: "Kontak",
+          submenu: []
+        }
+      ];
+    } else {
+      JsonNavbar = JSON.parse(navbar);
+    }
+    for (let i = 0; i < JsonNavbar.length; i++) {
       this.navBarMenu.push(JsonNavbar[i]);
     }
-     window.addEventListener("scroll", this.handleFixedNavBar);
+    window.addEventListener("scroll", this.handleFixedNavBar);
   },
   created() {
     this.isLogged = this.isLoggin(this.$session);
@@ -142,49 +169,45 @@ export default {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
     this.usersData = this.getUsers(this.$session);
-   
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
     window.removeEventListener("scroll", this.handleFixedNavBar);
   },
-  computed: {
-   },
+  computed: {},
   methods: {
-    showHideNav: function(e){
+    showHideNav: function(e) {
       let nextSibling = e.srcElement.nextElementSibling;
-      if (nextSibling.classList.contains("hidden")){
-        nextSibling.classList.remove("hidden")
-      }else {
-        nextSibling.classList.add("hidden")
+      if (nextSibling.classList.contains("hidden")) {
+        nextSibling.classList.remove("hidden");
+      } else {
+        nextSibling.classList.add("hidden");
       }
     },
     setDefaultHeaderImage: function() {
       let base_url = window.location.origin;
       this.defaultLogo = base_url + "/images/logo.png";
     },
-    getKontak(index){
+    getKontak(index) {
       this.navBarMenu[index];
     },
     openPages(url, index) {
-      let obj = this.navBarMenu[index]
-      let isMenu = obj.isMenu
-      if(isMenu) {
-        if (index == 0){
+      let obj = this.navBarMenu[index];
+      let isMenu = obj.isMenu;
+      if (isMenu) {
+        if (index == 0) {
           this.goToHome();
-        }
-        else if(obj.name == "Kontak"){
+        } else if (obj.name == "Kontak") {
           this.goToKontak();
-        }
-        else {
+        } else {
           this.goToPage(url);
         }
-      }else {
+      } else {
         this.goToPage(url);
       }
     },
     goToPage(url) {
-      let routeUrl = "/pages/"+url;
+      let routeUrl = "/pages/" + url;
       if (this.$router.currentRoute.name != routeUrl) {
         this.$router.push(routeUrl);
       }
@@ -204,9 +227,9 @@ export default {
         if (this.$refs.navLink) {
           const top = this.$refs.navLink.getBoundingClientRect().top;
           if (top < 0) {
-              this.fixed = true;
+            this.fixed = true;
           } else {
-             this.fixed = false;
+            this.fixed = false;
           }
         }
       }
@@ -264,7 +287,7 @@ export default {
   margin-right: 12px;
 }
 .menu-list {
-    padding: 20px;
+  padding: 20px;
 }
 .title-name {
   font-size: 20px;
@@ -292,11 +315,11 @@ export default {
 }
 .sub-link {
   padding-left: 20px;
-    padding-right: 20px;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 2;
-    text-align: center;
+  padding-right: 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 2;
+  text-align: center;
 }
 .nav-draw-links {
   /*color: #00d1b2 !important; */
@@ -322,7 +345,7 @@ export default {
 .button-login {
   background: white;
   color: #dc143c;
-  padding:5px;
+  padding: 5px;
 }
 .pop-up-menu-title {
   font-size: 1.2rem;
@@ -345,7 +368,7 @@ export default {
   justify-content: center;
 }
 .bold {
-    font-weight: 600;
+  font-weight: 600;
 }
 .link-login {
   text-decoration: none;

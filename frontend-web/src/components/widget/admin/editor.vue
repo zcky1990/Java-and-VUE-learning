@@ -33,18 +33,30 @@
         ></ckeditor>
       </v-flex>
       <v-flex xs12 d-flex>
-        <v-btn
-          v-bind="btnOptions"
-          class="white--text desc submit-btn"
-          @click="submitAsDraft"
-        >Save As Draft</v-btn>
-        <v-btn v-bind="btnOptions" class="white--text desc submit-btn" @click="submit">Save</v-btn>
+        <v-container>
+          <v-row>
+            <v-col class="btn-submit-container">
+              <v-btn
+                v-bind="btnOptions"
+                class="white--text desc submit-btn"
+                width="150"
+                @click="submitAsDraft"
+              >Save As Draft</v-btn>
+              <v-btn
+                v-bind="btnOptions"
+                class="white--text desc submit-btn"
+                width="150"
+                @click="submit"
+              >Save</v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Alert from "@/components/widget/alert";
 import { Util } from "@/components/util";
 import { AXIOS } from "@/components/http-common";
@@ -65,10 +77,12 @@ class UploadAdapter {
       AXIOS.post("upload_image_string", postBody, { headers })
         .then(response => {
           if (response.data.status == "success") {
+           alert("success upload image to server")
             resolve({
               default: response.data.url
             });
           } else {
+            alert("failed upload image to server")
             reject(response.data.message);
           }
         })
@@ -105,7 +119,7 @@ export default {
     return {
       data: {
         id: "",
-        articleId: "asdasdasd",
+        articleId: "",
         categoryArticle: [],
         article_content: "",
         article_title: "",
@@ -119,7 +133,7 @@ export default {
       configEditor: {
         editor: ClassicEditor,
         editorConfig: {
-          extraPlugins: [MyCustomUploadAdapterPlugin],
+          extraPlugins: [MyCustomUploadAdapterPlugin]
         }
       }
     };
@@ -283,5 +297,13 @@ export default {
   padding-top: 1em;
   font-size: 1.5em;
   font-weight: 600;
+}
+.btn-submit-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.submit-btn {
+  margin-left: 10px;
 }
 </style>

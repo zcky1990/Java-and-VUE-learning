@@ -3,7 +3,7 @@
     <v-alert
       v-model="alert"
       :type="type"
-      :outline="outline"
+      :outlined="outline"
       :dismissible="isDismissable"
     >{{message}}</v-alert>
   </div>
