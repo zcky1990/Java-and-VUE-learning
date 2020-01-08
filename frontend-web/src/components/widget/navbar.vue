@@ -322,6 +322,7 @@ export default {
 .button-login {
   background: white;
   color: #dc143c;
+  padding:5px;
 }
 .pop-up-menu-title {
   font-size: 1.2rem;
