@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/api/upload_image_string").permitAll()
+				.antMatchers("/api/upload_image_string","/robots.txt", "/robot.txt").permitAll()
 				//only authenticate with /ap
 				.antMatchers("/api/*").authenticated().and().
 				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
