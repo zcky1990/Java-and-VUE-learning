@@ -86,7 +86,6 @@ public class ArticleController extends BaseController {
 	@RequestMapping(value = "/article/get_article/{slug}", method = RequestMethod.GET)
 	public ResponseEntity<String> getArticle(@PathVariable String slug, HttpServletRequest request) throws Exception {
 		JsonObject response;
-		String auth = request.getHeader("x-uid");
 		try {
 			Article article = articleRepository.findBySlug(slug);
 			response = getSuccessResponse();

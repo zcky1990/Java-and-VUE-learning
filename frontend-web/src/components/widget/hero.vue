@@ -25,11 +25,7 @@ export default {
   name: "hero",
   data() {
     return {
-      items: [
-        {
-          url_image: window.location.origin+"/images/no-image-icon-23494.png",
-        }
-      ]
+      items: []
     };
   },
   created() {
