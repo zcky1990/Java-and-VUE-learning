@@ -11,10 +11,7 @@
       </div>
     <v-container>
       <div id="top_div" style="height: 100%; ">
-      <v-map :zoom="zoom" :center="center" style="height: 400px;z-index:1;">
-        <v-tilelayer :url="url" :attribution="attribution"></v-tilelayer>
-        <v-marker :lat-lng="marker" @click="openGoogleMap"></v-marker>       
-      </v-map>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.012252747181!2d107.14556471517442!3d-6.262115595467388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69851df0221813%3A0x721c77d11f33c02b!2sJl.%20Industri%20No.33%2C%20Cikarang%20Kota%2C%20Kec.%20Cikarang%20Utara%2C%20Bekasi%2C%20Jawa%20Barat%2017530!5e0!3m2!1sid!2sid!4v1579375892848!5m2!1sid!2sid" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
     </div>
   </v-container>
     </v-container>
@@ -23,23 +20,12 @@
 </template>
 <script>
 import { EventBus } from "./../../EventBus.js";
-import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 
 
 export default {
   name: "contacts-components",
-  components: {
-    'v-map': LMap,
-    'v-tilelayer' :LTileLayer,
-    'v-marker': LMarker
-  },
   data() {
     return {
-      zoom: 17,
-        center: [-6.2621103,107.1455647,17],
-        url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        marker: L.latLng(-6.2621103,107.1455647,17),
     };
   },
   mounted() {
@@ -64,7 +50,19 @@ export default {
 };
 </script>
 <style scoped>
-@import "~leaflet/dist/leaflet.css";
+.google-maps {
+        position: relative;
+        padding-bottom: 75%;
+        height: 0;
+        overflow: hidden;
+    }
+    .google-maps iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+    }
 
 .title-text {
   font-size: 1.8rem;

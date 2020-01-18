@@ -9,14 +9,6 @@ import  Util from "./util";
 import VueCookies from 'vue-cookies'
 import VueSession from 'vue-session'
 
-import L from 'leaflet';
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-});
 require('./assets/sass/main.scss');
 // set default config
 Vue.config.productionTip = false
