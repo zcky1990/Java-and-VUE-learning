@@ -5,15 +5,13 @@
       <div class="user-detail-controller">
         <div class="btn-drawer-login" v-if="!isLogged">
           <div class="user-title">
-            <div class="name">Welcome</div>
-            <div class="email">please login before you continue</div>
+            <div class="name">Selamat Datang</div>
+            <div class="email">Universitas STIE Dharma Agung Bandung</div>
           </div>
           <div class="btn-container">
-            <div class="button-login rounded">
-              <router-link
-                class="link-login nav-draw-links button-login"
-                to="/pendaftaran"
-              >Pendaftaran</router-link>
+            <div >
+              <v-btn class="ma-2 white--text" outlined color="white" @click="openWa"> <v-img class="icons-btn" :src="whatsAppLogo" width="20" height="20"></v-img>Whatsapp</v-btn>
+              <v-btn class="ma-2" outlined color="white" @click="goToPendaftaran">Pendaftaran</v-btn>
             </div>
           </div>
         </div>
@@ -69,11 +67,8 @@
         </div>
         <div v-if="!isMobile">
           <div class="icon-container">
-            <div class="login-container">
-              <div class="user-avatar-container">
-                <router-link class="link-login button-login" to="/pendaftaran">Pendaftaran</router-link>
-              </div>
-            </div>
+            <v-btn class="ma-2" outlined color="green" @click="openWa"> <v-img :src="whatsAppLogo" width="20" height="20"></v-img> Whatsapp</v-btn>
+            <v-btn class="ma-2 " outlined color="#dc143c" @click="goToPendaftaran">Pendaftaran</v-btn>
           </div>
         </div>
       </div>
@@ -112,6 +107,7 @@
 <script>
 import { EventBus } from "./../../EventBus.js";
 import imageLogo from "../../assets/image/stiami.jpeg";
+import whatsappLogo from "./../../assets/image/whatsapp.png";
 
 export default {
   name: "navbar",
@@ -134,6 +130,7 @@ export default {
       message: false,
       usersData: {},
       imageLogo: imageLogo,
+      whatsAppLogo: whatsappLogo,
       currentIndex: 0
     };
   },
@@ -174,8 +171,14 @@ export default {
     window.removeEventListener("resize", this.handleResize);
     window.removeEventListener("scroll", this.handleFixedNavBar);
   },
-  computed: {},
   methods: {
+    openWa: function(){
+    var win = window.open('https://api.whatsapp.com/send?phone=6281997111818&text=Hallo%20saya%20ingin%20bertanya%20informasi%20seputar%20kampus&source=&data=', '_blank');
+      win.focus();
+    },
+    goToPendaftaran: function(){
+      this.$router.push("/pendaftaran");
+    },
     showHideNav: function(e) {
       let nextSibling = e.srcElement.nextElementSibling;
       if (nextSibling.classList.contains("hidden")) {
@@ -454,5 +457,11 @@ export default {
   padding-top: 15px;
   font-size: 12px;
   font-weight: 300;
+}
+.icon-container {
+  display: flex;
+}
+.icons-btn {
+  margin-right:4px;
 }
 </style>
