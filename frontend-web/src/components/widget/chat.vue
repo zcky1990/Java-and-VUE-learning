@@ -150,6 +150,7 @@ export default {
           .push(message);
         e.target.value = "";
       }
+      e.target.value= "";
     },
     getMessage() {
       this.message_id = this.messageId;
