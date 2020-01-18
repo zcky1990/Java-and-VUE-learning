@@ -6,7 +6,7 @@
         <div class="btn-drawer-login" v-if="!isLogged">
           <div class="user-title">
             <div class="name">Selamat Datang</div>
-            <div class="email">Universitas STIE Dharma Agung Bandung</div>
+            <div class="email">Universitas STIE Dharma Agung</div>
           </div>
           <div class="btn-container">
             <div >
@@ -61,9 +61,9 @@
           </div>
         </div>
         <div v-if="isMobile">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" class="burger-menu">
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="burger-menu">
             <v-icon color="#DC143C">menu</v-icon>
-          </v-toolbar-side-icon>
+          </v-app-bar-nav-icon>
         </div>
         <div v-if="!isMobile">
           <div class="icon-container">

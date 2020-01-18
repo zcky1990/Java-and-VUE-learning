@@ -37,8 +37,8 @@
       </div>
 
       <div class="chat-message-content">
-        <!-- From : {{username}} -->
         <v-text-field
+          v-model="messageText"
           label="Type your message"
           single-line
           outlined
@@ -77,7 +77,8 @@ export default {
       user_id: "",
       message_id: "",
       isIdExists: false,
-      date: ""
+      date: "",
+      messageText: ""
     };
   },
   methods: {
@@ -139,7 +140,7 @@ export default {
           .ref("notif_list/messages")
           .push(message);
       }
-      if (e.target.value) {
+     if (this.messageText != "") {
         const message = {
           username: self.username,
           text: e.target.value
@@ -148,9 +149,8 @@ export default {
           .database()
           .ref("messages/" + this.message_id)
           .push(message);
-        e.target.value = "";
       }
-      e.target.value= "";
+      this.messageText ="";
     },
     getMessage() {
       this.message_id = this.messageId;

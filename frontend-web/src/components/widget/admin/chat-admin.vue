@@ -29,8 +29,8 @@
       </div>
 
       <div class="chat-message-content">
-        <!-- From : {{username}} -->
         <v-text-field
+          v-model="messageText"
           label="Type your message"
           single-line
           outlined
@@ -44,7 +44,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import fire from "../../../fire";
 
 export default {
@@ -66,7 +65,8 @@ export default {
       messages: [],
       user_id: "",
       message_id: "",
-      date: ""
+      date: "",
+      messageText:""
     };
   },
   methods: {
@@ -95,18 +95,17 @@ export default {
     sendMessage(e) {
       e.preventDefault();
       var self = this;
-      if (e.target.value) {
+      if (this.messageText != "") {
         const message = {
           username: self.username,
-          text: e.target.value
+          text: self.messageText
         };
         fire
           .database()
           .ref("messages/" + this.message_id)
           .push(message);
-        e.target.value = "";
       }
-      e.target.value= "";
+      this.messageText ="";
     },
     getMessage() {
       this.message_id = this.messageId;
