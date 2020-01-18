@@ -99,16 +99,18 @@ export default {
 
       const itemsRef = fire.database().ref("messages_list/messages");
       itemsRef.child(key).remove();
-      if (this.messageList.length == 1) {
-        this.messageList = [];
-      }
+
+     
+
     }
   },
   watch: {
     messageList: function(newValue, oldValue) {
-      console.log("new val: ", newValue, " old val :", newValue);
       if (newValue.length > oldValue.length) {
         this.playSoundNotif();
+      }
+       if (this.messageList.length == 0) {
+        this.messageList = [];
       }
     }
   },

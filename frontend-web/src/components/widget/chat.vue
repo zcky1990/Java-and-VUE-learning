@@ -81,6 +81,9 @@ export default {
     };
   },
   methods: {
+    playSoundNotif() {
+      this.playNotifSound();
+    },
     hideMessageChat() {
       this.hideChat();
     },
@@ -130,6 +133,11 @@ export default {
           .ref("messages_list/messages")
           .push(message);
         this.isIdExists = true;
+
+        fire
+          .database()
+          .ref("notif_list/messages")
+          .push(message);
       }
       if (e.target.value) {
         const message = {
@@ -167,8 +175,10 @@ export default {
     messageId: function() {
       this.getMessage();
     },
-    messages: function() {
-      console.log("new message");
+    messages: function(newValue, oldValue) {
+      if (newValue[newValue.length-1].username != this.username){
+        this.playSoundNotif();
+      }
     }
   },
   mounted() {

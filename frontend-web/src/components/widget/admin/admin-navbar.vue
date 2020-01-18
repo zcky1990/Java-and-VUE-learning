@@ -1,5 +1,6 @@
 <template>
 <div class="nav-menu">
+    <notif ref="notif" @showSnackBar="setMessage()"></notif>
     <v-app-bar color="#00d1b2" class="nav-toolbar" app clipped-right>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title class="white--text desc">Admin</v-toolbar-title>
@@ -51,14 +52,16 @@
 </template>
 
 <script>
-import {
-    EventBus
-} from "./../../../EventBus.js";
+import { EventBus } from "./../../../EventBus.js";
+import fire from "../../../fire";
+import Util from "../../util";
+import Notif from "./notif";
 
 export default {
     name: "admin-navbar",
     data() {
         return {
+            messageList: [],
             drawer: false,
             isMobile: false,
             items: [{
@@ -69,8 +72,6 @@ export default {
                     title: "Hero Banner",
                     url: "/admin/hero"
                 },
-                // { title: "Sejarah", url: "/admin/sejarah" },
-                // { title: "Visi Misi", url: "/admin/visi-misi" },
                 {
                     title: "News Category",
                     url: "/admin/category"
@@ -125,6 +126,9 @@ export default {
             isSuperAdmin: false
         };
     },
+    components: {
+        "notif": Notif
+    },
     created() {
         this.isLogged = this.isLoggin(this.$session);
         this.isSuperAdmin = this.isHasSuperAdminAccessLevel(
@@ -137,6 +141,9 @@ export default {
         window.removeEventListener("resize", this.handleResize);
     },
     methods: {
+        setNotifMessage: function(message) {
+            this.$refs.notif.showSnackbar(message);
+        },
         handleResize() {
             this.window.width = window.innerWidth;
             this.window.height = window.innerHeight;
@@ -162,8 +169,46 @@ export default {
             this.$session.destroy();
             this.isLogged = false;
             this.$router.push("/");
+        },
+        getChatMessage() {
+            let vm = this;
+            const itemsRef = fire.database().ref("notif_list/messages");
+            itemsRef.on("value", snapshot => {
+                let data = snapshot.val();
+                let messageList = [];
+                if (data != null) {
+                Object.keys(data).forEach(key => {
+                    messageList.push({
+                    id: key,
+                    message_id: data[key].message_id,
+                    username: data[key].user,
+                    created: data[key].created
+                    });
+                });
+                vm.messageList = messageList;
+                }
+            });
+        },
+        removeMessageList(key) {
+            const itemsRef = fire.database().ref("notif_list/messages");
+            itemsRef.child(key).remove();
         }
-    }
+    },
+    watch: {
+        messageList: function(newValue, oldValue) {
+            if (newValue.length > oldValue.length) {
+                if(newValue[newValue.length-1].username != undefined && newValue[newValue.length-1].username != null){
+                    let message = "You have new message from " + (newValue[newValue.length-1].username);
+                    this.setNotifMessage(message)
+                    let key = newValue[newValue.length-1].id
+                    this.removeMessageList(key);
+                }
+            }
+        }
+  },
+  mounted() {
+    this.getChatMessage();
+  }
 };
 </script>
 

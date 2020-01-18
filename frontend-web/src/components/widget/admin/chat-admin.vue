@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="messages">
-        <div class="message" v-for="message in messages" v-bind:key="message.text">
+        <div id="chatListContainer" class="message" v-for="message in messages" v-bind:key="message.text">
           <template>
             <div v-if="message.username == username" class="user-message">
               <v-card class="message-bubble">
@@ -70,6 +70,9 @@ export default {
     };
   },
   methods: {
+    playSoundNotif() {
+      this.playNotifSound();
+    },
     deleteMessageChat() {
       this.messages = [];
       this.closeChat();
@@ -129,8 +132,8 @@ export default {
       this.updateUsername();
       this.getMessage();
     },
-    messages: function() {
-      console.log("new message");
+    messages: function(newValue, oldValue) {
+        this.playSoundNotif();
     }
   },
   mounted() {
@@ -157,7 +160,7 @@ export default {
 .chat-message-content {
   padding: 5px;
   position: relative;
-  background: rgb(220, 20, 60);
+  background: rgb(0, 209, 178);
   height: 65px;
 }
 .text-message {
@@ -166,7 +169,7 @@ export default {
   flex-wrap: nowrap;
 }
 .username {
-  background: rgb(220, 20, 60);
+  background: rgb(0, 209, 178);
   display: flex;
   padding: 10px;
   font-size: 1.4em;
