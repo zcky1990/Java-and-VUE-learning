@@ -1,7 +1,7 @@
 <template>
   <div class="chat-container">
     <div class="btn-container">
-      <v-btn class="btn-chat" color="pink" dark large fixed bottom right fab @click="showChat">
+      <v-btn class="btn-chat higher" color="pink" dark large fixed bottom right fab @click="showChat">
         <v-icon>chat</v-icon>
       </v-btn>
     </div>
@@ -67,6 +67,12 @@ export default {
 };
 </script>
 <style scoped>
+@media only screen and (max-width: 640px) {
+  .higher{
+  bottom:80px !important;
+}
+}
+
 .chat-message-container {
   position: absolute;
   right: 10px;

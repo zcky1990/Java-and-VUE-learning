@@ -177,8 +177,10 @@ export default {
       this.getMessage();
     },
     messages: function(newValue, oldValue) {
-      if (newValue[newValue.length-1].username != this.username){
-        this.playSoundNotif();
+      if(newValue.length > 0){
+        if (newValue[newValue.length-1].username != this.username){
+            this.playSoundNotif();
+        }
       }
     }
   },

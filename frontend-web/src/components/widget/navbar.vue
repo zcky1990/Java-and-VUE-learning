@@ -5,14 +5,8 @@
       <div class="user-detail-controller">
         <div class="btn-drawer-login" v-if="!isLogged">
           <div class="user-title">
-            <div class="name">Selamat Datang</div>
-            <div class="email">Universitas STIE Dharma Agung</div>
-          </div>
-          <div class="btn-container">
-            <div >
-              <v-btn class="ma-2 white--text" outlined color="white" @click="openWa"> <v-img class="icons-btn" :src="whatsAppLogo" width="20" height="20"></v-img>Whatsapp</v-btn>
-              <v-btn class="ma-2" outlined color="white" @click="goToPendaftaran">Pendaftaran</v-btn>
-            </div>
+            <div class="email">Selamat Datang</div>
+            <div class="name">STIE<br>Dharma Agung</div>
           </div>
         </div>
       </div>
@@ -55,8 +49,8 @@
           <div class="title-navbar" @click="goToHome">
             <v-img :src="imageLogo" class="lighten-2 icon-header" width="65" height="70" cover></v-img>
             <div class="title">
-              <h1 class="title-name">UNIVERSITAS</h1>
-              <h1 class="title-name bold">STIE DHARMA AGUNG</h1>
+              <h1 class="title-name bold">STIE</h1>
+              <h1 class="title-name bold">DHARMA AGUNG</h1>
             </div>
           </div>
         </div>
@@ -101,6 +95,20 @@
         </v-toolbar>
       </div>
     </div>
+    <div v-if="isMobile" class="btn-mobile-daftar-container">
+    <v-card
+    class="mx-auto"
+    max-width="400"
+    tile
+  >
+      <v-container>
+        <div class="center">
+            <v-btn class="ma-2" outlined color="green" @click="openWa"> <v-img :src="whatsAppLogo" width="20" height="20"></v-img> Whatsapp</v-btn>
+            <v-btn class="ma-2 " outlined color="#dc143c" @click="goToPendaftaran">Pendaftaran</v-btn>
+          </div>
+      </v-container>
+  </v-card>
+  </div>
   </div>
 </template>
 
@@ -463,5 +471,14 @@ export default {
 }
 .icons-btn {
   margin-right:4px;
+}
+.center {
+    text-align: center;
+}
+.btn-mobile-daftar-container {
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    z-index: 5;
 }
 </style>
