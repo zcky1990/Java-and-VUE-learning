@@ -36,7 +36,7 @@
         </template>
         <template v-slot:item.action="{ item }">
           <v-icon small class="mr-2" @click="editListener(item)">edit</v-icon>
-          <v-icon small @click="deleteListener(item)">delete</v-icon>
+         <!-- <v-icon small @click="deleteListener(item)">delete</v-icon> -->
         </template>
       </v-data-table>
     </v-card>
