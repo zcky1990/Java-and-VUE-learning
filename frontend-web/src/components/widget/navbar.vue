@@ -114,7 +114,7 @@
 
 <script>
 import { EventBus } from "./../../EventBus.js";
-import imageLogo from "../../assets/image/stiami.jpeg";
+import imageLogo from "../../assets/image/stiami.png";
 import whatsappLogo from "./../../assets/image/whatsapp.png";
 
 export default {

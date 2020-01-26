@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       snackbar: false,
-      closebtnColor: "info",
+      closebtnColor: "error",
       textMessage: "",
       colorType: "error",
       multiLineMode: false,

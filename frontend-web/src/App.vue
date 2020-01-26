@@ -43,10 +43,7 @@ export default {
     });
     this.mp3Url = soundMp3;
     this.oggUrl = soundOgg;
-    let navbar = this.$cookies.get('navMenu');
-    if(navbar == "" || navbar == undefined || navbar == null){
-      this.getMenu();
-    }
+    this.getMenu();
   },
   components: {
     "snack-bar": SnackBar
