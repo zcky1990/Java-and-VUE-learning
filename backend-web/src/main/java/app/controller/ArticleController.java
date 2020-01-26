@@ -71,16 +71,12 @@ public class ArticleController extends BaseController {
 	public ResponseEntity<String> getArticleList(@RequestParam(value="page", required=false) String page, HttpServletRequest request) throws Exception {
 		JsonObject response = new JsonObject();
 		try {
-			System.out.println("page : "+ page);
 			Pageable pageableRequest = PageRequest.of(Integer.parseInt(page), 10, Sort.by("_id").descending());
 			Page<Article> articleList = articleRepository.findAllPublishArticle(pageableRequest);
-			System.out.println("articleList : "+ articleList.getSize());
 			response = getSuccessResponse();
 			List<Article> article = articleList.getContent();
-			System.out.println("article : "+ article.size());
 			response.add(Constant.RESPONSE, toJSONArrayWithSerializer(Article.class, new ArticleListSerializer(), article));
 		} catch(Exception e) {
-			System.out.println("error : "+ e.toString() );
 			response = getFailedResponse();
 			response.addProperty(Constant.ERROR_MESSAGE, e.getMessage().toString());
 		}
