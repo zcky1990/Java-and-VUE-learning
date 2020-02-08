@@ -1,13 +1,16 @@
 <template>
   <div class="hero-component">
-    <v-carousel height="600">
+    <v-carousel 
+    cycle
+    hide-delimiter-background
+    show-arrows-on-hover
+    height="600">
       <v-carousel-item
         v-for="(item,i) in items"
         :key="i"
         :src="item.url_image"
         reverse-transition="fade-transition"
         transition="fade-transition"
-        cycle
       >
         <div class="title-cour-container">
           <v-container>
