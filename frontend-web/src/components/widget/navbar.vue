@@ -175,21 +175,21 @@ export default {
         headers,
         function(response) {
           if (response.status == 200) {
-            self.navMenu.push({
+            self.navBarMenu.push({
               name: "Beranda",
               isMenu: true,
               slug: "Index",
               submenu: []
             });
-            self.navMenu = self.navMenu.concat(response.data.response);
-            self.navMenu.push({
+            self.navBarMenu = self.navBarMenu.concat(response.data.response);
+            self.navBarMenu.push({
               name: "Kontak",
               isMenu: true,
               slug: "Kontak",
               submenu: []
             });
             self.$cookies.config(60 * 60 * 4 ,'');
-            self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
+            self.$cookies.set("navMenu", JSON.stringify(self.navBarMenu));
           }
         },
         function(e) {
