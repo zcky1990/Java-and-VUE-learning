@@ -122,6 +122,7 @@ export default {
   data() {
     return {
       drawer: false,
+      urlNavbar: "/menu/get_menu",
       isMobile: false,
       fixed: false,
       navBarMenu: [],
@@ -193,13 +194,13 @@ export default {
           }
         },
         function(e) {
-          self.navMenu.push({
+          self.navBarMenu.push({
             name: "Beranda",
             isMenu: true,
             slug: "Index",
             submenu: []
           });
-          self.navMenu.push({
+          self.navBarMenu.push({
             name: "Kontak",
             isMenu: true,
             slug: "Kontak",

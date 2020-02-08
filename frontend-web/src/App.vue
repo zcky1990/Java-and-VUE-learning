@@ -31,7 +31,6 @@ export default {
         timeout: 6000,
         top: true
       },
-      urlNavbar: "/menu/get_menu",
       navMenu: [],
       mp3Url: "",
       oggUrl: "",
