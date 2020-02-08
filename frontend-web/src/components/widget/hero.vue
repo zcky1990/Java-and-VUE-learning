@@ -7,6 +7,7 @@
         :src="item.url_image"
         reverse-transition="fade-transition"
         transition="fade-transition"
+        cycle
       >
         <div class="title-cour-container">
           <v-container>

@@ -43,7 +43,6 @@ export default {
     });
     this.mp3Url = soundMp3;
     this.oggUrl = soundOgg;
-    this.getMenu();
   },
   components: {
     "snack-bar": SnackBar
@@ -58,50 +57,6 @@ export default {
       this.$refs.snackbar.setConfig(this.snackBarConfig);
       this.$refs.snackbar.showSnackbar(message);
     },
-    getMenu: function() {
-      let self = this;
-      let headers = this.getDefaultHeaders(this.getMeta("token"));
-      this.get(
-        this.urlNavbar,
-        headers,
-        function(response) {
-          if (response.status == 200) {
-            self.navMenu.push({
-              name: "Beranda",
-              isMenu: true,
-              slug: "Index",
-              submenu: []
-            });
-            self.navMenu = self.navMenu.concat(response.data.response);
-            self.navMenu.push({
-              name: "Kontak",
-              isMenu: true,
-              slug: "Kontak",
-              submenu: []
-            });
-            self.$cookies.config(60 * 60 * 4 ,'');
-            self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
-          }
-        },
-        function(e) {
-          self.navMenu.push({
-            name: "Beranda",
-            isMenu: true,
-            slug: "Index",
-            submenu: []
-          });
-          self.navMenu.push({
-            name: "Kontak",
-            isMenu: true,
-            slug: "Kontak",
-            submenu: []
-          });
-          self.$cookies.config(60 * 60 * 4 ,'');
-          self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
-          self.setMessage(e, 1);
-        }
-      );
-    }
   }
 };
 </script>

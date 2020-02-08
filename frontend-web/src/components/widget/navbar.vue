@@ -146,20 +146,7 @@ export default {
     let navbar = this.$cookies.get("navMenu");
     let JsonNavbar = [];
     if (navbar == null) {
-      JsonNavbar = [
-        {
-          name: "Beranda",
-          isMenu: true,
-          slug: "Index",
-          submenu: []
-        },
-        {
-          name: "Kontak",
-          isMenu: true,
-          slug: "Kontak",
-          submenu: []
-        }
-      ];
+      this.getMenu();
     } else {
       JsonNavbar = JSON.parse(navbar);
     }
@@ -180,6 +167,50 @@ export default {
     window.removeEventListener("scroll", this.handleFixedNavBar);
   },
   methods: {
+    getMenu: function() {
+      let self = this;
+      let headers = this.getDefaultHeaders(this.getMeta("token"));
+      this.get(
+        this.urlNavbar,
+        headers,
+        function(response) {
+          if (response.status == 200) {
+            self.navMenu.push({
+              name: "Beranda",
+              isMenu: true,
+              slug: "Index",
+              submenu: []
+            });
+            self.navMenu = self.navMenu.concat(response.data.response);
+            self.navMenu.push({
+              name: "Kontak",
+              isMenu: true,
+              slug: "Kontak",
+              submenu: []
+            });
+            self.$cookies.config(60 * 60 * 4 ,'');
+            self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
+          }
+        },
+        function(e) {
+          self.navMenu.push({
+            name: "Beranda",
+            isMenu: true,
+            slug: "Index",
+            submenu: []
+          });
+          self.navMenu.push({
+            name: "Kontak",
+            isMenu: true,
+            slug: "Kontak",
+            submenu: []
+          });
+          self.$cookies.config(60 * 60 * 4 ,'');
+          self.$cookies.set("navMenu", JSON.stringify(self.navMenu));
+          self.setMessage(e, 1);
+        }
+      );
+    },
     openWa: function(){
     var win = window.open('https://api.whatsapp.com/send?phone=6281997111818&text=Hallo%20saya%20ingin%20bertanya%20informasi%20seputar%20kampus&source=&data=', '_blank');
       win.focus();
